@@ -7,9 +7,9 @@ spring:
       enabled: false
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/atsproject
+    username: postgres
+    password: 25102005
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -29,12 +29,12 @@ server:
   port: 8081
 
 jwt:
-  secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION}
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration: 86400000
 
 nlp:
   service:
-    url: ${NLP_SERVICE_URL}
+    url: http://localhost:8000
 
 springdoc:
   api-docs:
