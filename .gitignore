@@ -1,0 +1,92 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.backup
+release.properties
+.flattened-pom.xml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+*.iws
+*.ipr
+out/
+.classpath
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Gradle
+.gradle/
+build/
+gradlew
+gradlew.bat
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.pfx
+*.jks
+application-*.yml
+application-*.yaml
+application-*.properties
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+*.h2.db
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Build output
+bin/
+dist/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# System files
+Thumbs.db
+.DS_Store
+*.bak
+*.tmp
+*.temp
+
+# Node modules (if using frontend build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Spring Boot specific
+*.class
+*.jar
+application.properties
+application.yml
+
+# IntelliJ
+*.iml
+.idea_modules/
+
+# Package Files
+*.hpi
+
+# Miscellaneous
+.history/
+*.orig
