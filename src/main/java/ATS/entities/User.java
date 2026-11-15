@@ -1,6 +1,7 @@
 package ATS.entities;
 
 import ATS.enums.Role;
+import ATS.enums.UserStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,7 +20,7 @@ import java.util.Date;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "tbl_users")
-public class User implements UserDetails {
+public class User {
     Role role;
     @Id
     long id;
@@ -28,47 +29,12 @@ public class User implements UserDetails {
     String passwordHash;
     Date createdAt;
     Date updatedAt;
+    UserStatus userStatus;
 
 
-    public boolean isRole(Role UserRole) {
-        if (this.role == Role.USER) {
-            return true;
-        }
-        return false;
+    public boolean hasRole(Role UserRole) {
+        return this.role == UserRole;
     }
+    public boolean isLocked(UserStatus userStatus) {return userStatus == UserStatus.LOCKED;}
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + (role != null ? role.name() : "USER")));
-    }
-
-    @Override
-    public String getPassword() {
-        return passwordHash;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
