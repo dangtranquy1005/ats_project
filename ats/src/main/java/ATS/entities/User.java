@@ -2,6 +2,8 @@ package ATS.entities;
 
 import ATS.enums.Role;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -22,6 +24,7 @@ import java.util.Date;
 public class User implements UserDetails {
     Role role;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String fullName;
     String email;

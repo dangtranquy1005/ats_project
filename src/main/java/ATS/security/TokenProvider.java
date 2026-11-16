@@ -50,13 +50,4 @@ public class TokenProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(jwtKey).build().parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            System.out.println("Loi token : " + token + "; " + e.getMessage());
-            return false;
-        }
-    }
 }

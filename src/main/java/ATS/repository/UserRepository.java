@@ -1,6 +1,7 @@
 package ATS.repository;
 
 import ATS.entities.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findById(Long id);
 
-    Page<User> findAll(Pageable pageable);
+    Page<User> findAll(@NotNull Pageable pageable);
 
-    User save(User user);
+    User save(@NotNull User user);
 }

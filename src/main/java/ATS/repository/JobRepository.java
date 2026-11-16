@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
-    Optional<Job> findByIdAndUserId(Long jobId, Long userId);
+    Optional<Job> findByJobIdAndUserId(Long jobId, Long userId);
 
     Page<Job> findByUserId(Long userId, Pageable pageable);
 
