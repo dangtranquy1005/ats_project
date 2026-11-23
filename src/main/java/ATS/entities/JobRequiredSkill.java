@@ -20,5 +20,6 @@ public class JobRequiredSkill {
     private Skills skill;
     
     private boolean isMandatory;
+    private Double weight = 1.0;
 }
 

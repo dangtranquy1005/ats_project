@@ -14,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class JobDetailResponse {
+    private Integer minExperienceYears;
+    private String educationRequirements;
     private Long jobId;
     private String title;
     private String description;

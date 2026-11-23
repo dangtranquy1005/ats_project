@@ -20,7 +20,7 @@ public interface SkillRepository extends JpaRepository<Skills, Long> {
     @Query("SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END FROM Skills s WHERE LOWER(s.canonicalName) = LOWER(:name)")
     boolean existsByCanonicalNameIgnoreCase(@Param("name") String name);
 
-    @Query("SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END FROM Skills s WHERE LOWER(s.canonicalName) = LOWER(:name) AND s.id != :id")
+    @Query("SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END FROM Skills s WHERE LOWER(s.canonicalName) = LOWER(:name) AND s.skillId != :id")
     boolean existsByCanonicalNameIgnoreCaseAndIdNot(@Param("name") String name, @Param("id") Long id);
 
 //    Skills save(Skills skill);

@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class JobRequest {
+    private Integer minExperienceYears;
+    private String educationRequirements;
     private String title;
     private String description;
     private String requirements;

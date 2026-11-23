@@ -13,4 +13,6 @@ public class JobSkillResponse {
     private Long skillId;
     private String skillName;
     private String skillCategory;
+    private boolean mandatory;
+    private Double weight;
 }

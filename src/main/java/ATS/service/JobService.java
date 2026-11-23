@@ -23,4 +23,6 @@ public interface JobService {
     void deleteJob(Long jobId, Long userId);
     List<JobSkillResponse> getRequiredSkills(Long jobId, Long userId);
     JobResponse replaceRequiredSkills(Long jobId, List<JobSkillRequest> items, Long userId);
+    ScoringConfigResponse getConfig(Long jobId, Long userId);
+    ScoringConfigResponse updateConfig(Long jobId, ScoringConfigRequest request, Long userId);
 }
