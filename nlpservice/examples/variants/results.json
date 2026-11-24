@@ -1,0 +1,331 @@
+[
+  {
+    "file": "01-case-insensitive.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [
+      {
+        "skillId": 101,
+        "key": null,
+        "raw": "jAvA",
+        "canonical": "Java",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 54,
+        "end": 58
+      },
+      {
+        "skillId": 103,
+        "key": null,
+        "raw": "sPrInG bOoT",
+        "canonical": "Spring Boot",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 60,
+        "end": 71
+      },
+      {
+        "skillId": 104,
+        "key": null,
+        "raw": "POSTGRES",
+        "canonical": "PostgreSQL",
+        "category": null,
+        "matchMethod": "ALIAS",
+        "confidence": 1.0,
+        "start": 73,
+        "end": 81
+      },
+      {
+        "skillId": 107,
+        "key": null,
+        "raw": "LÀM VIỆC NHÓM",
+        "canonical": "Teamwork",
+        "category": null,
+        "matchMethod": "ALIAS",
+        "confidence": 1.0,
+        "start": 83,
+        "end": 96
+      }
+    ],
+    "unknownSkills": [],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "02-known-joined-alias.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [
+      {
+        "skillId": 103,
+        "key": null,
+        "raw": "springboot",
+        "canonical": "Spring Boot",
+        "category": null,
+        "matchMethod": "ALIAS",
+        "confidence": 1.0,
+        "start": 54,
+        "end": 64
+      },
+      {
+        "skillId": 106,
+        "key": null,
+        "raw": "reactnative",
+        "canonical": "React Native",
+        "category": null,
+        "matchMethod": "ALIAS",
+        "confidence": 1.0,
+        "start": 66,
+        "end": 77
+      },
+      {
+        "skillId": 105,
+        "key": null,
+        "raw": "reactjs",
+        "canonical": "React",
+        "category": null,
+        "matchMethod": "ALIAS",
+        "confidence": 1.0,
+        "start": 79,
+        "end": 86
+      }
+    ],
+    "unknownSkills": [],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "03-accentless-skill.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [],
+    "unknownSkills": [
+      {
+        "raw": "lam viec nhom",
+        "suggestions": []
+      }
+    ],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "04-joined-unknown.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [],
+    "unknownSkills": [
+      {
+        "raw": "lamviecnhom",
+        "suggestions": []
+      },
+      {
+        "raw": "springbootdeveloper",
+        "suggestions": []
+      }
+    ],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "05-typo.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [],
+    "unknownSkills": [
+      {
+        "raw": "PostgreSQlX",
+        "suggestions": [
+          {
+            "canonical": "PostgreSQL",
+            "skillId": 104,
+            "key": null,
+            "similarity": 0.952
+          }
+        ]
+      }
+    ],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "06-word-boundaries.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [
+      {
+        "skillId": 102,
+        "key": null,
+        "raw": "JavaScript",
+        "canonical": "JavaScript",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 54,
+        "end": 64
+      },
+      {
+        "skillId": 109,
+        "key": null,
+        "raw": "C++",
+        "canonical": "C++",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 66,
+        "end": 69
+      },
+      {
+        "skillId": 110,
+        "key": null,
+        "raw": "C#",
+        "canonical": "C#",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 71,
+        "end": 73
+      },
+      {
+        "skillId": 106,
+        "key": null,
+        "raw": "React Native",
+        "canonical": "React Native",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 75,
+        "end": 87
+      }
+    ],
+    "unknownSkills": [],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "07-accentless-heading.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [
+      {
+        "skillId": 101,
+        "key": null,
+        "raw": "Java",
+        "canonical": "Java",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 54,
+        "end": 58
+      }
+    ],
+    "unknownSkills": [],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "08-joined-heading.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [
+      {
+        "skillId": 101,
+        "key": null,
+        "raw": "Java",
+        "canonical": "Java",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 53,
+        "end": 57
+      }
+    ],
+    "unknownSkills": [],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "09-extra-whitespace.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [
+      {
+        "skillId": 103,
+        "key": null,
+        "raw": "Spring Boot",
+        "canonical": "Spring Boot",
+        "category": null,
+        "matchMethod": "EXACT",
+        "confidence": 1.0,
+        "start": 54,
+        "end": 65
+      },
+      {
+        "skillId": 107,
+        "key": null,
+        "raw": "Làm việc nhóm",
+        "canonical": "Teamwork",
+        "category": null,
+        "matchMethod": "ALIAS",
+        "confidence": 1.0,
+        "start": 67,
+        "end": 80
+      }
+    ],
+    "unknownSkills": [],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  },
+  {
+    "file": "10-added-aliases.json",
+    "passed": true,
+    "mode": "full",
+    "skills": [
+      {
+        "skillId": 107,
+        "key": null,
+        "raw": "lam viec nhom",
+        "canonical": "Teamwork",
+        "category": null,
+        "matchMethod": "ALIAS",
+        "confidence": 1.0,
+        "start": 54,
+        "end": 67
+      }
+    ],
+    "unknownSkills": [],
+    "warnings": [
+      "Experience section not recognized; experienceText is empty.",
+      "Education section not recognized.",
+      "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+    ]
+  }
+]

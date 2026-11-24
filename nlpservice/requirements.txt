@@ -1,0 +1,6 @@
+fastapi==0.165.0
+uvicorn==0.54.0
+pydantic==2.14.4
+spacy==3.8.18
+underthesea==8.3.0
+rapidfuzz==3.14.6
