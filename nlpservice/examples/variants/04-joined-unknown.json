@@ -1,0 +1,70 @@
+{
+  "cvId": 4,
+  "languageHint": "vi",
+  "text": "Họ tên: Nguyễn Văn An\nEmail: an@example.com\n\nKỹ năng: lamviecnhom, springbootdeveloper",
+  "skillDictionary": [
+    {
+      "id": 101,
+      "canonical": "Java",
+      "aliases": []
+    },
+    {
+      "id": 102,
+      "canonical": "JavaScript",
+      "aliases": [
+        "JS"
+      ]
+    },
+    {
+      "id": 103,
+      "canonical": "Spring Boot",
+      "aliases": [
+        "SpringBoot"
+      ]
+    },
+    {
+      "id": 104,
+      "canonical": "PostgreSQL",
+      "aliases": [
+        "Postgres"
+      ]
+    },
+    {
+      "id": 105,
+      "canonical": "React",
+      "aliases": [
+        "ReactJS",
+        "React.js"
+      ]
+    },
+    {
+      "id": 106,
+      "canonical": "React Native",
+      "aliases": [
+        "ReactNative"
+      ]
+    },
+    {
+      "id": 107,
+      "canonical": "Teamwork",
+      "aliases": [
+        "Làm việc nhóm"
+      ]
+    },
+    {
+      "id": 108,
+      "canonical": "C",
+      "aliases": []
+    },
+    {
+      "id": 109,
+      "canonical": "C++",
+      "aliases": []
+    },
+    {
+      "id": 110,
+      "canonical": "C#",
+      "aliases": []
+    }
+  ]
+}

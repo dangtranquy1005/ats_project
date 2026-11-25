@@ -1,0 +1,29 @@
+{
+  "rawText": "Name: Jane Doe\nEmail: jane@example.com\nPhone: +84 901 234 567\n\nSKILLS\nJava, SpringBoot, Postgres\n\nWORK EXPERIENCE\nBackend Developer | Example Ltd | 01/2022 - 12/2024\nBuilt REST APIs with Java and Spring Boot. Optimized Postgres queries.\n\nEDUCATION\nExample University\nBachelor of Computer Science\nGraduated: 2021",
+  "cvId": 2,
+  "skillDictionary": [
+    {
+      "category": "Programming Languages",
+      "aliases": [],
+      "id": 101,
+      "canonical": "Java"
+    },
+    {
+      "category": "Backend",
+      "aliases": [
+        "SpringBoot"
+      ],
+      "id": 102,
+      "canonical": "Spring Boot"
+    },
+    {
+      "category": "Database",
+      "aliases": [
+        "Postgres"
+      ],
+      "id": 103,
+      "canonical": "PostgreSQL"
+    }
+  ],
+  "languageHint": "en"
+}

@@ -1,0 +1,29 @@
+{
+  "cvId": 1,
+  "skillDictionary": [
+    {
+      "category": "Programming Languages",
+      "aliases": [],
+      "id": 101,
+      "canonical": "Java"
+    },
+    {
+      "category": "Backend",
+      "aliases": [
+        "SpringBoot"
+      ],
+      "id": 102,
+      "canonical": "Spring Boot"
+    },
+    {
+      "category": "Database",
+      "aliases": [
+        "Postgres"
+      ],
+      "id": 103,
+      "canonical": "PostgreSQL"
+    }
+  ],
+  "languageHint": "vi",
+  "text": "Họ tên: Nguyễn Văn An\nEmail: an@example.com\nĐiện thoại: 0901 234 567\nhttps://github.com/example\n\nKỸ NĂNG\nJava, SpringBoot, Postgres, PostgreSQlX\n\nKINH NGHIỆM LÀM VIỆC\nBackend Developer | Công ty ABC | 01/2022 - 12/2024\nPhát triển REST API bằng Java và Spring Boot, tối ưu truy vấn Postgres.\n\nBackend Developer | Công ty XYZ | 01/2025 - Hiện tại\nXây dựng hệ thống quản lý hồ sơ bằng Java.\n\nHỌC VẤN\nĐại học Xây dựng Hà Nội\nKỹ sư\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2021"
+}
