@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { 
+  font-family: 'Plus Jakarta Sans', sans-serif; 
+  letter-spacing: -0.011em;
+}
+
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+.font-cv { font-family: 'Inter', sans-serif; }
+
+/* Screen transition */
+.screen-container { display: none; }
+.screen-container.active { 
+  display: flex; 
+  animation: tabFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes tabFadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(3px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+.animate-tabFadeIn {
+  animation: tabFadeIn 0.2s ease-out forwards;
+}
+
+/* Clean subtle scrollbars */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { 
+  background: #cbd5e1; 
+  border-radius: 9999px; 
+}
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Keyword Highlight Badge in CV Document */
+.ai-keyword {
+  background: #DCFCE7;
+  color: #14532D;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: 1px solid #BBF7D0;
+  display: inline-block;
+  transition: all 0.15s ease;
+}
+.ai-keyword:hover {
+  background: #BBF7D0;
+  color: #052E16;
+}
+.ai-keywords-disabled .ai-keyword {
+  background: transparent !important;
+  color: inherit !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
