@@ -1,0 +1,9 @@
+services:
+  nlpservice:
+    build: .
+    environment:
+      NLP_MODE: full
+    # Bind to loopback for local demos. Spring Boot containers use nlpservice:8000
+    # when this service is included in their Compose network.
+    ports:
+      - "127.0.0.1:8000:8000"

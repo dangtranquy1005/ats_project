@@ -1,0 +1,75 @@
+[
+  {
+    "file": "01-case-insensitive.json",
+    "expectedSkills": [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "Teamwork"
+    ],
+    "expectedUnknown": false
+  },
+  {
+    "file": "02-known-joined-alias.json",
+    "expectedSkills": [
+      "Spring Boot",
+      "React Native",
+      "React"
+    ],
+    "expectedUnknown": false
+  },
+  {
+    "file": "03-accentless-skill.json",
+    "expectedSkills": [],
+    "expectedUnknown": true
+  },
+  {
+    "file": "04-joined-unknown.json",
+    "expectedSkills": [],
+    "expectedUnknown": true
+  },
+  {
+    "file": "05-typo.json",
+    "expectedSkills": [],
+    "expectedUnknown": true
+  },
+  {
+    "file": "06-word-boundaries.json",
+    "expectedSkills": [
+      "JavaScript",
+      "C++",
+      "C#",
+      "React Native"
+    ],
+    "expectedUnknown": false
+  },
+  {
+    "file": "07-accentless-heading.json",
+    "expectedSkills": [
+      "Java"
+    ],
+    "expectedUnknown": false
+  },
+  {
+    "file": "08-joined-heading.json",
+    "expectedSkills": [
+      "Java"
+    ],
+    "expectedUnknown": false
+  },
+  {
+    "file": "09-extra-whitespace.json",
+    "expectedSkills": [
+      "Spring Boot",
+      "Teamwork"
+    ],
+    "expectedUnknown": false
+  },
+  {
+    "file": "10-added-aliases.json",
+    "expectedSkills": [
+      "Teamwork"
+    ],
+    "expectedUnknown": false
+  }
+]

@@ -10,6 +10,7 @@ import ATS.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,8 +63,9 @@ public class UserController {
 
             LoginResponse response = new LoginResponse(token, user.getEmail(), user.getFullName());
             return ResponseEntity.ok(BaseResponse.ok(response, null));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(BaseResponse.error(401, "Email hoặc mật khẩu không chính xác"));
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(BaseResponse.error(HttpStatus.UNAUTHORIZED.value(), "Email hoặc mật khẩu không chính xác"));
         }
     }
 

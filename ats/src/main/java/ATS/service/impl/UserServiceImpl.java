@@ -1,8 +1,11 @@
 package ATS.service.impl;
 
 import ATS.dto.UserDto;
+
 import ATS.entities.User;
+import ATS.enums.Role;
 import ATS.repository.UserRepository;
+
 import ATS.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepo.findByEmail(email);
+        return userRepo.findByEmail(email).orElse(null);
     }
 
     @Override
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService {
         User users = new User();
         users.setFullName(userRequest.getFullname());
         users.setEmail(userRequest.getEmail());
+        users.setRole(Role.RECRUITER);
         // Mã hóa password trước khi lưu
         users.setPasswordHash(passwordEncoder.encode(userRequest.getPassword()));
         return userRepo.save(users);
