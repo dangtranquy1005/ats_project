@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react';
+import {skillImportanceLabel} from '../../services/skillImportance';
 import {useApp} from '../../context/AppContext';
 import {educationLabel} from '../../services/educationPresentation';
 import {scoringAPI,cvAPI,apiError} from '../../services/api';
@@ -8,18 +9,19 @@ import PdfPreview from '../PdfPreview';
 import CvReviewPanel from '../CvReviewPanel';
 
 export default function ReportScreen(){
-  const {scoreReport,activeJobId,switchTab,scoreRevision}=useApp();
+  const {scoreReport,activeJobId,switchTab,scoreRevision,activeJob}=useApp();
   const cvId=scoreReport?.jobId===activeJobId?scoreReport.cvId:null;
   const [detail,setDetail]=useState(null);
   const [cv,setCv]=useState(null);
   const [error,setError]=useState('');
   const [attempt,setAttempt]=useState(0);
   const [showNlp,setShowNlp]=useState(false);
+  const [waitingForScore,setWaitingForScore]=useState(false);
   const [cvError,setCvError]=useState('');
   useEffect(()=>{const focus=()=>setAttempt(n=>n+1);window.addEventListener('focus',focus);return()=>window.removeEventListener('focus',focus);},[]);
   useEffect(()=>{
     if(!cvId)return;
-    setCv(null);setCvError('');
+    setCvError('');
     const controller=new AbortController();
     cvAPI.detail(cvId,controller.signal).then(extraction=>{
       if(controller.signal.aborted)return;
@@ -27,17 +29,22 @@ export default function ReportScreen(){
       setCv(extraction.cv);
     }).catch(err=>{if(!controller.signal.aborted)setCvError(apiError(err));});
     return()=>controller.abort();
-  },[cvId,activeJobId]);
+  },[cvId,activeJobId,attempt]);
   useEffect(()=>{
     if(!cvId)return;
     const controller=new AbortController();setDetail(null);setError('');
     scoringAPI.match(cvId,controller.signal).then(score=>{
       if(controller.signal.aborted)return;
       if(score.jobId!==activeJobId){setError('CV không thuộc vị trí đang chọn.');return;}
-      setDetail(score);
-    }).catch(err=>{if(!controller.signal.aborted)setError(err.response?.status===409?'Tiêu chí đã thay đổi. Chấm lại vị trí để xem điểm mới.':err.response?.status===404?'Hồ sơ chưa có điểm. Bạn vẫn có thể đọc CV và lưu đánh giá.':apiError(err));});
+      setDetail(score);setWaitingForScore(false);
+    }).catch(err=>{if(!controller.signal.aborted){setWaitingForScore([404,409].includes(err.response?.status));setError(err.response?.status===409?'Tiêu chí đã thay đổi. Hệ thống đang tự cập nhật điểm.':err.response?.status===404?'Hồ sơ chưa có điểm. Hệ thống sẽ tự chấm khi phân tích xong và JD có đủ tiêu chí.':apiError(err));}});
     return()=>controller.abort();
   },[cvId,activeJobId,attempt,scoreRevision]);
+  useEffect(()=>{
+    if(!waitingForScore||cv?.status==='PARSED_FAILED'||!activeJob?.requiredSkills.length)return;
+    const timer=setInterval(()=>{if(!document.hidden)setAttempt(n=>n+1);},4000);
+    return()=>clearInterval(timer);
+  },[waitingForScore,cv?.status,activeJob?.requiredSkills.length]);
   const button='px-3 py-2 border border-slate-300 rounded-lg text-sm hover:bg-slate-50 disabled:opacity-50';
   if(!cvId)return <div className="bg-white border rounded-xl p-8 text-sm">Chọn một hồ sơ từ danh sách CV hoặc bảng xếp hạng để xem và đánh giá. <button className="text-blue-600 underline" onClick={()=>switchTab('screen-upload')}>Mở danh sách CV</button></div>;
   const skill=detail?.skillScore??detail?.jaccardScore;
@@ -59,7 +66,7 @@ export default function ReportScreen(){
         {detail.weights&&<p className="text-sm text-slate-600">Yêu cầu học vấn: {educationLabel(detail.educationRequirements)}</p>}
         <p className="text-sm">Thiếu kỹ năng bắt buộc: <b>{detail.missingMandatorySkills?.join(', ')||'Không có'}</b></p>
       </div>
-      <div className="bg-white border rounded-xl p-5 space-y-3"><h2 className="font-bold">Đối chiếu kỹ năng ({detail.matchedSkillCount}/{detail.totalRequiredSkills})</h2>{detail.skillBreakdown?.length?<div className="overflow-auto"><table className="w-full text-left text-sm"><thead className="bg-slate-50"><tr>{['Kỹ năng','Mức yêu cầu','Mức ưu tiên','Kết quả'].map(s=><th className="p-3" key={s}>{s}</th>)}</tr></thead><tbody className="divide-y">{detail.skillBreakdown.map(s=><tr key={s.skillId}><td className="p-3 font-semibold">{s.skillName}</td><td className="p-3">{s.mandatory?'Bắt buộc':'Ưu tiên'}</td><td className="p-3 font-mono">{s.weight}</td><td className={`p-3 ${s.matched?'text-emerald-700':'text-rose-700'}`}>{s.matched?'Đạt':'Thiếu'}</td></tr>)}</tbody></table></div>:<div className="text-sm space-y-2"><p>Đạt: {detail.matchedSkills?.join(', ')||'Không có'}</p><p>Thiếu: {detail.missingSkills?.join(', ')||'Không có'}</p></div>}</div>
+      <div className="bg-white border rounded-xl p-5 space-y-3"><h2 className="font-bold">Đối chiếu kỹ năng ({detail.matchedSkillCount}/{detail.totalRequiredSkills})</h2>{detail.skillBreakdown?.length?<div className="overflow-auto"><table className="w-full text-left text-sm"><thead className="bg-slate-50"><tr>{['Kỹ năng','Mức yêu cầu','Mức độ quan trọng','Kết quả'].map(s=><th className="p-3" key={s}>{s}</th>)}</tr></thead><tbody className="divide-y">{detail.skillBreakdown.map(s=><tr key={s.skillId}><td className="p-3 font-semibold">{s.skillName}</td><td className="p-3">{s.mandatory?'Bắt buộc':'Ưu tiên'}</td><td className="p-3">{skillImportanceLabel(s.weight)}</td><td className={`p-3 ${s.matched?'text-emerald-700':'text-rose-700'}`}>{s.matched?'Đạt':'Thiếu'}</td></tr>)}</tbody></table></div>:<div className="text-sm space-y-2"><p>Đạt: {detail.matchedSkills?.join(', ')||'Không có'}</p><p>Thiếu: {detail.missingSkills?.join(', ')||'Không có'}</p></div>}</div>
     </>}
     {showNlp&&<CvExtractionModal id={cvId} onClose={()=>setShowNlp(false)}/>}
   </div>;

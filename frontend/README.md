@@ -1,3 +1,4 @@
+> Cập nhật: CV được tự chấm sau khi phân tích; sửa tiêu chí JD sẽ tự chấm lại. Xếp hạng tự cập nhật mỗi 5 giây. Nút Chấm lại ngay chỉ là tùy chọn, các bước bấm chấm trong hướng dẫn cũ không còn bắt buộc. JD cần có ít nhất một kỹ năng và trọng số hợp lệ.
 # Frontend ATS
 
 ## Chạy giao diện
@@ -144,3 +145,9 @@ API: GET/PUT `/api/v1/cvs/{id}/review`; ranking nhận thêm `reviewStatus=PENDI
 - Màn tài khoản và kiểm tra kết nối dùng dữ liệu thật, không hứa tự làm mới JWT hay giữ bản nháp sau khi hết phiên.
 - Dockerfile build frontend và Nginx proxy `/api` đến backend, không cần cấu hình CORS cho giao diện demo.
 - Hướng dẫn trọn bộ và kịch bản happy/unhappy: `../ats/DEMO.md`. Stack đầy đủ: `../ats/compose.demo.yaml`, giao diện mặc định http://localhost:8090.
+
+
+## Mức độ quan trọng của từng kỹ năng
+
+Trong Chọn kỹ năng, người dùng chọn Bình thường, Quan trọng hoặc Rất quan trọng thay cho nhập trọng số. Ba mức tương ứng giá trị nội bộ 1, 2, 3; API và thuật toán chấm điểm giữ nguyên. Mặc định kỹ năng mới ở mức Bình thường. Bắt buộc có kỹ năng này là lựa chọn riêng.
+Tên mức xuất hiện trong form JD, danh sách JD và phần giải thích điểm. Trọng số tùy chỉnh của JD cũ được giữ đến khi người dùng chọn một mức mới, không tự đổi khi mở form.

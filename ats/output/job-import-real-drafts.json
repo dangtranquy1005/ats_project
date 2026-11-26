@@ -1,0 +1,177 @@
+[
+  {
+    "draft": {
+      "title": "Java Backend Developer",
+      "description": "DỮ LIỆU GIẢ LẬP - Chỉ dùng cho demo và kiểm thử ATS Trang 1\nJava Backend Developer\nCông ty Sản phẩm Hướng Việt Demo\nĐịa điểm: Hà Nội - hybrid 3 ngày tại văn phòng\nThu nhập tham khảo: 25-35 triệu đồng/tháng, mức giả lập\n01 vị trí toàn thời gian. Mọi dữ liệu về doanh nghiệp và quyền lợi trong tài liệu này đều là giả lập.\nMÔ TẢ CÔNG VIỆC\nPhát triển REST API bằng Java và Spring Boot cho hệ thống quản lý đơn hàng. Thiết kế PostgreSQL, tối ưu truy\nvấn và giao dịch. Đóng gói ứng dụng bằng Docker và sử dụng Redis cho dữ liệu tra cứu. Viết kiểm thử, xử lý lỗi\nnghiệp vụ và phối hợp rà soát mã nguồn.\nTRÁCH NHIỆM CHÍNH\nThiết kế API tạo đơn, cập nhật trạng thái, tra cứu và đối soát dữ liệu.\nKiểm tra quyền truy cập, kiểm soát giao dịch và xử lý yêu cầu được gửi lặp.\nViết kiểm thử cho luồng chính và luồng lỗi; bàn giao tài liệu chạy thử.\nYÊU CẦU ỨNG VIÊN\nKinh nghiệm tối thiểu: 2 năm thực tế; thời gian làm song song không cộng hai lần.\nƯu tiên ngành công nghệ thông tin; chấp nhận năng lực tương đương qua dự án\nCó thể trình bày phần việc đã trực tiếp thực hiện, lựa chọn kỹ thuật và cách xử lý lỗi.\nKỸ NĂNG VÀ MỨC ƯU TIÊN\nKỹ năng Mức ưu tiên Mức yêu cầu\nJava 3 Bắt buộc\nSpring Boot 3 Bắt buộc\nPostgreSQL 2 Ưu tiên\nDocker 1 Ưu tiên\nRedis 1 Ưu tiên\nMức 3 ảnh hưởng gấp 3 lần mức 1 trong phần điểm kỹ năng. Thiếu kỹ năng bắt buộc vẫn có điểm nhưng chưa đáp ứng điều kiện tuyển\ndụng.\nKẾT QUẢ MONG ĐỢI\nTrong 30 ngày: hiểu mô hình dữ liệu và sửa một nhóm lỗi có kiểm thử.\nTrong 60 ngày: bàn giao một luồng nghiệp vụ có tài liệu API.\nTrong 90 ngày: tham gia tối ưu một truy vấn và theo dõi chất lượng vận hành.\nQUY TRÌNH TRAO ĐỔI\nSàng lọc hồ sơ, trao đổi kỹ thuật theo dự án đã làm và phỏng vấn nhóm tuyển dụng.\nKhông yêu cầu thông tin nhạy cảm hoặc dữ liệu khách hàng từ các dự án trước.",
+      "minExperienceYears": 2,
+      "educationRequirements": null,
+      "requiredSkills": [
+        {
+          "skillId": 1,
+          "skillName": "Java",
+          "mandatory": true,
+          "weight": 1.0,
+          "sourceText": "Java 3 Bắt buộc"
+        },
+        {
+          "skillId": 33,
+          "skillName": "REST API",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Phát triển REST API bằng Java và Spring Boot cho hệ thống quản lý đơn hàng. Thiết kế PostgreSQL, tối ưu truy"
+        },
+        {
+          "skillId": 20,
+          "skillName": "Spring Boot",
+          "mandatory": true,
+          "weight": 1.0,
+          "sourceText": "Spring Boot 3 Bắt buộc"
+        },
+        {
+          "skillId": 36,
+          "skillName": "PostgreSQL",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Phát triển REST API bằng Java và Spring Boot cho hệ thống quản lý đơn hàng. Thiết kế PostgreSQL, tối ưu truy"
+        },
+        {
+          "skillId": 43,
+          "skillName": "Docker",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "vấn và giao dịch. Đóng gói ứng dụng bằng Docker và sử dụng Redis cho dữ liệu tra cứu. Viết kiểm thử, xử lý lỗi"
+        },
+        {
+          "skillId": 41,
+          "skillName": "Redis",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "vấn và giao dịch. Đóng gói ứng dụng bằng Docker và sử dụng Redis cho dữ liệu tra cứu. Viết kiểm thử, xử lý lỗi"
+        }
+      ],
+      "warnings": [
+        "Mức ưu tiên của các kỹ năng đang để bằng nhau. Hãy kiểm tra trước khi lưu.",
+        "Mô tả đang giữ nội dung tài liệu. Bạn có thể rút gọn phần mô tả công việc trước khi lưu.",
+        "Một số kỹ năng chưa rõ bắt buộc hay ưu tiên; đang để ưu tiên để bạn xác nhận.",
+        "Chưa chốt được yêu cầu học vấn; đang để Không yêu cầu để bạn kiểm tra."
+      ],
+      "experienceSource": "Kinh nghiệm tối thiểu: 2 năm thực tế; thời gian làm song song không cộng hai lần.",
+      "educationSource": null
+    },
+    "file": "JD01"
+  },
+  {
+    "draft": {
+      "title": "Frontend Engineer React TypeScript",
+      "description": "DỮ LIỆU GIẢ LẬP - Chỉ dùng cho demo và kiểm thử ATS Trang 1\nFrontend Engineer React TypeScript\nCông ty Sản phẩm Hướng Việt Demo\nĐịa điểm: Đà Nẵng - hybrid\nThu nhập tham khảo: 20-30 triệu đồng/tháng, mức giả lập\n01 vị trí toàn thời gian. Mọi dữ liệu về doanh nghiệp và quyền lợi trong tài liệu này đều là giả lập.\nMÔ TẢ CÔNG VIỆC\nBuild responsive dashboards with React and TypeScript. Develop pages using Next.js and Tailwind CSS.\nCollaborate through Git, implement accessible components, form validation, loading states and clear error\nfeedback. Work with designers and backend developers to deliver tested customer interfaces.\nTRÁCH NHIỆM CHÍNH\nPhát triển giao diện từ thiết kế, tối ưu bố cục điện thoại và điều hướng bàn phím.\nTích hợp API, quản lý dữ liệu biểu mẫu và các trạng thái tải/lỗi/rỗng.\nRà soát mã nguồn, kiểm tra luồng đăng nhập và lọc danh sách trước bàn giao.\nYÊU CẦU ỨNG VIÊN\nKinh nghiệm tối thiểu: 1 năm thực tế; thời gian làm song song không cộng hai lần.\nKhông bắt buộc bằng cấp nếu chứng minh được kinh nghiệm\nCó thể trình bày phần việc đã trực tiếp thực hiện, lựa chọn kỹ thuật và cách xử lý lỗi.\nKỸ NĂNG VÀ MỨC ƯU TIÊN\nKỹ năng Mức ưu tiên Mức yêu cầu\nReact 3 Bắt buộc\nTypeScript 3 Bắt buộc\nNext.js 2 Ưu tiên\nTailwind CSS 1 Ưu tiên\nGit 1 Ưu tiên\nMức 3 ảnh hưởng gấp 3 lần mức 1 trong phần điểm kỹ năng. Thiếu kỹ năng bắt buộc vẫn có điểm nhưng chưa đáp ứng điều kiện tuyển\ndụng.\nKẾT QUẢ MONG ĐỢI\nTrong 30 ngày: nắm thư viện giao diện và hoàn thiện một biểu mẫu.\nTrong 60 ngày: bàn giao một màn danh sách có lọc và phân trang.\nTrong 90 ngày: cải thiện một chỉ số tải trang hoặc khả năng truy cập.\nQUY TRÌNH TRAO ĐỔI\nSàng lọc hồ sơ, trao đổi kỹ thuật theo dự án đã làm và phỏng vấn nhóm tuyển dụng.\nKhông yêu cầu thông tin nhạy cảm hoặc dữ liệu khách hàng từ các dự án trước.",
+      "minExperienceYears": 1,
+      "educationRequirements": "NONE",
+      "requiredSkills": [
+        {
+          "skillId": 12,
+          "skillName": "React",
+          "mandatory": true,
+          "weight": 1.0,
+          "sourceText": "React 3 Bắt buộc"
+        },
+        {
+          "skillId": 3,
+          "skillName": "TypeScript",
+          "mandatory": true,
+          "weight": 1.0,
+          "sourceText": "TypeScript 3 Bắt buộc"
+        },
+        {
+          "skillId": 17,
+          "skillName": "Next.js",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Build responsive dashboards with React and TypeScript. Develop pages using Next.js and Tailwind CSS."
+        },
+        {
+          "skillId": 18,
+          "skillName": "Tailwind CSS",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Build responsive dashboards with React and TypeScript. Develop pages using Next.js and Tailwind CSS."
+        },
+        {
+          "skillId": 42,
+          "skillName": "Git",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Collaborate through Git, implement accessible components, form validation, loading states and clear error"
+        }
+      ],
+      "warnings": [
+        "Mức ưu tiên của các kỹ năng đang để bằng nhau. Hãy kiểm tra trước khi lưu.",
+        "Mô tả đang giữ nội dung tài liệu. Bạn có thể rút gọn phần mô tả công việc trước khi lưu.",
+        "Một số kỹ năng chưa rõ bắt buộc hay ưu tiên; đang để ưu tiên để bạn xác nhận."
+      ],
+      "experienceSource": "Kinh nghiệm tối thiểu: 1 năm thực tế; thời gian làm song song không cộng hai lần.",
+      "educationSource": "Không bắt buộc bằng cấp nếu chứng minh được kinh nghiệm"
+    },
+    "file": "JD02"
+  },
+  {
+    "draft": {
+      "title": "Python Data Engineer",
+      "description": "DỮ LIỆU GIẢ LẬP - Chỉ dùng cho demo và kiểm thử ATS Trang 1\nPython Data Engineer\nCông ty Sản phẩm Hướng Việt Demo\nĐịa điểm: TP Hồ Chí Minh - làm việc tại văn phòng\nThu nhập tham khảo: 22-32 triệu đồng/tháng, mức giả lập\n01 vị trí toàn thời gian. Mọi dữ liệu về doanh nghiệp và quyền lợi trong tài liệu này đều là giả lập.\nMÔ TẢ CÔNG VIỆC\nXây dựng pipeline Python sử dụng pandas và NumPy để làm sạch dữ liệu giao dịch. Viết SQL đối soát và tổng\nhợp báo cáo bán hàng. Đóng gói pipeline bằng Docker, kiểm tra dữ liệu trùng và giá trị trống, bổ sung kiểm thử\nvà nhật ký cho từng bước xử lý.\nTRÁCH NHIỆM CHÍNH\nChuẩn hóa định dạng, phát hiện dữ liệu trùng, thiếu và giá trị ngoài khoảng.\nĐối soát tổng số bản ghi và chỉ số tổng hợp giữa đầu vào và đầu ra.\nBổ sung kiểm thử và tài liệu để pipeline chạy lại được sau lỗi.\nYÊU CẦU ỨNG VIÊN\nKinh nghiệm tối thiểu: 1 năm thực tế; thời gian làm song song không cộng hai lần.\nCó bằng cử nhân; ưu tiên ngành khoa học máy tính hoặc công nghệ thông tin\nCó thể trình bày phần việc đã trực tiếp thực hiện, lựa chọn kỹ thuật và cách xử lý lỗi.\nKỸ NĂNG VÀ MỨC ƯU TIÊN\nKỹ năng Mức ưu tiên Mức yêu cầu\nPython 3 Bắt buộc\npandas 3 Bắt buộc\nNumPy 2 Ưu tiên\nSQL 1 Ưu tiên\nDocker 1 Ưu tiên\nMức 3 ảnh hưởng gấp 3 lần mức 1 trong phần điểm kỹ năng. Thiếu kỹ năng bắt buộc vẫn có điểm nhưng chưa đáp ứng điều kiện tuyển\ndụng.\nKẾT QUẢ MONG ĐỢI\nTrong 30 ngày: hiểu nguồn dữ liệu và mô tả các quy tắc kiểm tra.\nTrong 60 ngày: hoàn thiện một pipeline có báo cáo chất lượng.\nTrong 90 ngày: tự vận hành, đối soát và xử lý một tình huống chạy lại.\nQUY TRÌNH TRAO ĐỔI\nSàng lọc hồ sơ, trao đổi kỹ thuật theo dự án đã làm và phỏng vấn nhóm tuyển dụng.\nKhông yêu cầu thông tin nhạy cảm hoặc dữ liệu khách hàng từ các dự án trước.",
+      "minExperienceYears": 1,
+      "educationRequirements": "UNIVERSITY",
+      "requiredSkills": [
+        {
+          "skillId": 4,
+          "skillName": "Python",
+          "mandatory": true,
+          "weight": 1.0,
+          "sourceText": "Python 3 Bắt buộc"
+        },
+        {
+          "skillId": 60,
+          "skillName": "pandas",
+          "mandatory": true,
+          "weight": 1.0,
+          "sourceText": "pandas 3 Bắt buộc"
+        },
+        {
+          "skillId": 61,
+          "skillName": "NumPy",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Xây dựng pipeline Python sử dụng pandas và NumPy để làm sạch dữ liệu giao dịch. Viết SQL đối soát và tổng"
+        },
+        {
+          "skillId": 35,
+          "skillName": "SQL",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Xây dựng pipeline Python sử dụng pandas và NumPy để làm sạch dữ liệu giao dịch. Viết SQL đối soát và tổng"
+        },
+        {
+          "skillId": 43,
+          "skillName": "Docker",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "hợp báo cáo bán hàng. Đóng gói pipeline bằng Docker, kiểm tra dữ liệu trùng và giá trị trống, bổ sung kiểm thử"
+        },
+        {
+          "skillId": 66,
+          "skillName": "Machine Learning",
+          "mandatory": false,
+          "weight": 1.0,
+          "sourceText": "Có bằng cử nhân; ưu tiên ngành khoa học máy tính hoặc công nghệ thông tin"
+        }
+      ],
+      "warnings": [
+        "Mức ưu tiên của các kỹ năng đang để bằng nhau. Hãy kiểm tra trước khi lưu.",
+        "Mô tả đang giữ nội dung tài liệu. Bạn có thể rút gọn phần mô tả công việc trước khi lưu.",
+        "Có yêu cầu kỹ năng thay thế (hoặc/or). Hãy chọn lại kỹ năng bắt buộc; hệ thống chưa áp dụng nhóm thay thế tự động.",
+        "Một số kỹ năng chưa rõ bắt buộc hay ưu tiên; đang để ưu tiên để bạn xác nhận."
+      ],
+      "experienceSource": "Kinh nghiệm tối thiểu: 1 năm thực tế; thời gian làm song song không cộng hai lần.",
+      "educationSource": "Có bằng cử nhân; ưu tiên ngành khoa học máy tính hoặc công nghệ thông tin"
+    },
+    "file": "JD03"
+  }
+]

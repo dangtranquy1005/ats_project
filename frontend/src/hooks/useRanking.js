@@ -28,13 +28,12 @@ export function useRanking(jobId, scoreRevision, updateJobCvCount, reviewRevisio
     finally{if(mounted.current && id===request.current)setLoading(false);}
   },[jobId,page,params,updateJobCvCount]);
   useEffect(()=>{load();return()=>controller.current?.abort();},[load,attempt,scoreRevision,reviewRevision]);
-  const processing=(summary?.pendingCvs||0)+(summary?.parsingCvs||0);
   useEffect(()=>{
     if(!jobId)return;
     const focus=()=>load(true);window.addEventListener('focus',focus);
-    const timer=(processing||error)?setInterval(()=>{if(!document.hidden)load(true);},error?10000:5000):null;
+    const timer=setInterval(()=>{if(!document.hidden)load(true);},error?10000:5000);
     return()=>{window.removeEventListener('focus',focus);if(timer)clearInterval(timer);};
-  },[jobId,processing,error,load]);
+  },[jobId,error,load]);
   return {data,summary,loading,error,page,setPage,mounted,
     apply:params=>{setParams(params);setPage(0);},
     refresh:()=>{controller.current?.abort();++request.current;setAttempt(n=>n+1);},

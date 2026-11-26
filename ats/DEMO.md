@@ -55,8 +55,8 @@ UPDATE tbl_users SET role = 1 WHERE email = 'email-quan-tri-cua-ban';
 
 1. Đăng ký tài khoản A; tạo JD Java Backend, kinh nghiệm 0, học vấn không bắt buộc. Chọn Java mức ưu tiên 3, bắt buộc; Spring Boot mức 3, ưu tiên; Docker mức 2, ưu tiên. Chọn ưu tiên chấm điểm 100% kỹ năng để dễ đối chiếu.
 2. Tải `output/pdf/demo-cv-01-backend-strong.pdf` và `demo-cv-03-junior-typos.pdf`. Theo dõi đến Đã phân tích, mở thông tin từ CV và đọc PDF gốc.
-3. Bấm chấm điểm. Điểm kỹ năng bằng tổng mức ưu tiên kỹ năng có trong CV chia cho tổng mức ưu tiên của JD. Đối chiếu bảng kỹ năng và kết quả Swagger cùng JD.
-4. Mở hồ sơ, chọn Phù hợp, lưu ghi chú. Tải lại trình duyệt, mở lại CV rồi chấm lại: ghi chú và lựa chọn vẫn còn. Lọc Phù hợp trong xếp hạng.
+3. Chờ hệ thống tự chấm điểm và bảng xếp hạng tự cập nhật. Không cần gọi API rescore. Điểm kỹ năng bằng tổng mức ưu tiên kỹ năng có trong CV chia cho tổng mức ưu tiên của JD. Đối chiếu bảng kỹ năng và kết quả Swagger cùng JD.
+4. Mở hồ sơ, chọn Phù hợp, lưu ghi chú. Tải lại trình duyệt, sửa trọng số JD và chờ tự chấm lại: ghi chú và lựa chọn vẫn còn. Lọc Phù hợp trong xếp hạng.
 5. Xuất CSV: file chứa toàn bộ kết quả của **bộ lọc đã áp dụng**, kể cả các trang chưa mở. Điểm trong CSV theo thang 100, không chứa ghi chú tuyển dụng.
 6. Dùng tài khoản ADMIN thêm nhóm, kỹ năng, cách viết khác; sửa rồi tải lại. Không được mất nhóm hoặc alias. Thêm trùng phải báo lỗi; xóa nhóm còn kỹ năng hoặc kỹ năng đang được CV/JD dùng phải bị chặn.
 7. Mục Cần bổ sung lấy từ snapshot NLP đã lưu, đếm số CV khác nhau có mục đó. Chọn rõ kỹ năng đích để gắn cách viết, hoặc tạo kỹ năng mới. Mục đã có trong từ điển sẽ hết xuất hiện. Thay đổi từ điển áp dụng cho **lần phân tích CV tiếp theo**, không tự viết lại kết quả cũ.

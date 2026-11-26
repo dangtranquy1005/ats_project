@@ -229,7 +229,7 @@ export const AppProvider = ({ children }) => {
       }} : j));
       scoresChanged();
       closeModal('weights');
-      showToast('Đã lưu mức ưu tiên', 'Chấm lại CV để xem kết quả theo lựa chọn mới.', 'success');
+      showToast('Đã lưu mức ưu tiên', 'Hệ thống sẽ tự cập nhật điểm theo lựa chọn mới.', 'success');
     } catch (error) { throw new Error(apiError(error)); }
   };
 

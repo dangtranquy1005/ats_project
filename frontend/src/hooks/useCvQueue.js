@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { cvAPI, apiError } from '../services/api';
 
 // Mỗi màn upload được mount theo jobId; hủy lượt đọc cũ khi chuyển JD/đăng xuất.
-export function useCvQueue(jobId, updateJobCvCount) {
+export function useCvQueue(jobId, updateJobCvCount, autoScoringReady = true) {
   const [page, setPage] = useState(0);
   const [status, setStatus] = useState('');
   const [queue, setQueue] = useState({ items: [], totalElements: 0, totalPages: 0, statusCounts: {} });
@@ -33,7 +33,7 @@ export function useCvQueue(jobId, updateJobCvCount) {
     }
   }, [jobId, page, status, updateJobCvCount]);
   useEffect(() => { load(); return () => controller.current?.abort(); }, [load, revision]);
-  const pending = (queue.statusCounts.PENDING || 0) + (queue.statusCounts.PARSING || 0);
+  const pending = (queue.statusCounts.PENDING || 0) + (queue.statusCounts.PARSING || 0) + (autoScoringReady ? (queue.statusCounts.PARSED || 0) : 0);
   useEffect(() => {
     if (!jobId) return;
     // Dừng polling khi không còn CV chờ/đang xử lý. Bấm tải lại để nhận CV từ phiên khác.

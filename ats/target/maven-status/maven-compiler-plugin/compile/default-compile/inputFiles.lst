@@ -7,6 +7,7 @@ D:\CDTH\ATS-project\ats\src\main\java\ATS\config\SwaggerConfig.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\controller\ApiExceptionHandler.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\controller\CvController.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\controller\JobController.java
+D:\CDTH\ATS-project\ats\src\main\java\ATS\controller\JobImportController.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\controller\ScoringController.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\controller\SkillController.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\controller\UnknownSkillController.java
@@ -27,6 +28,7 @@ D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\CvSummaryResponse.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\CvUploadResult.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\ExportFile.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\JobDetailResponse.java
+D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\JobDraftResponse.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\JobRequest.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\JobResponse.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\dto\JobSkillRequest.java
@@ -93,6 +95,7 @@ D:\CDTH\ATS-project\ats\src\main\java\ATS\security\JwtAuthFilter.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\security\PasswordEncoderConfig.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\security\SecurityConfig.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\security\TokenProvider.java
+D:\CDTH\ATS-project\ats\src\main\java\ATS\service\AutoScoringWorker.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\CustomUserDetailsService.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\CvNlpWorker.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\CvPdfWorker.java
@@ -109,6 +112,7 @@ D:\CDTH\ATS-project\ats\src\main\java\ATS\service\impl\JobServiceImpl.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\impl\ScoringServiceImpl.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\impl\TextSimilarity.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\impl\UserServiceImpl.java
+D:\CDTH\ATS-project\ats\src\main\java\ATS\service\JobPdfImportService.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\JobService.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\NlpClient.java
 D:\CDTH\ATS-project\ats\src\main\java\ATS\service\NlpClientException.java

@@ -2,36 +2,23 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 
 export default function Sidebar() {
-  const { activeScreen, switchTab, user, logout, jobs } = useApp();
+  const { activeScreen, switchTab, user, logout, jobs, scoreReport } = useApp();
 
   const workflowItems = [
     {
       id: 'screen-jd',
-      title: '1. Tiêu chí tuyển dụng (JD)',
-      badge: `${jobs.length} Vị trí`,
-      badgeClass: 'bg-slate-100 text-slate-600 border-slate-200',
+      title: 'Tiêu chí tuyển dụng (JD)',
       icon: 'fa-briefcase'
     },
     {
       id: 'screen-upload',
-      title: '2. Tải lên & Xử lý CV',
-      badge: `${jobs.reduce((n, j) => n + j.totalCv, 0)} CV`,
-      badgeClass: 'bg-blue-50 text-blue-700 border-blue-200',
+      title: 'Tải lên & Xử lý CV',
       icon: 'fa-cloud-arrow-up'
     },
     {
       id: 'screen-ranking',
-      title: '3. Bảng xếp hạng ứng viên',
-      badge: 'Điểm thật',
-      badgeClass: 'bg-slate-100 text-slate-600 border-slate-200',
+      title: 'Bảng xếp hạng ứng viên',
       icon: 'fa-ranking-star'
-    },
-    {
-      id: 'screen-report',
-      title: '4. Xem & đánh giá hồ sơ',
-      badge: 'Chi tiết',
-      badgeClass: 'bg-blue-100 text-blue-700 border-blue-200',
-      icon: 'fa-file-lines'
     }
   ];
 
@@ -94,17 +81,16 @@ export default function Sidebar() {
           </span>
         </div>
 
-        {/* Navigation Menu: 4 Bước Quy trình tuyển dụng */}
+        {/* Điều hướng quy trình tuyển dụng */}
         <div className="p-3 space-y-1">
           <div className="px-3 pt-2 pb-1.5 flex items-center justify-between">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-              Quy trình tuyển dụng
+              Chức năng
             </p>
-            <span className="text-[10px] text-slate-500 font-mono font-medium">4 Bước</span>
           </div>
 
           {workflowItems.map((item) => {
-            const isActive = activeScreen === item.id;
+            const isActive = activeScreen === item.id || (activeScreen === 'screen-report' && (scoreReport?.source || 'screen-ranking') === item.id);
             return (
               <button
                 key={item.id}
@@ -126,13 +112,6 @@ export default function Sidebar() {
                     <i className={`fa-solid ${item.icon} text-xs`}></i>
                   </span>
                   <span className="text-left">{item.title}</span>
-                </span>
-                <span
-                  className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${
-                    isActive ? 'bg-blue-100 text-blue-700 border-blue-200' : item.badgeClass
-                  }`}
-                >
-                  {item.badge}
                 </span>
               </button>
             );
@@ -163,9 +142,6 @@ export default function Sidebar() {
                 <i className="fa-solid fa-book-open text-xs"></i>
               </span>
               <span className="text-left">Từ điển kỹ năng</span>
-            </span>
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
-              {user.role === 'ADMIN' ? 'Quản trị' : 'Tra cứu'}
             </span>
           </button>
         </div>

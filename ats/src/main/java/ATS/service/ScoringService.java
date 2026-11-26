@@ -4,6 +4,8 @@ import ATS.dto.*;
 import org.springframework.data.domain.Pageable;
 
 public interface ScoringService {
+    String ALGORITHM_VERSION = "weighted-coverage-v2-education-level";
+    RescoreResult scorePending(Long jobId, Long userId);
     ScoringStatusResponse getScoringStatus(Long jobId, Long userId);
     
     /**

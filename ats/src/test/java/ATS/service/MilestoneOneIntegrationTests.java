@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
         "spring.jpa.hibernate.ddl-auto=validate", "spring.jpa.show-sql=false",
         "spring.docker.compose.enabled=false", "ats.skills.seed.enabled=false",
-        "cv.pdf.poll-ms=3600000", "cv.cleanup.poll-ms=3600000", "nlp.poll-ms=3600000"
+        "cv.pdf.poll-ms=3600000", "cv.cleanup.poll-ms=3600000", "nlp.poll-ms=3600000", "ats.scoring.auto.poll-ms=3600000"
 })
 class MilestoneOneIntegrationTests {
     @MockitoBean FileStorageService storage;

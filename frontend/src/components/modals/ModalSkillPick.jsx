@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
+import SkillImportancePicker from '../SkillImportancePicker';
 
 const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
 export default function ModalSkillPick() {
@@ -20,7 +21,7 @@ export default function ModalSkillPick() {
   const save = async () => {
     if (busy) return;
     if (selected.some(s => !Number.isFinite(Number(s.weight)) || Number(s.weight) <= 0)) {
-      setError('Mức ưu tiên của mỗi kỹ năng cần lớn hơn 0.'); return;
+      setError('Hãy chọn mức độ quan trọng cho các kỹ năng trước khi lưu.'); return;
     }
     setBusy(true); setError('');
     try {
@@ -41,10 +42,8 @@ export default function ModalSkillPick() {
         {!suggestions.length && <p className="p-3 text-slate-500">Chưa có kỹ năng phù hợp trong từ điển.</p>}
       </div>
       <p className="text-xs text-slate-500">Chọn “Bắt buộc” nếu ứng viên cần có kỹ năng đó để đáp ứng yêu cầu tuyển dụng.</p>
-      <div className="overflow-x-auto"><table className="w-full text-sm min-w-[360px]"><thead><tr className="text-left"><th>Kỹ năng</th><th>Mức ưu tiên</th><th>Bắt buộc</th><th></th></tr></thead><tbody>
-        {selected.map(s => <tr key={s.skillId} className="border-t"><td className="py-3">{s.skillName}</td><td><input aria-label={`Mức ưu tiên ${s.skillName}`} type="number" min="0.01" step="any" disabled={busy} value={s.weight} onChange={e => update(s.skillId, { weight: e.target.value })} className="w-20 border rounded p-1" /></td><td><input aria-label={`Bắt buộc ${s.skillName}`} type="checkbox" disabled={busy} checked={s.mandatory} onChange={e => update(s.skillId, { mandatory: e.target.checked })} /></td><td><button disabled={busy} onClick={() => setSelected(prev => prev.filter(item => item.skillId !== s.skillId))} className="text-rose-600" aria-label={`Gỡ ${s.skillName}`}>Gỡ</button></td></tr>)}
-      </tbody></table></div>
-      <p className="text-xs text-slate-500">Số lớn hơn nghĩa là kỹ năng được ưu tiên hơn. Ví dụ: mức 3 có ảnh hưởng gấp 3 lần mức 1 trong phần điểm kỹ năng.</p>
+      <div className="space-y-3">{selected.map(s=><article key={s.skillId} className="border border-slate-200 rounded-xl p-3 space-y-3"><div className="flex items-center justify-between gap-3"><h3 className="font-semibold text-sm">{s.skillName}</h3><button type="button" disabled={busy} onClick={()=>setSelected(prev=>prev.filter(item=>item.skillId!==s.skillId))} className="text-xs text-rose-600 hover:underline disabled:opacity-50" aria-label={`Gỡ ${s.skillName}`}>Gỡ</button></div><SkillImportancePicker name={s.skillName} value={s.weight} disabled={busy} onChange={weight=>update(s.skillId,{weight})}/><label className="flex items-center gap-2 text-sm"><input aria-label={`Bắt buộc ${s.skillName}`} type="checkbox" disabled={busy} checked={s.mandatory} onChange={e=>update(s.skillId,{mandatory:e.target.checked})}/>Bắt buộc có kỹ năng này</label></article>)}</div>
+      <p className="text-xs text-slate-500">Chọn mức cao hơn cho kỹ năng bạn muốn chú trọng hơn. “Bắt buộc” là điều kiện ứng viên cần đáp ứng, được chọn riêng với mức độ quan trọng.</p>
       {error && <p role="alert" className="text-rose-700 text-sm">{error}</p>}
       <div className="flex justify-end gap-3"><button disabled={busy} onClick={() => closeModal('skillPick')} className="px-4 py-2 border rounded-lg">Hủy</button><button disabled={busy || Boolean(skillsError)} onClick={save} className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50">{busy ? 'Đang lưu…' : pick?.jobId ? 'Lưu kỹ năng' : 'Áp dụng vào biểu mẫu'}</button></div>
     </div>

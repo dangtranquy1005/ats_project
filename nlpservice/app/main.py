@@ -82,6 +82,15 @@ def create_app(mode: str | None = None) -> FastAPI:
         )
         return response
 
+    @application.post("/nlp/extract-job")
+    def extract_job_draft(request: ExtractRequest):
+        from app.job_extraction import extract_job
+        if request.skillDictionary is None:
+            raise HTTPException(status_code=422, detail="Job extraction requires a dictionary with database ids")
+        if not clean_text(request.text).strip():
+            raise HTTPException(status_code=422, detail="Job text is empty")
+        return extract_job(request.text, request.skillDictionary)
+
     return application
 
 

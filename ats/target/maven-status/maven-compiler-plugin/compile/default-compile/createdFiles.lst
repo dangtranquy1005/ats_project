@@ -22,6 +22,7 @@ ATS\dto\ExportFile.class
 ATS\dto\ScoringConfigResponse$ScoringConfigResponseBuilder.class
 ATS\controller\JobController$StatusRequest.class
 ATS\entities\SkillCategory.class
+ATS\service\JobPdfImportService.class
 ATS\service\NlpClient.class
 ATS\dto\RegisterRequest.class
 ATS\dto\UnknownSkillResponse$UnknownSkillResponseBuilder.class
@@ -52,6 +53,7 @@ ATS\entities\JobRequiredSkill.class
 ATS\enums\SkillType.class
 ATS\exceptionresponse\BaseResponse.class
 ATS\service\SkillService.class
+ATS\repository\JobRepository$ScoringTarget.class
 ATS\config\SwaggerConfig.class
 ATS\dto\SkillRequest.class
 ATS\entities\MatchResult.class
@@ -68,6 +70,7 @@ ATS\repository\SkillRepository.class
 ATS\security\TokenProvider.class
 ATS\dto\AliasResponse$AliasResponseBuilder.class
 ATS\service\SkillManagementService.class
+ATS\dto\JobDraftResponse.class
 ATS\service\PdfTextExtractor$PdfExtractionException.class
 ATS\entities\CVEducation.class
 ATS\dto\PageResponse.class
@@ -105,6 +108,7 @@ ATS\entities\PendingUploadCleanup.class
 ATS\exceptionresponse\ErrorResponse.class
 ATS\repository\JobRepository.class
 ATS\config\SkillDictionarySeeder.class
+ATS\controller\JobImportController.class
 ATS\dto\RankingFilter.class
 ATS\entities\AuditLogFilter.class
 ATS\exceptionresponse\BaseResponse$BaseResponseBuilder.class
@@ -118,6 +122,7 @@ ATS\dto\MatchDetailResponse.class
 ATS\config\SkillDictionarySeeder$SeedSkill.class
 ATS\dto\AnalyzeResponse$UnknownSkill.class
 ATS\service\impl\ScoringServiceImpl.class
+ATS\service\AutoScoringWorker.class
 ATS\entities\RankingFilter.class
 ATS\repository\MatchResultRepository.class
 ATS\service\impl\UserServiceImpl.class
@@ -164,6 +169,7 @@ ATS\dto\CvExtractionDetail$Skill.class
 ATS\entities\RankingFilter$RankingFilterBuilder.class
 ATS\service\CvPdfWorker.class
 ATS\dto\RankingFilter$RankingFilterBuilder.class
+ATS\dto\JobDraftResponse$Skill.class
 ATS\entities\User.class
 ATS\config\NlpClientProperties.class
 ATS\controller\ScoringController.class

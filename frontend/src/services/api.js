@@ -64,6 +64,10 @@ export const authAPI = {
 
 // 2. Quản lý vị trí tuyển dụng JD & Trọng số (JobController.java: /api/v1/jobs)
 export const jobAPI = {
+  importPdf: async (file,signal) => {
+    const body=new FormData();body.append('file',file);
+    return (await api.post('/jobs/import-pdf',body,{headers:{'Content-Type':'multipart/form-data'},timeout:90000,signal})).data;
+  },
   list: async (page = 0, size = 20) => {
     // GET /api/v1/jobs?page=0&size=20
     const res = await api.get(`/jobs?page=${page}&size=${size}`);

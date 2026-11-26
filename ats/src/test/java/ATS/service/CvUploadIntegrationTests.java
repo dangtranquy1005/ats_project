@@ -37,11 +37,13 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
         "spring.jpa.hibernate.ddl-auto=validate", "spring.jpa.show-sql=false",
         "spring.docker.compose.enabled=false", "ats.skills.seed.enabled=false",
-        "cv.pdf.poll-ms=3600000", "cv.cleanup.poll-ms=3600000", "nlp.poll-ms=3600000", "nlp.retry-delay=0s"
+        "cv.pdf.poll-ms=3600000", "cv.cleanup.poll-ms=3600000", "nlp.poll-ms=3600000", "nlp.retry-delay=0s",
+        "ats.scoring.auto.poll-ms=3600000"
 })
 class CvUploadIntegrationTests {
     @MockitoBean FileStorageService storage;
     @MockitoBean NlpClient nlpClient;
+    @MockitoBean JobPdfImportService jobImports;
     @Autowired ATS.service.ScoringService scoring;
     @Autowired CvUploadService uploads;
     @Autowired CvUploadTransactions transactions;
@@ -382,6 +384,54 @@ class CvUploadIntegrationTests {
         String jwt = tokens.generateToken(new UsernamePasswordAuthenticationToken(principal, null));
         return RestClient.builder().baseUrl("http://127.0.0.1:" + environment.getProperty("local.server.port"))
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt).build();
+    }
+
+    @Test void automaticWorkerScoresPersistedReadyCvsAndRefreshesAfterCriteriaChange() {
+        var skill=skills.findAll().get(0);
+        JobRequiredSkill required=new JobRequiredSkill();required.setJob(job);required.setSkill(skill);required.setWeight(1.0);
+        job.getRequiredSkills().add(required);job.setW1(1);job=jobs.saveAndFlush(job);
+        Long id=scoringFixture("Auto score fixture",CVStatus.PARSED,skill).getCvId();
+        scoringFixture("Auto skip failed",CVStatus.PARSED_FAILED);
+        var fixtureJobId=job.getJobId();
+        var targets=jobs.findJobsNeedingScoring(ScoringService.ALGORITHM_VERSION,0L,
+                org.springframework.data.domain.Pageable.unpaged()).stream().filter(t->t.getJobId().equals(fixtureJobId)).toList();
+        assertEquals(1,targets.size());
+        // Chỉ worker của fixture được chạy, không chạm vào JD thực của người dùng trong DB kiểm thử.
+        var fixtureJobs=mock(JobRepository.class);
+        when(fixtureJobs.findJobsNeedingScoring(anyString(),anyLong(),any())).thenReturn(targets);
+        var autoScoring=new AutoScoringWorker(fixtureJobs,scoring);
+        autoScoring.processPending();
+        assertEquals(CVStatus.SCORED,transactions.getStatus(id,owner.getId()).getStatus());
+        var first=scoring.getMatchDetail(id,owner.getId());assertEquals(1.0,first.getOverallScore());
+        var client=queueClient();
+        client.put().uri("/api/v1/cvs/"+id+"/review").body(new ATS.dto.CvReviewRequest(HrReviewStatus.SHORTLISTED,"Keep my note",0L)).retrieve().toBodilessEntity();
+        client.put().uri("/api/v1/jobs/"+job.getJobId()+"/scoring-config")
+                .body(Map.of("jaccardWeight",0.5,"cosineWeight",0.5,"educationWeight",0)).retrieve().toBodilessEntity();
+        assertEquals(1,scoring.getScoringStatus(job.getJobId(),owner.getId()).staleCvs());
+        autoScoring.processPending();
+        assertEquals(0.5,scoring.getMatchDetail(id,owner.getId()).getOverallScore());
+        assertEquals(1,scoring.getScoringStatus(job.getJobId(),owner.getId()).currentCvs());
+        var review=client.get().uri("/api/v1/cvs/"+id+"/review").retrieve().body(ATS.dto.CvReviewResponse.class);
+        assertEquals("Keep my note",review.note());assertEquals(HrReviewStatus.SHORTLISTED,review.reviewStatus());
+        autoScoring.processPending();
+        assertEquals(1,scoring.getScoringStatus(job.getJobId(),owner.getId()).currentCvs());
+    }
+
+    @Test void jobImportIsAuthenticatedAndReturnsDraftWithoutCreatingAJob() throws Exception {
+        var expected=new ATS.dto.JobDraftResponse("Java Developer","Original job text",2,"UNIVERSITY",
+                List.of(new ATS.dto.JobDraftResponse.Skill(1L,"Java",true,1.0,"Required Java")),List.of("Review first"),null,null);
+        when(jobImports.analyze(any())).thenReturn(expected);
+        var form=new LinkedMultiValueMap<String,Object>();
+        form.add("file",new ByteArrayResource(validPdf().getBytes()){
+            @Override public String getFilename(){return "job.pdf";}
+        });
+        long count=jobs.findByUserId(owner.getId(),org.springframework.data.domain.Pageable.unpaged()).getTotalElements();
+        var actual=queueClient().post().uri("/api/v1/jobs/import-pdf").body(form).retrieve().body(ATS.dto.JobDraftResponse.class);
+        assertEquals(expected,actual);
+        assertEquals(count,jobs.findByUserId(owner.getId(),org.springframework.data.domain.Pageable.unpaged()).getTotalElements());
+        assertEquals(401,RestClient.create("http://127.0.0.1:"+environment.getProperty("local.server.port"))
+                .post().uri("/api/v1/jobs/import-pdf").body(form).<Integer>exchange((req,res)->res.getStatusCode().value()).intValue());
+        verify(storage,never()).uploadFile(any(),anyString());
     }
 
     @Test

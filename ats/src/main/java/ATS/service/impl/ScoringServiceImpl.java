@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class ScoringServiceImpl implements ScoringService {
     // Phiên bản giúp phân biệt kết quả của công thức hiện tại với điểm cũ.
     // JobServiceImpl đặt algorithmVersion = null khi tiêu chí thay đổi để yêu cầu chấm lại.
-    private static final String VERSION = "weighted-coverage-v2-education-level";
+    private static final String VERSION = ScoringService.ALGORITHM_VERSION;
     // Chỉ chấm khi CV đã có dữ liệu phân tích, đồng thời cho phép chấm lại hồ sơ đã duyệt.
     private static final Set<CVStatus> READY = EnumSet.of(CVStatus.PARSED, CVStatus.SCORED, CVStatus.REVIEWED);
     private final JobRepository jobs;
@@ -54,6 +54,20 @@ public class ScoringServiceImpl implements ScoringService {
         // Kiểm tra quyền sở hữu và khóa JD trong lượt chấm.
         // Các API sửa tiêu chí cũng khóa cùng dòng JD, nên tiêu chí được giữ nhất quán.
         Job job = jobs.findOwnedForUpdate(jobId, userId).orElseThrow(this::notFound);
+        return score(job, false);
+    }
+
+    @Override
+    public RescoreResult scorePending(Long jobId, Long userId) {
+        Job job = jobs.findOwnedForUpdate(jobId, userId).orElseThrow(this::notFound);
+        if (job.getStatus() != ATS.enums.JobStatus.OPEN) {
+            return RescoreResult.builder().jobId(jobId).totalCvs(0).updatedCvs(0).failedCvs(0).message("JD đã đóng").build();
+        }
+        return score(job, true);
+    }
+
+    private RescoreResult score(Job job, boolean onlyPending) {
+        Long jobId=job.getJobId();
         validateJob(job);
         // Khóa các CV theo thứ tự ID để các lượt chấm cùng JD được xử lý tuần tự.
         List<CVs> candidates = cvs.findAllForScoring(jobId);
@@ -63,6 +77,8 @@ public class ScoringServiceImpl implements ScoringService {
                 // CV đang chờ, đang phân tích hoặc phân tích lỗi được tính là bỏ qua.
                 continue;
             }
+            // Chấm tự động chỉ xử lý CV mới hoặc điểm đã cũ; không ghi lại CV còn điểm hợp lệ.
+            if (onlyPending && current(cv.getMatchResult())) continue;
             MatchDetailResponse detail = calculate(job, cv);
             MatchResult result = cv.getMatchResult();
             // Tái sử dụng bản ghi cũ khi chấm lại. Quan hệ cv_id là duy nhất trong DB.

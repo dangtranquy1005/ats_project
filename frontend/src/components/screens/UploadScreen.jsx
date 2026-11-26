@@ -5,10 +5,11 @@ import { CV_STATES, cvStage, isProcessing, validateFiles } from '../../services/
 import { useCvQueue } from '../../hooks/useCvQueue';
 import CvExtractionModal from '../modals/CvExtractionModal';
 import ReviewBadge from '../ReviewBadge';
+import JobSelector from '../JobSelector';
 
 export default function UploadScreen() {
   const { activeJob, activeJobId, updateJobCvCount, openModal, showToast, switchTab, openScoreReport } = useApp();
-  const queue = useCvQueue(activeJobId, updateJobCvCount);
+  const queue = useCvQueue(activeJobId, updateJobCvCount, activeJob?.status === 'OPEN' && Boolean(activeJob?.requiredSkills.length));
   const fileInput = useRef(null);
   const uploadingRef = useRef(false);
   const operations = useRef(new Set());
@@ -97,8 +98,9 @@ export default function UploadScreen() {
     }
   };
 
-  if (!activeJob) return <div className="bg-white border rounded-xl p-8 text-sm">Hãy chọn hoặc tạo JD trước khi tải CV. <button onClick={() => switchTab('screen-jd')} className="text-blue-600 underline">Quản lý JD</button></div>;
+  if (!activeJob) return <div id="screen-upload" className="h-full overflow-auto"><JobSelector context="upload"/></div>;
   return <div id="screen-upload" className="h-full overflow-auto flex flex-col gap-4">
+    <JobSelector context="upload" disabled={uploading}/>
     <div className="bg-white border rounded-xl p-5 space-y-3 shrink-0">
       <div className="flex items-center justify-between gap-3"><div><h1 className="font-bold text-lg">Tải lên &amp; Xử lý CV</h1><p className="text-sm text-slate-500">{activeJob.title} · Tải hồ sơ và theo dõi quá trình đọc thông tin</p></div><button className={button} disabled={queue.loading} onClick={queue.refresh}>Tải lại danh sách</button></div>
       {activeJob.status !== 'OPEN' && <p role="alert" className="bg-amber-50 text-amber-800 p-3 rounded-lg text-sm">JD đã đóng. Hãy mở JD để nhận thêm CV; vẫn có thể xem hoặc thử lại hồ sơ cũ.</p>}
@@ -113,7 +115,7 @@ export default function UploadScreen() {
     </div>
     <div className="bg-white border rounded-xl p-5 space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="font-bold">Tiến trình xử lý hồ sơ</h2><button className={button} onClick={() => switchTab('screen-ranking')}>Chấm điểm &amp; Xếp hạng</button><p className="text-xs text-slate-500">{completed}/{total} đã phân tích · {counts.PENDING || 0} chờ · {counts.PARSING || 0} đang xử lý · {counts.PARSED_FAILED || 0} lỗi</p></div>
-      <div className="flex flex-wrap justify-between gap-3"><label className="text-sm">Trạng thái <select aria-label="Lọc trạng thái CV" value={queue.status} onChange={e => queue.filter(e.target.value)} className="border rounded-lg px-3 py-2"><option value="">Tất cả</option>{Object.entries(CV_STATES).map(([key,label]) => <option key={key} value={key}>{label}</option>)}</select></label><p className="text-xs text-slate-500 self-center">Tự cập nhật mỗi 3 giây khi còn hồ sơ chờ hoặc đang xử lý.</p></div>
+      <div className="flex flex-wrap justify-between gap-3"><label className="text-sm">Trạng thái <select aria-label="Lọc trạng thái CV" value={queue.status} onChange={e => queue.filter(e.target.value)} className="border rounded-lg px-3 py-2"><option value="">Tất cả</option>{Object.entries(CV_STATES).map(([key,label]) => <option key={key} value={key}>{label}</option>)}</select></label><p className="text-xs text-slate-500 self-center">Tự cập nhật khi hồ sơ đang được đọc hoặc chờ chấm điểm.</p></div>
       {queue.error && <p role="alert" className="text-sm text-rose-700 bg-rose-50 p-3 rounded-lg">{queue.error} Dữ liệu đang hiển thị có thể chưa mới nhất. <button className="underline" onClick={queue.refresh}>Thử lại</button></p>}
       {queue.loading && <p role="status" className="text-sm text-slate-500">Đang tải danh sách CV…</p>}
       {!queue.loading && !queue.error && !queue.items.length && <p className="p-8 text-center text-sm text-slate-500">Chưa có CV phù hợp với bộ lọc.</p>}

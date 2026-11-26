@@ -14,6 +14,14 @@ import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
+    interface ScoringTarget { Long getJobId(); Long getUserId(); }
+
+    @Query("SELECT DISTINCT j.jobId AS jobId, j.user.id AS userId FROM CVs c JOIN c.job j "
+            + "LEFT JOIN c.matchResult m WHERE j.jobId > :afterJobId AND j.status = ATS.enums.JobStatus.OPEN AND j.requiredSkills IS NOT EMPTY "
+            + "AND c.status IN (ATS.enums.CVStatus.PARSED, ATS.enums.CVStatus.SCORED, ATS.enums.CVStatus.REVIEWED) "
+            + "AND (c.matchResult IS NULL OR m.algorithmVersion IS NULL OR m.algorithmVersion <> :version "
+            + "OR m.detailsJson IS NULL OR TRIM(m.detailsJson) = '') ORDER BY j.jobId")
+    java.util.List<ScoringTarget> findJobsNeedingScoring(@Param("version") String version, @Param("afterJobId") Long afterJobId, Pageable pageable);
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT j FROM Job j WHERE j.jobId = :jobId AND j.user.id = :userId")
     Optional<Job> findOwnedForUpdate(@Param("jobId") Long jobId, @Param("userId") Long userId);

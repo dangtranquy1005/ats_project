@@ -85,3 +85,37 @@ NLP giữ bằng cấp chuẩn và nguồn gốc; quy tắc nhận dạng hỗ t
 Phiên bản điểm mới `weighted-coverage-v2-education-level` buộc chấm lại kết quả cũ.
 Ghi chú và quyết định HR vẫn được giữ khi chấm lại. Những bằng bị NLP bỏ sót ở lần phân tích cũ
 cần phân tích/upload lại để nhận được quy tắc NLP mới; chỉ chấm lại không chạy lại NLP.
+
+## Tạo JD từ PDF
+
+Trong màn Tiêu chí tuyển dụng, chọn **Tạo JD từ PDF** → chọn một PDF có văn bản,
+tối đa 10 MB → **Phân tích PDF**. Form tạo JD hiện tại sẽ điền sẵn tên, mô tả,
+kinh nghiệm, học vấn và các kỹ năng có ID thật trong từ điển. Người dùng sửa rồi bấm Lưu vị trí.
+
+`POST /api/v1/jobs/import-pdf` nhận multipart `file`, cần JWT, trả `JobDraftResponse`.
+Đây là API tạo bản nháp: không ghi database, không lưu PDF vào MinIO, không thêm kỹ năng vào từ điển.
+Spring Boot đọc PDF rồi gọi `/nlp/extract-job` của Python, gửi snapshot từ điển PostgreSQL.
+Mô tả giữ nội dung PDF để người dùng chỉnh; không tự đoán một mô tả mới.
+Kỹ năng có mức ưu tiên mặc định 1; bắt buộc chỉ đánh dấu khi có chỉ dẫn rõ ràng.
+Yêu cầu hoặc/or, thiếu dữ liệu, nhiều số năm/học vấn được báo để người dùng xác nhận.
+Chưa hỗ trợ nhóm kỹ năng thay thế, OCR ảnh scan hoặc tài liệu Word trong luồng này.
+Tệp rỗng/hỏng/mật khẩu, quá 10 MB, không đọc được chữ và lỗi NLP đều không tạo JD.
+
+Demo bằng `output/pdf/ats-demo-detailed/jd/JD01.pdf`, `JD02.pdf`, `JD03.pdf`.
+Sau khi phân tích, kiểm tra và chỉnh số năm, học vấn, các ô bắt buộc/mức ưu tiên;
+bấm Hủy phải không có JD mới. Bấm Lưu mới tạo JD để tải CV và chấm điểm như luồng hiện có.
+
+## Tự động chấm điểm CV
+
+Mặc định bật `ats.scoring.auto.enabled=true`. Worker kiểm tra PostgreSQL mỗi 3 giây
+(`ats.scoring.auto.poll-ms=3000`) và chấm các CV PARSED/SCORED/REVIEWED chưa có điểm hoặc có điểm cũ.
+NLP lưu kết quả và commit trước, sau đó worker chấm trong transaction riêng; lỗi chấm không làm CV thành PARSED_FAILED.
+Sửa JD, kỹ năng, học vấn hoặc ba trọng số vẫn vô hiệu hóa điểm cũ, nhưng worker tự tính lại, không cần bấm nút.
+Chỉ xử lý JD OPEN đã có kỹ năng. Khi restart, các CV cần chấm vẫn được đọc lại từ DB.
+Worker khóa JD rồi CV giống luồng chấm thủ công; chỉ cập nhật điểm thiếu/cũ và giữ ghi chú, đánh giá HR.
+Các JD được duyệt luân phiên để một JD bị lỗi không chặn toàn bộ hàng đợi; lỗi được thử lại ở lượt sau.
+Xếp hạng tự đọc lại mỗi 5 giây khi tab đang mở; hàng đợi CV tiếp tục cập nhật đến khi đã có điểm.
+Nút **Chấm lại ngay** chỉ là thao tác bổ sung để yêu cầu tính lại, không còn là bước bắt buộc.
+
+Kiểm tra: upload CV rồi chờ SCORED, xem ranking mà không gọi rescore; sửa trọng số và đợi điểm tự đổi.
+PDF/NLP lỗi không được chấm; JD chưa có kỹ năng cần bổ sung kỹ năng trước. Ghi chú HR phải giữ nguyên sau khi điểm đổi.

@@ -208,6 +208,19 @@ class ScoringServiceImplTests {
         assertEquals(1, cv.getMatchResult().getJaccardScore());
     }
 
+    @Test void automaticScoringSkipsCurrentScoresAndRecalculatesStaleOnes() {
+        available(1L,2L,3L);
+        assertEquals(1,service.scorePending(1L,2L).getUpdatedCvs());
+        var calculatedAt=cv.getMatchResult().getCalculatedAt();
+        assertEquals(0,service.scorePending(1L,2L).getUpdatedCvs());
+        assertEquals(calculatedAt,cv.getMatchResult().getCalculatedAt());
+        cv.getMatchResult().setAlgorithmVersion(null);
+        assertEquals(1,service.scorePending(1L,2L).getUpdatedCvs());
+        job.setStatus(ATS.enums.JobStatus.CLOSED);
+        cv.getMatchResult().setAlgorithmVersion(null);
+        assertEquals(0,service.scorePending(1L,2L).getUpdatedCvs());
+    }
+
     @Test void educationUsesBilingualMinimumLevelAndIgnoresSchoolAndMajorNames() {
         available(1L,2L,3L); job.setEducationRequirements("Đại học");
         CVEducation education=new CVEducation();cv.getEducations().add(education);
