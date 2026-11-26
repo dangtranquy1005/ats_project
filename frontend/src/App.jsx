@@ -18,14 +18,12 @@ import ErrorsScreen from './components/screens/ErrorsScreen';
 import ModalWeights from './components/modals/ModalWeights';
 import ModalCreateJd from './components/modals/ModalCreateJd';
 import ModalSkillPick from './components/modals/ModalSkillPick';
-import ModalSkillForm from './components/modals/ModalSkillForm';
-import ModalAlias from './components/modals/ModalAlias';
-import ModalCvDetail from './components/modals/ModalCvDetail';
 import ModalConfirm from './components/modals/ModalConfirm';
 
 export default function App() {
-  const { activeScreen } = useApp();
-  const isAuth = activeScreen === 'screen-auth';
+  const { activeScreen, isAuthenticated, authLoading, activeJobId, scoreReport, scoreRevision } = useApp();
+  const isAuth = !isAuthenticated || activeScreen === 'screen-auth';
+  if (authLoading) return <div className="h-screen flex items-center justify-center text-slate-600">Đang xác thực phiên đăng nhập…</div>;
 
   return (
     <div className="flex flex-col h-screen overflow-hidden select-none bg-[#F8FAFC]">
@@ -48,9 +46,10 @@ export default function App() {
               {/* Workspace Main View */}
               <main className="flex-1 min-w-0 overflow-hidden p-3.5 flex flex-col">
                 {activeScreen === 'screen-jd' && <JdScreen />}
-                {activeScreen === 'screen-upload' && <UploadScreen />}
-                {activeScreen === 'screen-ranking' && <RankingScreen />}
-                {activeScreen === 'screen-report' && <ReportScreen />}
+
+                {activeScreen === 'screen-upload' && <UploadScreen key={activeJobId ?? 'no-job'} />}
+                {activeScreen === 'screen-ranking' && <RankingScreen key={activeJobId ?? 'no-job'} />}
+                {activeScreen === 'screen-report' && <ReportScreen key={`${activeJobId}:${scoreReport?.cvId}`} />}
                 {activeScreen === 'screen-skills' && <SkillsScreen />}
                 {activeScreen === 'screen-account' && <AccountScreen />}
                 {activeScreen === 'screen-errors' && <ErrorsScreen />}
@@ -61,13 +60,12 @@ export default function App() {
       </div>
 
       {/* 3. Global Modals */}
+      {isAuthenticated && <>
       <ModalWeights />
       <ModalCreateJd />
       <ModalSkillPick />
-      <ModalSkillForm />
-      <ModalAlias />
-      <ModalCvDetail />
       <ModalConfirm />
+      </>}
 
       {/* 4. Global Toast System */}
       <ToastContainer />

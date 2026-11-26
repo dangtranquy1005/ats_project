@@ -71,4 +71,11 @@ class SkillManagementServiceTests {
                 () -> service.delete(1L)).getStatusCode());
         verify(skills, never()).delete(any());
     }
+
+    @Test void aliasCountStaysWithinNlpRequestLimit() {
+        for (int i=0;i<64;i++) react.getAliases().add(new SkillAlias());
+        assertEquals(HttpStatus.BAD_REQUEST, assertThrows(ResponseStatusException.class,
+                () -> service.addAlias(1L, "another variant")).getStatusCode());
+        verify(aliases, never()).save(any());
+    }
 }

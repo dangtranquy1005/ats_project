@@ -1,0 +1,12 @@
+{
+  "title": "Demo React Frontend",
+  "description": "Phát triển giao diện bằng React, TypeScript, Next.js và Docker.",
+  "minExperienceYears": 1,
+  "educationRequirements": "",
+  "requiredSkillIds": [
+    12,
+    3,
+    17,
+    43
+  ]
+}

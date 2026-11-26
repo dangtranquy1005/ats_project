@@ -1,0 +1,71 @@
+TEST UNHAPPY CASE TRÊN SWAGGER
+
+NLP SERVICE
+Mở http://127.0.0.1:8000/docs, chọn POST /nlp/extract, Try it out.
+Dán từng file JSON số 01 tới 10, rồi Execute.
+Đối chiếu với cases.json và results.json.
+
+01 text rỗng                      HTTP 422
+02 languageHint vi-VN             HTTP 422
+03 text null                      HTTP 422
+04 skill thiếu id/key             HTTP 422
+05 cùng alias cho hai skill       HTTP 422
+06 trùng skill id                 HTTP 422
+07 từ điển rỗng                   HTTP 200, skills=[]
+08 không nhận diện được skill     HTTP 200, skills=[]
+09 languageHint vietnamese        HTTP 422
+10 thiếu text/rawText             HTTP 422
+
+HTTP 422 phải có detail giải thích dữ liệu sai. Đây là lỗi đầu vào.
+HTTP 200 với skills=[] là kết quả phân tích hợp lệ nhưng chưa nhận diện được kỹ năng.
+Không nên tự chuyển trường hợp này thành lỗi kết nối NLP.
+Hai file cases.json và results.json là dữ liệu đối chiếu, không gửi làm body.
+
+SPRING BOOT
+Mở http://127.0.0.1:8081/swagger-ui/index.html và dùng một JD demo do tài khoản hiện tại sở hữu.
+Các ca bên dưới là kịch bản kỳ vọng, chưa được chạy trong lần thử này vì cần JWT của bạn.
+
+1. PUT /api/v1/jobs/{jobId}/scoring-config
+   Body spring-01-invalid-weights.json.
+   Kỳ vọng HTTP 400 vì tổng trọng số bằng 1.5.
+
+2. PUT /api/v1/jobs/{jobId}/skills
+   Body spring-02-negative-skill-weight.json.
+   Kỳ vọng HTTP 400 vì trọng số âm.
+
+3. PUT /api/v1/jobs/{jobId}/skills
+   Body spring-03-duplicate-skills.json.
+   Kỳ vọng HTTP 400 vì trùng skillId.
+   Hai JSON skill dùng ID Java đọc từ DB khi tạo bộ demo, kiểm tra lại nếu đổi database.
+
+4. GET /api/v1/jobs/{jobId}/ranking?minScore=80&maxScore=100
+   Kỳ vọng HTTP 400. Thang điểm API là 0..1.
+
+5. GET /api/v1/jobs/{jobId}/ranking?minScore=0.9&maxScore=0.2
+   Kỳ vọng HTTP 400 vì minScore lớn hơn maxScore.
+
+6. Bỏ Authorize rồi gọi API ranking của JD.
+   Kỳ vọng HTTP 401.
+
+7. Dùng JWT của HR khác để gọi rescore/ranking JD.
+   Kỳ vọng HTTP 404 theo quy tắc sở hữu dữ liệu hiện tại.
+
+8. Upload một file .txt hoặc .docx qua POST /api/v1/cvs/upload.
+   Kỳ vọng HTTP 202 với success=false cho file đó trong body.
+   Nếu upload cùng PDF hợp lệ, PDF vẫn phải được tiếp nhận.
+
+9. Upload demo-cv-05-scan-only.pdf từ bộ demo trước.
+   Kỳ vọng ban đầu HTTP 202, sau đó PARSED_FAILED và có errorMessage.
+   Gọi retry với cùng file scan vẫn tiếp tục lỗi khi chưa có OCR.
+
+10. Thử mất kết nối NLP
+    Trong folder nlpservice chạy docker compose stop.
+    Upload PDF có text và theo dõi status.
+    Kỳ vọng sau tối đa ba lần gọi, CV về PARSED_FAILED với lý do kết nối/timeout.
+    Chạy docker compose up -d, sau đó POST /api/v1/cvs/{cvId}/retry.
+    Kỳ vọng dùng lại rawText và chuyển sang PARSED nếu NLP phục hồi.
+
+KẾT QUẢ ĐÃ CHẠY
+10 request NLP đều khớp mã HTTP kỳ vọng trên container đang chạy.
+Hai ca HTTP 200 đều có skills rỗng.
+Các kết quả chi tiết được lưu trong results.json.

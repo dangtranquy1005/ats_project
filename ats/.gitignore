@@ -1,5 +1,6 @@
 
 # Maven
+.env.demo
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -34,6 +35,7 @@ gradlew.bat
 # Environment & Secrets
 .env
 .env.local
+.env.docker
 .env.*.local
 *.key
 *.pem

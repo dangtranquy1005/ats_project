@@ -1,0 +1,33 @@
+{
+  "title": "Frontend Engineer React TypeScript",
+  "description": "Build responsive dashboards with React and TypeScript. Develop pages using Next.js and Tailwind CSS. Collaborate through Git, implement accessible components, form validation, loading states and clear error feedback. Work with designers and backend developers to deliver tested customer interfaces.",
+  "minExperienceYears": 1,
+  "educationRequirements": "",
+  "requiredSkills": [
+    {
+      "skillId": 12,
+      "mandatory": true,
+      "weight": 3
+    },
+    {
+      "skillId": 3,
+      "mandatory": true,
+      "weight": 3
+    },
+    {
+      "skillId": 17,
+      "mandatory": false,
+      "weight": 2
+    },
+    {
+      "skillId": 18,
+      "mandatory": false,
+      "weight": 1
+    },
+    {
+      "skillId": 42,
+      "mandatory": false,
+      "weight": 1
+    }
+  ]
+}

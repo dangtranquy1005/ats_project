@@ -1,0 +1,28 @@
+Họ tên: Đỗ Ngọc Mai
+Email: candidate07@ats-demo.example.invalid
+Điện thoại: 0900 000 007
+Frontend Developer
+
+GIỚI THIỆU
+Lập trình viên giao diện có kinh nghiệm xây dựng website giới thiệu dịch vụ và trang quản trị quy mô nhỏ. Mong muốn làm việc cùng nhóm thiết kế và cải thiện trải nghiệm người dùng.
+
+KỸ NĂNG
+ReactJS, JavaScript, HTML5, CSS3, Git
+
+KINH NGHIỆM LÀM VIỆC
+Frontend Developer | Công ty Thiết kế Cánh Buồm Demo | 01/2024 - 01/2026
+Xây dựng giao diện ReactJS và JavaScript cho trang quản trị danh mục, bài viết và thông tin liên hệ.
+Viết HTML5, CSS3 đáp ứng màn hình điện thoại; kiểm tra biểu mẫu và trình bày thông báo lỗi dễ hiểu.
+Quản lý thay đổi qua Git; sửa lỗi bố cục và phối hợp nghiệm thu với nhóm nội dung.
+Hoàn thiện 16 màn hình giả lập, gồm trạng thái có dữ liệu, rỗng và không tải được dữ liệu.
+
+HỌC VẤN
+Cao đẳng Công nghệ Hải An Demo
+Cao đẳng
+Chuyên ngành: Thiết kế và phát triển website
+Tốt nghiệp: 2023
+
+DỰ ÁN
+ContentDesk Demo: trang quản trị danh mục, bài viết và hình ảnh, có tìm kiếm và phân trang.
+ServiceSite Demo: trang giới thiệu dịch vụ, biểu mẫu liên hệ và bố cục thích ứng điện thoại.
+

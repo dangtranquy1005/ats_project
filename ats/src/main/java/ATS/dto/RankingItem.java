@@ -17,6 +17,7 @@ public class RankingItem {
     private String email;
     private Integer rank;  // Set by service layer after pagination
     private Boolean passedHardFilter;
+    private ATS.enums.HrReviewStatus reviewStatus;
 
     public Double getSkillScore() {
         return jaccardScore;

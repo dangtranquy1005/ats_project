@@ -25,17 +25,20 @@ public class SkillController {
     }
 
     @PostMapping("/skills")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public SkillResponse create(@RequestBody SkillRequest request) {
         return skills.create(request);
     }
 
     @PutMapping("/skills/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     public SkillResponse update(@PathVariable Long id, @RequestBody SkillRequest request) {
         return skills.update(id, request);
     }
 
     @DeleteMapping("/skills/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         skills.delete(id);
@@ -47,16 +50,36 @@ public class SkillController {
     }
 
     @PostMapping("/skills/{id}/aliases")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public AliasResponse alias(@PathVariable Long id, @RequestBody AliasRequest request) {
         return skills.addAlias(id, request.aliasText());
     }
 
     @DeleteMapping("/skills/{id}/aliases/{aliasId}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAlias(@PathVariable Long id, @PathVariable Long aliasId) {
         skills.deleteAlias(id, aliasId);
     }
+
+    @PostMapping("/skill-categories")
+    @ResponseStatus(HttpStatus.CREATED)
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
+    public CategoryResponse createCategory(@RequestBody CategoryRequest request) {
+        return skills.saveCategory(null, request);
+    }
+
+    @PutMapping("/skill-categories/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
+    public CategoryResponse updateCategory(@PathVariable Long id, @RequestBody CategoryRequest request) {
+        return skills.saveCategory(id, request);
+    }
+
+    @DeleteMapping("/skill-categories/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteCategory(@PathVariable Long id) { skills.deleteCategory(id); }
 
     public record AliasRequest(String aliasText) {}
 }

@@ -1,0 +1,11 @@
+{
+  "cvId": 1,
+  "rawText": "Name: Jane Demo\nSkills: MadeUpTechnology",
+  "skillDictionary": [
+    {
+      "id": 1,
+      "canonical": "Java",
+      "aliases": []
+    }
+  ]
+}

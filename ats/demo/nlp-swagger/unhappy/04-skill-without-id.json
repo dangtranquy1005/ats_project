@@ -1,0 +1,10 @@
+{
+  "cvId": 1,
+  "rawText": "Skills: Java",
+  "skillDictionary": [
+    {
+      "canonical": "Java",
+      "aliases": []
+    }
+  ]
+}

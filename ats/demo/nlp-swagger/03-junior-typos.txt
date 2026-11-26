@@ -1,0 +1,16 @@
+Họ tên: Trần Gia Bình
+Email: binh.demo@example.com
+Điện thoại: 0903 456 789
+
+KY NANG
+Java, Docker, SpringBott, PostgreSQlX, lam viec nhom
+
+KINH NGHIEM LAM VIEC
+Backend Intern | Công ty Demo XYZ | 06/2025 - 11/2025
+Xây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.
+
+HOC VAN
+Đại học Demo
+Cử nhân
+Chuyên ngành: Công nghệ thông tin
+Tốt nghiệp: 2025

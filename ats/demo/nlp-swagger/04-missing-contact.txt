@@ -1,0 +1,12 @@
+KỸ NĂNG
+Java, SpringBoot, Postgres
+
+KINH NGHIỆM LÀM VIỆC
+Backend Developer | 01/2020 - 12/2024
+Phát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.
+
+HỌC VẤN
+Đại học Demo
+Kỹ sư
+Chuyên ngành: Công nghệ thông tin
+Tốt nghiệp: 2019

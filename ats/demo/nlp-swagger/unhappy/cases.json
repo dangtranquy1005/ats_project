@@ -1,0 +1,52 @@
+[
+  {
+    "file": "01-empty-text.json",
+    "expectedHttpStatus": 422,
+    "description": "Text chỉ có khoảng trắng"
+  },
+  {
+    "file": "02-invalid-language.json",
+    "expectedHttpStatus": 422,
+    "description": "languageHint phải là auto, vi hoặc en"
+  },
+  {
+    "file": "03-null-text.json",
+    "expectedHttpStatus": 422,
+    "description": "Text null"
+  },
+  {
+    "file": "04-skill-without-id.json",
+    "expectedHttpStatus": 422,
+    "description": "Skill thiếu cả id và key"
+  },
+  {
+    "file": "05-conflicting-alias.json",
+    "expectedHttpStatus": 422,
+    "description": "Một alias thuộc hai kỹ năng"
+  },
+  {
+    "file": "06-duplicate-id.json",
+    "expectedHttpStatus": 422,
+    "description": "Hai kỹ năng cùng id"
+  },
+  {
+    "file": "07-explicit-empty-dictionary.json",
+    "expectedHttpStatus": 200,
+    "description": "Từ điển rỗng, skills phải rỗng"
+  },
+  {
+    "file": "08-no-recognized-skills.json",
+    "expectedHttpStatus": 200,
+    "description": "Text hợp lệ nhưng không nhận diện được skill, skills rỗng"
+  },
+  {
+    "file": "09-invalid-language-value.json",
+    "expectedHttpStatus": 422,
+    "description": "Tên ngôn ngữ sai"
+  },
+  {
+    "file": "10-missing-text.json",
+    "expectedHttpStatus": 422,
+    "description": "Thiếu trường text/rawText"
+  }
+]

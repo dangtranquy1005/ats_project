@@ -8,6 +8,21 @@ from app.main import ROOT, create_app
 from app.schemas import DictionarySkill
 from app.skills import match_skills, unknown_skills
 
+@pytest.mark.parametrize('degree,expected',[
+    ('Cử nhân','Bachelor'),('Cu nhan','Bachelor'),('Kỹ sư','Engineer'),('Ky su','Engineer'),
+    ('Bachelor of Science','Bachelor'),('B.Sc.','Bachelor'),('B.Eng.','Bachelor'),
+    ('Cao đẳng','Associate'),('Cao dang','Associate'),('Associate Degree','Associate'),
+    ('Thạc sĩ','Master'),('Thac si','Master'),('MSc','Master'),('MBA','Master'),
+    ('Tiến sĩ','Doctorate'),('Tien si','Doctorate'),('Ph.D.','Doctorate'),
+])
+def test_bilingual_degrees(degree,expected):
+    from app.extraction import extract_educations
+    assert extract_educations(f'Example University\n{degree}\nGraduated: 2021')[0].degree == expected
+
+def test_university_name_is_not_evidence_of_a_degree():
+    from app.extraction import extract_educations
+    assert extract_educations('Example University\nMajor: Computer Science')[0].degree is None
+
 
 @pytest.fixture
 def client():

@@ -1,0 +1,28 @@
+Ho ten: Pham Gia Huy
+Email: candidate05@ats-demo.example.invalid
+Dien thoai: 0900 000 005
+Backend Developer
+
+GIOI THIEU
+Lap trinh vien backend co kinh nghiem xay dung dich vu quan ly ban hang. Uu tien ma nguon de doc, xu ly loi ro rang va ban giao co tai lieu.
+
+KY NANG
+JAVA, springboot, postgres, DOCKER, Redis, Git
+
+KINH NGHIEM LAM VIEC
+Backend Developer | Cong ty Giai phap Dong Xanh Demo | 01/2021 - 01/2026
+Phat trien RESTful API bang JAVA va springboot cho quy trinh tao don, thanh toan va doi soat.
+Thiet ke bang postgres, su dung DOCKER de dong goi dich vu va Redis de luu dem ket qua tra cuu.
+Ra soat ma nguon qua Git, phoi hop kiem thu truong hop thieu du lieu va gui yeu cau lap lai.
+Ket qua du an gia lap: xu ly on dinh 300 yeu cau dong thoi trong kich ban tai noi bo.
+
+HOC VAN
+Dai hoc Ky thuat Dong Ha Demo
+Cu nhan
+Chuyen nganh: Cong nghe thong tin
+Tot nghiep: 2020
+
+DU AN
+SalesService Demo: phu trach luong tao don, kiem tra so luong va luu vet thay doi.
+Viet huong dan khoi dong dich vu, du lieu mau va cac buoc kiem tra sau khi cap nhat.
+

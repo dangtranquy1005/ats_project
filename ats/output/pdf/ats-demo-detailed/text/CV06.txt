@@ -1,0 +1,31 @@
+Name: Emily Carter
+Email: candidate06@ats-demo.example.invalid
+Phone: 0900 000 006
+Frontend Engineer
+
+SUMMARY
+Frontend engineer building accessible dashboards and customer portals. Experienced in turning product requirements into reusable interfaces with clear loading and error states.
+
+SKILLS
+React.js, TypeScript, NextJS, TailwindCSS, Git, JavaScript, HTML5, CSS3, Playwright
+
+WORK EXPERIENCE
+Frontend Engineer | Northstar Product Studio Demo | 01/2023 - 01/2026
+Built customer dashboards using React.js, TypeScript and NextJS with reusable components and typed data models.
+Implemented responsive layouts with TailwindCSS and reviewed changes through Git.
+Added Playwright checks for sign-in, form validation and table filtering; improved keyboard navigation.
+Synthetic project outcome: reduced the dashboard first-load bundle by 28 percent through route splitting.
+Frontend Developer | Harbor Digital Demo | 01/2021 - 01/2023
+Maintained React interfaces, HTML and CSS; worked with designers to document component states.
+Delivered form validation, paginated tables and clear feedback when requests failed.
+
+EDUCATION
+Maple Technology University Demo
+Bachelor of Computer Science
+Major: Computer Science
+Graduated: 2020
+
+PROJECTS
+InsightBoard Demo: an analytics interface with date filters, accessible dialogs and downloadable reports.
+PortalKit Demo: a component library for buttons, form fields, empty states and loading skeletons.
+

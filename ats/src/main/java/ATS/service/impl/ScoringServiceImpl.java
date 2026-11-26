@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class ScoringServiceImpl implements ScoringService {
     // Phiên bản giúp phân biệt kết quả của công thức hiện tại với điểm cũ.
     // JobServiceImpl đặt algorithmVersion = null khi tiêu chí thay đổi để yêu cầu chấm lại.
-    private static final String VERSION = "weighted-coverage-v1";
+    private static final String VERSION = "weighted-coverage-v2-education-level";
     // Chỉ chấm khi CV đã có dữ liệu phân tích, đồng thời cho phép chấm lại hồ sơ đã duyệt.
     private static final Set<CVStatus> READY = EnumSet.of(CVStatus.PARSED, CVStatus.SCORED, CVStatus.REVIEWED);
     private final JobRepository jobs;
@@ -198,6 +198,12 @@ public class ScoringServiceImpl implements ScoringService {
                 .matchedSkills(matched).missingSkills(missing).missingMandatorySkills(mandatory)
                 .hardFilterReasons(reasons).matchedSkillCount(matched.size())
                 .totalRequiredSkills(job.getRequiredSkills().size()).calculatedAt(LocalDateTime.now())
+                .weights(new MatchDetailResponse.Weights(job.getW1(), job.getW2(), job.getW3()))
+                .skillBreakdown(job.getRequiredSkills().stream().map(r -> new MatchDetailResponse.SkillBreakdown(
+                        r.getSkill().getSkillId(), r.getSkill().getCanonicalName(), r.isMandatory(), weight(r),
+                        available.contains(r.getSkill().getSkillId()))).toList())
+                .experienceYears(experienceYears).requiredExperienceYears(job.getMinExperienceYears())
+                .educationRequirements(job.getEducationRequirements())
                 .algorithmVersion(VERSION).build();
     }
 
@@ -248,13 +254,23 @@ public class ScoringServiceImpl implements ScoringService {
     }
 
     private double educationMatch(Job job, CVs cv) {
+        var requiredLevel = ATS.enums.EducationLevel.parse(job.getEducationRequirements());
+        if (requiredLevel.isPresent()) {
+            if (requiredLevel.get() == ATS.enums.EducationLevel.NONE) return 1;
+            // Chỉ xét bằng cấp, không suy ra cấp học từ tên trường hay chuyên ngành.
+            // Bằng đang học/dự kiến tốt nghiệp chưa được coi là đã đạt trình độ đó.
+            return cv.getEducations().stream()
+                    .filter(e -> !ATS.enums.EducationLevel.unfinished(e.getDegree())
+                            && !ATS.enums.EducationLevel.unfinished(e.getSourceText()))
+                    .map(e -> ATS.enums.EducationLevel.parse(e.getDegree()).orElse(ATS.enums.EducationLevel.NONE))
+                    .anyMatch(level -> level.meets(requiredLevel.get())) ? 1 : 0;
+        }
         String requirement = normalized(job.getEducationRequirements());
         if (requirement.isBlank()) {
             // JD không yêu cầu học vấn thì xem tiêu chí này là đáp ứng.
             return 1;
         }
-        // Quy tắc hiện tại là điểm nhị phân 0 hoặc 1 theo chuỗi bằng cấp + chuyên ngành.
-        // Chưa suy luận bậc học tương đương hoặc dịch tên bằng giữa các ngôn ngữ.
+        // Tương thích JD cũ có yêu cầu văn bản/chuyên ngành chưa thuộc danh mục cấp học.
         for (CVEducation education : cv.getEducations()) {
             String text = normalized(Objects.toString(education.getDegree(), "") + " "
                     + Objects.toString(education.getFieldOfStudy(), ""));
@@ -279,7 +295,7 @@ public class ScoringServiceImpl implements ScoringService {
     public MatchDetailResponse getMatchDetail(Long cvId, Long userId) {
         // Truy vấn kiểm tra CV thuộc người dùng. Kết quả cũ hoặc bị vô hiệu hóa cần chấm lại.
         MatchResult result = results.findDetail(cvId, userId).orElseThrow(this::notFound);
-        if (result.getDetailsJson() == null || !VERSION.equals(result.getAlgorithmVersion())) {
+        if (!current(result)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Kết quả cũ cần được chấm lại");
         }
         return json.readValue(result.getDetailsJson(), MatchDetailResponse.class);
@@ -297,6 +313,13 @@ public class ScoringServiceImpl implements ScoringService {
         // Kiểm tra quyền trước khi đọc điểm của JD.
         jobs.findByJobIdAndUserId(jobId, userId).orElseThrow(this::notFound);
         RankingFilter options = filter == null ? new RankingFilter() : filter;
+        if (options.getQuery() != null && options.getQuery().length() > 255) {
+            throw badRequest("Từ khóa tìm kiếm tối đa 255 ký tự");
+        }
+        if (pageable.isPaged() && pageable.getPageSize() > 100) {
+            throw badRequest("Mỗi trang tối đa 100 CV");
+        }
+        String query = normalized(options.getQuery());
         validateRange(options.getMinScore());
         validateRange(options.getMaxScore());
         if (options.getMinScore() != null && options.getMaxScore() != null
@@ -328,7 +351,11 @@ public class ScoringServiceImpl implements ScoringService {
         // Lọc kết quả đúng phiên bản và CV có trạng thái hợp lệ.
         // Bộ lọc minScore/maxScore luôn áp dụng trên điểm tổng, dù đang sắp theo điểm thành phần.
         List<MatchResult> ranked = results.findAllByJob(jobId).stream()
-                .filter(item -> VERSION.equals(item.getAlgorithmVersion()) && READY.contains(item.getCv().getStatus()))
+                .filter(this::current)
+                .filter(item -> options.getReviewStatus() == null || item.getCv().getHrReviewStatus() == options.getReviewStatus())
+                .filter(item -> options.getPassedHardFilter() == null || item.isPassedHardFilter() == options.getPassedHardFilter())
+                .filter(item -> query.isEmpty() || normalized(Objects.toString(item.getCv().getCandidateName(), "") + " "
+                        + Objects.toString(item.getCv().getEmail(), "") + " " + item.getCv().getCvId()).contains(query))
                 .filter(item -> options.getMinScore() == null || item.getOverallScore() >= options.getMinScore())
                 .filter(item -> options.getMaxScore() == null || item.getOverallScore() <= options.getMaxScore())
                 .sorted(ordering).toList();
@@ -345,11 +372,39 @@ public class ScoringServiceImpl implements ScoringService {
             RankingItem item = new RankingItem(cv.getCvId(), jobId, result.getOverallScore(), result.getJaccardScore(),
                     result.getCosineScore(), result.getEducationScore(), cv.getCandidateName(), cv.getEmail(), index + 1);
             item.setPassedHardFilter(result.isPassedHardFilter());
+            item.setReviewStatus(cv.getHrReviewStatus());
             content.add(item);
         }
         return PageResponse.<RankingItem>builder().content(content).pageNumber(pageable.isPaged() ? pageable.getPageNumber() : 0)
                 .pageSize(size).totalElements((long) ranked.size()).totalPages((ranked.size() + size - 1) / size)
                 .isFirst(offset == 0).isLast(to == ranked.size()).build();
+    }
+
+    private boolean current(MatchResult result) {
+        return result != null && VERSION.equals(result.getAlgorithmVersion()) && result.getDetailsJson() != null
+                && !result.getDetailsJson().isBlank() && READY.contains(result.getCv().getStatus());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ScoringStatusResponse getScoringStatus(Long jobId, Long userId) {
+        Job job = jobs.findByJobIdAndUserId(jobId, userId).orElseThrow(this::notFound);
+        int ready = 0, valid = 0, unscored = 0, stale = 0, pending = 0, parsing = 0, failed = 0, passed = 0;
+        for (CVs cv : job.getCvs()) {
+            if (cv.getStatus() == CVStatus.PENDING) pending++;
+            else if (cv.getStatus() == CVStatus.PARSING) parsing++;
+            else if (cv.getStatus() == CVStatus.PARSED_FAILED) failed++;
+            if (!READY.contains(cv.getStatus())) continue;
+            ready++;
+            if (cv.getMatchResult() == null) unscored++;
+            else if (!current(cv.getMatchResult())) stale++;
+            else {
+                valid++;
+                if (cv.getMatchResult().isPassedHardFilter()) passed++;
+            }
+        }
+        return new ScoringStatusResponse(jobId, job.getCvs().size(), ready, valid, unscored, stale,
+                pending, parsing, failed, passed, valid - passed, VERSION);
     }
 
     private void validateRange(Double score) {

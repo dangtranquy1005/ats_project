@@ -1,6 +1,7 @@
 package ATS.service;
 
 import ATS.dto.*;
+import ATS.dto.RankingFilter;
 import ATS.entities.*;
 import ATS.enums.CVStatus;
 import ATS.repository.*;
@@ -152,6 +153,7 @@ class ScoringServiceImplTests {
 
     @Test
     void otherOwnerCannotScoreRankOrReadDetails() {
+        assertThrows(ResponseStatusException.class, () -> service.getScoringStatus(1L, 999L));
         assertThrows(ResponseStatusException.class, () -> service.rescore(1L, 999L));
         assertThrows(ResponseStatusException.class, () -> service.getRanking(1L, 999L, null, PageRequest.of(0, 10)));
         assertThrows(ResponseStatusException.class, () -> service.getMatchDetail(10L, 999L));
@@ -206,6 +208,27 @@ class ScoringServiceImplTests {
         assertEquals(1, cv.getMatchResult().getJaccardScore());
     }
 
+    @Test void educationUsesBilingualMinimumLevelAndIgnoresSchoolAndMajorNames() {
+        available(1L,2L,3L); job.setEducationRequirements("Đại học");
+        CVEducation education=new CVEducation();cv.getEducations().add(education);
+        for(String degree:List.of("Bachelor","BSc","Kỹ sư","Master","Doctorate")) {
+            education.setDegree(degree);service.rescore(1L,2L);
+            assertEquals(1.0,cv.getMatchResult().getEducationScore(),degree);
+            assertTrue(cv.getMatchResult().isPassedHardFilter(),degree);
+        }
+        for(String degree:List.of("Associate","Cao đẳng","Unknown")) {
+            education.setDegree(degree);service.rescore(1L,2L);
+            assertEquals(0.0,cv.getMatchResult().getEducationScore(),degree);
+            assertFalse(cv.getMatchResult().isPassedHardFilter(),degree);
+        }
+        education.setDegree(null);education.setInstitution("Example University");education.setFieldOfStudy("Bachelor program");
+        service.rescore(1L,2L);assertEquals(0.0,cv.getMatchResult().getEducationScore());
+        education.setDegree("Bachelor");education.setSourceText("Pursuing Bachelor, expected 2028");
+        service.rescore(1L,2L);assertFalse(cv.getMatchResult().isPassedHardFilter());
+        job.setEducationRequirements("NONE");cv.getEducations().clear();
+        service.rescore(1L,2L);assertTrue(cv.getMatchResult().isPassedHardFilter());
+    }
+
     @Test
     void legacyInvalidTotalWeightsAreRejected() {
         job.setW1(0);
@@ -226,5 +249,50 @@ class ScoringServiceImplTests {
         assertTrue(service.getRanking(1L, 2L, null, PageRequest.of(0, 10)).getContent().isEmpty());
         when(results.findDetail(10L, 2L)).thenReturn(Optional.of(cv.getMatchResult()));
         assertThrows(ResponseStatusException.class, () -> service.getMatchDetail(10L, 2L));
+    }
+
+    @Test
+    void scoringStatusDistinguishesMissingCurrentAndStaleResults() {
+        job.getCvs().add(cv);
+        assertEquals(1, service.getScoringStatus(1L, 2L).unscoredCvs());
+        available(1L, 2L);
+        service.rescore(1L, 2L);
+        assertEquals(1, service.getScoringStatus(1L, 2L).currentCvs());
+        assertEquals(1, service.getScoringStatus(1L, 2L).passedCvs());
+        cv.getMatchResult().setAlgorithmVersion(null);
+        assertEquals(1, service.getScoringStatus(1L, 2L).staleCvs());
+        cv.setStatus(CVStatus.PARSING);
+        assertEquals(0, service.getScoringStatus(1L, 2L).readyCvs());
+        assertEquals(1, service.getScoringStatus(1L, 2L).parsingCvs());
+    }
+
+    @Test
+    void explanationPersistsWeightsAndSkillEvidenceIndependentOfLaterChanges() {
+        available(1L, 2L);
+        service.rescore(1L, 2L);
+        when(results.findDetail(10L, 2L)).thenReturn(Optional.of(cv.getMatchResult()));
+        job.setW1(0.5);
+        job.getRequiredSkills().get(0).setWeight(99.0);
+        var detail = service.getMatchDetail(10L, 2L);
+        assertEquals(1, detail.getWeights().skill());
+        assertEquals(3.0, detail.getSkillBreakdown().get(0).weight());
+        assertTrue(detail.getSkillBreakdown().get(0).matched());
+        assertFalse(detail.getSkillBreakdown().get(2).matched());
+        assertEquals(0.75, detail.getSkillScore());
+    }
+
+    @Test
+    void rankingSearchHardFilterAndRangesApplyBeforePagination() {
+        cv.setCandidateName("Nguyễn Minh An");
+        available(1L, 2L);
+        service.rescore(1L, 2L);
+        when(results.findAllByJob(1L)).thenReturn(List.of(cv.getMatchResult()));
+        var filter = RankingFilter.builder().query("nguyen minh").passedHardFilter(true).minScore(0.7).maxScore(1.0).build();
+        assertEquals(1, service.getRanking(1L, 2L, filter, PageRequest.of(0, 1)).getTotalElements());
+        filter.setPassedHardFilter(false);
+        assertEquals(0, service.getRanking(1L, 2L, filter, PageRequest.of(0, 1)).getTotalElements());
+        filter.setMinScore(0.9); filter.setMaxScore(0.1);
+        assertThrows(ResponseStatusException.class, () -> service.getRanking(1L, 2L, filter, PageRequest.of(0, 1)));
+        assertThrows(ResponseStatusException.class, () -> service.getRanking(1L, 2L, null, PageRequest.of(0, 101)));
     }
 }

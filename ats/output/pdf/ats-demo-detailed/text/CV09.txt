@@ -1,0 +1,27 @@
+Backend Developer
+Backend Developer
+
+GIỚI THIỆU
+Hồ sơ chia sẻ cho vòng đánh giá chuyên môn, thông tin cá nhân đã được ẩn. Có kinh nghiệm làm ứng dụng backend và tham gia một dự án bán thời gian song song.
+
+KỸ NĂNG
+Java, Spring Boot, PostgreSQL, Git, QzFlow
+
+KINH NGHIỆM LÀM VIỆC
+Backend Developer | Công ty Dịch vụ Nam Phong Demo | 01/2022 - 01/2024
+Phát triển Java và Spring Boot cho nghiệp vụ quản lý yêu cầu hỗ trợ khách hàng.
+Thiết kế PostgreSQL, phân trang danh sách và ghi nhận thay đổi trạng thái.
+Part-time Backend Developer | Nhóm Sản phẩm Sao Bắc Demo | 01/2023 - 01/2025
+Tham gia bán thời gian vào một sản phẩm quản lý công việc, sử dụng Java, Spring Boot và Git.
+Hai công việc có khoảng thời gian làm song song; nhiệm vụ được bàn giao theo cuối tuần.
+
+HỌC VẤN
+Cao đẳng Công nghệ Hải An Demo
+Cao đẳng
+Chuyên ngành: Công nghệ thông tin
+Tốt nghiệp: 2021
+
+DỰ ÁN
+TaskSpace Demo: kiểm tra dữ liệu, tìm kiếm yêu cầu và xuất thống kê hoạt động.
+Đã thử nghiệm công cụ QzFlow trong một dự án nội bộ nhỏ; cần trao đổi thêm trước khi xác nhận kỹ năng này.
+

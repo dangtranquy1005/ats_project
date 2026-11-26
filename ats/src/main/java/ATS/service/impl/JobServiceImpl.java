@@ -46,7 +46,9 @@ public class JobServiceImpl implements JobService {
         job.setW3(0.2);
         apply(job, request);
         jobs.saveAndFlush(job);
-        if (request.getRequiredSkillIds() != null) {
+        if (request.getRequiredSkills() != null) {
+            replaceSkills(job, request.getRequiredSkills());
+        } else if (request.getRequiredSkillIds() != null) {
             replaceSkills(job, request.getRequiredSkillIds().stream().map(this::skillRequest).toList());
         }
         return response(job);
@@ -75,13 +77,18 @@ public class JobServiceImpl implements JobService {
     public JobResponse updateJob(Long jobId, JobRequest request, Long userId) {
         Job job = ownedForUpdate(jobId, userId);
         apply(job, request);
-        if (request.getRequiredSkillIds() != null) {
+        if (request.getRequiredSkills() != null) {
+            replaceSkills(job, request.getRequiredSkills());
+        } else if (request.getRequiredSkillIds() != null) {
             replaceSkills(job, request.getRequiredSkillIds().stream().map(this::skillRequest).toList());
         }
         return response(job);
     }
 
     private void apply(Job job, JobRequest request) {
+        if (request.getRequiredSkills() != null && request.getRequiredSkillIds() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Chỉ gửi một danh sách kỹ năng");
+        }
         if (request.getTitle() == null || request.getTitle().isBlank() || request.getTitle().strip().length() > 255
                 || (request.getMinExperienceYears() != null && request.getMinExperienceYears() < 0)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tên JD hoặc số năm kinh nghiệm không hợp lệ");
@@ -91,7 +98,7 @@ public class JobServiceImpl implements JobService {
         if (request.getMinExperienceYears() != null) {
             job.setMinExperienceYears(request.getMinExperienceYears());
         }
-        job.setEducationRequirements(request.getEducationRequirements());
+        job.setEducationRequirements(ATS.enums.EducationLevel.canonicalRequirement(request.getEducationRequirements()));
         invalidateScores(job);
     }
 
@@ -108,10 +115,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public void deleteJob(Long jobId, Long userId) {
         Job job = ownedForUpdate(jobId, userId);
-        if (!job.getCvs().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "JD đã có CV, hãy đóng tin tuyển dụng");
-        }
-        jobs.delete(job);
+        // Xóa trên giao diện là đóng JD. Giữ nguyên CV, kỹ năng và kết quả chấm đã lưu.
+        // Khóa JD dùng chung với upload/chấm điểm để trạng thái được cập nhật nhất quán.
+        job.setStatus(JobStatus.CLOSED);
     }
 
     @Override

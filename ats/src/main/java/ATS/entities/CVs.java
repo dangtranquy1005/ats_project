@@ -1,6 +1,7 @@
 package ATS.entities;
 
 import ATS.enums.CVStatus;
+import ATS.enums.HrReviewStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -36,6 +37,8 @@ public class CVs {
     private LocalDateTime updatedAt = LocalDateTime.now();
     private String pdfProcessingToken;
     private LocalDateTime pdfProcessingStartedAt;
+    private String nlpProcessingToken;
+    private LocalDateTime nlpProcessingStartedAt;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -47,6 +50,16 @@ public class CVs {
     private String rawNlpResult;
 
     private String errorMessage;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "hr_review_status", nullable = false, length = 24)
+    private HrReviewStatus hrReviewStatus = HrReviewStatus.PENDING;
+    @Column(name = "hr_note", nullable = false, columnDefinition = "TEXT")
+    private String hrNote = "";
+    private LocalDateTime hrReviewedAt;
+    // Chỉ tăng khi HR sửa đánh giá; worker NLP/chấm điểm không làm đổi phiên bản này.
+    @Column(nullable = false)
+    private long hrReviewVersion = 0;
     @Column(nullable = false, updatable = false)
     private LocalDateTime uploadedAt = LocalDateTime.now();
     

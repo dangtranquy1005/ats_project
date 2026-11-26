@@ -1,0 +1,247 @@
+{
+  "cvId": 1,
+  "language": "vi",
+  "person": {
+    "name": "Nguyễn Minh An",
+    "email": "an.demo@example.com",
+    "phone": "0901234567",
+    "links": []
+  },
+  "candidateName": "Nguyễn Minh An",
+  "email": "an.demo@example.com",
+  "phone": "0901234567",
+  "skills": [
+    {
+      "skillId": 1,
+      "key": null,
+      "raw": "JAVA",
+      "canonical": "Java",
+      "category": "Programming Languages",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 84,
+      "end": 88
+    },
+    {
+      "skillId": 43,
+      "key": null,
+      "raw": "Docker",
+      "canonical": "Docker",
+      "category": "DevOps",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 112,
+      "end": 118
+    },
+    {
+      "skillId": 42,
+      "key": null,
+      "raw": "Git",
+      "canonical": "Git",
+      "category": "DevOps",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 120,
+      "end": 123
+    },
+    {
+      "skillId": 33,
+      "key": null,
+      "raw": "REST API",
+      "canonical": "REST API",
+      "category": "Backend",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 214,
+      "end": 222
+    },
+    {
+      "skillId": 20,
+      "key": null,
+      "raw": "Spring Boot",
+      "canonical": "Spring Boot",
+      "category": "Backend",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 234,
+      "end": 245
+    },
+    {
+      "skillId": 36,
+      "key": null,
+      "raw": "PostgreSQL",
+      "canonical": "PostgreSQL",
+      "category": "Database",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 249,
+      "end": 259
+    }
+  ],
+  "experiences": [
+    {
+      "companyName": "Công ty Demo ABC",
+      "jobTitle": "Backend Developer",
+      "startDate": "2020-01-01",
+      "endDate": "2024-12-01",
+      "startDatePrecision": "month",
+      "endDatePrecision": "month",
+      "isCurrent": false,
+      "description": "Phát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.",
+      "sourceText": "Backend Developer | Công ty Demo ABC | 01/2020 - 12/2024\nPhát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker."
+    }
+  ],
+  "educations": [
+    {
+      "institution": "Đại học Xây dựng Hà Nội",
+      "degree": "Engineer",
+      "field": "Công nghệ thông tin",
+      "graduationYear": 2019,
+      "sourceText": "Đại học Xây dựng Hà Nội\nKỹ sư\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2019"
+    }
+  ],
+  "experienceText": "Backend Developer | Công ty Demo ABC | 01/2020 - 12/2024\nPhát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.",
+  "rawTokens": [
+    "Họ",
+    "tên",
+    ":",
+    "Nguyễn Minh An Email",
+    ":",
+    "an.demo@example.com",
+    "Điện thoại",
+    ":",
+    "0901",
+    "234",
+    "567",
+    "KỸ NĂNG JAVA",
+    ",",
+    "SpringBoot",
+    ",",
+    "Postgres",
+    ",",
+    "Docker",
+    ",",
+    "Git",
+    "KINH NGHIỆM",
+    "LÀM VIỆC",
+    "Backend Developer",
+    "|",
+    "Công ty",
+    "Demo ABC",
+    "| 01/2020",
+    "-",
+    "12/2024",
+    "Phát triển",
+    "REST API",
+    "bằng",
+    "Java",
+    ",",
+    "Spring Boot",
+    "và",
+    "PostgreSQL",
+    ".",
+    "Đóng gói",
+    "ứng dụng",
+    "bằng",
+    "Docker",
+    ".",
+    "HỌC VẤN",
+    "Đại học",
+    "Xây dựng",
+    "Hà Nội",
+    "Kỹ sư",
+    "Chuyên ngành",
+    ":",
+    "Công nghệ thông tin",
+    "Tốt nghiệp",
+    ":",
+    "2019"
+  ],
+  "entities": [
+    {
+      "text": "Nguyễn Minh An Email",
+      "label": "PER",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "567 KỸ NĂNG JAVA",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "SpringBoot",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": ", Postgres",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": ", Docker",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Git KINH NGHIỆM LÀM VIỆC Backend Developer",
+      "label": "PER",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Công ty Demo ABC",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "REST API",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Java",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": ", Spring Boot",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "PostgreSQL",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Docker",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Hà Nội",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    }
+  ],
+  "unknownSkills": [],
+  "normalizedText": "Họ tên: Nguyễn Minh An\nEmail: an.demo@example.com\nĐiện thoại: 0901 234 567\n\nKỸ NĂNG\nJAVA, SpringBoot, Postgres, Docker, Git\n\nKINH NGHIỆM LÀM VIỆC\nBackend Developer | Công ty Demo ABC | 01/2020 - 12/2024\nPhát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.\n\nHỌC VẤN\nĐại học Xây dựng Hà Nội\nKỹ sư\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2019",
+  "warnings": [
+    "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+  ],
+  "modelVersion": "ats-nlp-1.0/full",
+  "rawNlpResult": "{\"cvId\":1,\"language\":\"vi\",\"person\":{\"name\":\"Nguyễn Minh An\",\"email\":\"an.demo@example.com\",\"phone\":\"0901234567\",\"links\":[]},\"candidateName\":\"Nguyễn Minh An\",\"email\":\"an.demo@example.com\",\"phone\":\"0901234567\",\"skills\":[{\"skillId\":1,\"key\":null,\"raw\":\"JAVA\",\"canonical\":\"Java\",\"category\":\"Programming Languages\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":84,\"end\":88},{\"skillId\":43,\"key\":null,\"raw\":\"Docker\",\"canonical\":\"Docker\",\"category\":\"DevOps\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":112,\"end\":118},{\"skillId\":42,\"key\":null,\"raw\":\"Git\",\"canonical\":\"Git\",\"category\":\"DevOps\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":120,\"end\":123},{\"skillId\":33,\"key\":null,\"raw\":\"REST API\",\"canonical\":\"REST API\",\"category\":\"Backend\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":214,\"end\":222},{\"skillId\":20,\"key\":null,\"raw\":\"Spring Boot\",\"canonical\":\"Spring Boot\",\"category\":\"Backend\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":234,\"end\":245},{\"skillId\":36,\"key\":null,\"raw\":\"PostgreSQL\",\"canonical\":\"PostgreSQL\",\"category\":\"Database\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":249,\"end\":259}],\"experiences\":[{\"companyName\":\"Công ty Demo ABC\",\"jobTitle\":\"Backend Developer\",\"startDate\":\"2020-01-01\",\"endDate\":\"2024-12-01\",\"startDatePrecision\":\"month\",\"endDatePrecision\":\"month\",\"isCurrent\":false,\"description\":\"Phát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.\",\"sourceText\":\"Backend Developer | Công ty Demo ABC | 01/2020 - 12/2024\\nPhát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.\"}],\"educations\":[{\"institution\":\"Đại học Xây dựng Hà Nội\",\"degree\":\"Engineer\",\"field\":\"Công nghệ thông tin\",\"graduationYear\":2019,\"sourceText\":\"Đại học Xây dựng Hà Nội\\nKỹ sư\\nChuyên ngành: Công nghệ thông tin\\nTốt nghiệp: 2019\"}],\"experienceText\":\"Backend Developer | Công ty Demo ABC | 01/2020 - 12/2024\\nPhát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.\",\"rawTokens\":[\"Họ\",\"tên\",\":\",\"Nguyễn Minh An Email\",\":\",\"an.demo@example.com\",\"Điện thoại\",\":\",\"0901\",\"234\",\"567\",\"KỸ NĂNG JAVA\",\",\",\"SpringBoot\",\",\",\"Postgres\",\",\",\"Docker\",\",\",\"Git\",\"KINH NGHIỆM\",\"LÀM VIỆC\",\"Backend Developer\",\"|\",\"Công ty\",\"Demo ABC\",\"| 01/2020\",\"-\",\"12/2024\",\"Phát triển\",\"REST API\",\"bằng\",\"Java\",\",\",\"Spring Boot\",\"và\",\"PostgreSQL\",\".\",\"Đóng gói\",\"ứng dụng\",\"bằng\",\"Docker\",\".\",\"HỌC VẤN\",\"Đại học\",\"Xây dựng\",\"Hà Nội\",\"Kỹ sư\",\"Chuyên ngành\",\":\",\"Công nghệ thông tin\",\"Tốt nghiệp\",\":\",\"2019\"],\"entities\":[{\"text\":\"Nguyễn Minh An Email\",\"label\":\"PER\",\"start\":null,\"end\":null},{\"text\":\"567 KỸ NĂNG JAVA\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"SpringBoot\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\", Postgres\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\", Docker\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Git KINH NGHIỆM LÀM VIỆC Backend Developer\",\"label\":\"PER\",\"start\":null,\"end\":null},{\"text\":\"Công ty Demo ABC\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"REST API\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Java\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\", Spring Boot\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"PostgreSQL\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Docker\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Hà Nội\",\"label\":\"LOC\",\"start\":null,\"end\":null}],\"unknownSkills\":[],\"normalizedText\":\"Họ tên: Nguyễn Minh An\\nEmail: an.demo@example.com\\nĐiện thoại: 0901 234 567\\n\\nKỸ NĂNG\\nJAVA, SpringBoot, Postgres, Docker, Git\\n\\nKINH NGHIỆM LÀM VIỆC\\nBackend Developer | Công ty Demo ABC | 01/2020 - 12/2024\\nPhát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.\\n\\nHỌC VẤN\\nĐại học Xây dựng Hà Nội\\nKỹ sư\\nChuyên ngành: Công nghệ thông tin\\nTốt nghiệp: 2019\",\"warnings\":[\"Skill confidence is dictionary-match strength, not a calibrated probability or proficiency.\"],\"modelVersion\":\"ats-nlp-1.0/full\"}"
+}

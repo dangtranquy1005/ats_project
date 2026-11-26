@@ -1,0 +1,536 @@
+[
+  {
+    "job": "JD01",
+    "cv": "CV01",
+    "skillScore": 1.0,
+    "overallSkillOnly": 100.0,
+    "experienceYears": 6.0,
+    "passedHardFilter": true,
+    "matched": [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "Docker",
+      "Redis"
+    ],
+    "missingMandatory": [],
+    "reasons": [],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV02",
+    "skillScore": 0.8,
+    "overallSkillOnly": 80.0,
+    "experienceYears": 3.0,
+    "passedHardFilter": true,
+    "matched": [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL"
+    ],
+    "missingMandatory": [],
+    "reasons": [],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV03",
+    "skillScore": 0.7,
+    "overallSkillOnly": 70.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Java",
+      "PostgreSQL",
+      "Docker",
+      "Redis"
+    ],
+    "missingMandatory": [
+      "Spring Boot"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Spring Boot"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV04",
+    "skillScore": 1.0,
+    "overallSkillOnly": 100.0,
+    "experienceYears": 0.5,
+    "passedHardFilter": false,
+    "matched": [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "Docker",
+      "Redis"
+    ],
+    "missingMandatory": [],
+    "reasons": [
+      "Chưa đủ số năm kinh nghiệm"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV05",
+    "skillScore": 1.0,
+    "overallSkillOnly": 100.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": true,
+    "matched": [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "Docker",
+      "Redis"
+    ],
+    "missingMandatory": [],
+    "reasons": [],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV06",
+    "skillScore": 0.0,
+    "overallSkillOnly": 0.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": false,
+    "matched": [],
+    "missingMandatory": [
+      "Java",
+      "Spring Boot"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Java, Spring Boot"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV07",
+    "skillScore": 0.0,
+    "overallSkillOnly": 0.0,
+    "experienceYears": 2.0,
+    "passedHardFilter": false,
+    "matched": [],
+    "missingMandatory": [
+      "Java",
+      "Spring Boot"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Java, Spring Boot"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV08",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 4.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Docker"
+    ],
+    "missingMandatory": [
+      "Java",
+      "Spring Boot"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Java, Spring Boot"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV09",
+    "skillScore": 0.8,
+    "overallSkillOnly": 80.0,
+    "experienceYears": 3.0,
+    "passedHardFilter": true,
+    "matched": [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL"
+    ],
+    "missingMandatory": [],
+    "reasons": [],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV01",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 6.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Git"
+    ],
+    "missingMandatory": [
+      "React",
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: React, TypeScript"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV02",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 3.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Git"
+    ],
+    "missingMandatory": [
+      "React",
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: React, TypeScript"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV03",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Git"
+    ],
+    "missingMandatory": [
+      "React",
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: React, TypeScript"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV04",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 0.5,
+    "passedHardFilter": false,
+    "matched": [
+      "Git"
+    ],
+    "missingMandatory": [
+      "React",
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: React, TypeScript",
+      "Chưa đủ số năm kinh nghiệm"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV05",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Git"
+    ],
+    "missingMandatory": [
+      "React",
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: React, TypeScript"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV06",
+    "skillScore": 1.0,
+    "overallSkillOnly": 100.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": true,
+    "matched": [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Tailwind CSS",
+      "Git"
+    ],
+    "missingMandatory": [],
+    "reasons": [],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV07",
+    "skillScore": 0.4,
+    "overallSkillOnly": 40.0,
+    "experienceYears": 2.0,
+    "passedHardFilter": false,
+    "matched": [
+      "React",
+      "Git"
+    ],
+    "missingMandatory": [
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: TypeScript"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV08",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 4.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Git"
+    ],
+    "missingMandatory": [
+      "React",
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: React, TypeScript"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV09",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 3.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Git"
+    ],
+    "missingMandatory": [
+      "React",
+      "TypeScript"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: React, TypeScript"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV01",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 6.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Docker"
+    ],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV02",
+    "skillScore": 0.0,
+    "overallSkillOnly": 0.0,
+    "experienceYears": 3.0,
+    "passedHardFilter": false,
+    "matched": [],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV03",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Docker"
+    ],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV04",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 0.5,
+    "passedHardFilter": false,
+    "matched": [
+      "Docker"
+    ],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas",
+      "Chưa đủ số năm kinh nghiệm"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV05",
+    "skillScore": 0.1,
+    "overallSkillOnly": 10.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": false,
+    "matched": [
+      "Docker"
+    ],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV06",
+    "skillScore": 0.0,
+    "overallSkillOnly": 0.0,
+    "experienceYears": 5.0,
+    "passedHardFilter": false,
+    "matched": [],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV07",
+    "skillScore": 0.0,
+    "overallSkillOnly": 0.0,
+    "experienceYears": 2.0,
+    "passedHardFilter": false,
+    "matched": [],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas",
+      "Chưa xác nhận đúng yêu cầu bằng cấp"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV08",
+    "skillScore": 1.0,
+    "overallSkillOnly": 100.0,
+    "experienceYears": 4.0,
+    "passedHardFilter": true,
+    "matched": [
+      "Python",
+      "pandas",
+      "NumPy",
+      "SQL",
+      "Docker"
+    ],
+    "missingMandatory": [],
+    "reasons": [],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV09",
+    "skillScore": 0.0,
+    "overallSkillOnly": 0.0,
+    "experienceYears": 3.0,
+    "passedHardFilter": false,
+    "matched": [],
+    "missingMandatory": [
+      "Python",
+      "pandas"
+    ],
+    "reasons": [
+      "Thiếu bắt buộc: Python, pandas",
+      "Chưa xác nhận đúng yêu cầu bằng cấp"
+    ],
+    "kind": "expected_from_authored_content_not_live_nlp"
+  },
+  {
+    "job": "JD01",
+    "cv": "CV10",
+    "skillScore": null,
+    "overallSkillOnly": null,
+    "experienceYears": null,
+    "passedHardFilter": null,
+    "reasons": [
+      "PDF ảnh không có văn bản; mong đợi PARSED_FAILED"
+    ],
+    "kind": "expected_unparsed"
+  },
+  {
+    "job": "JD02",
+    "cv": "CV10",
+    "skillScore": null,
+    "overallSkillOnly": null,
+    "experienceYears": null,
+    "passedHardFilter": null,
+    "reasons": [
+      "PDF ảnh không có văn bản; mong đợi PARSED_FAILED"
+    ],
+    "kind": "expected_unparsed"
+  },
+  {
+    "job": "JD03",
+    "cv": "CV10",
+    "skillScore": null,
+    "overallSkillOnly": null,
+    "experienceYears": null,
+    "passedHardFilter": null,
+    "reasons": [
+      "PDF ảnh không có văn bản; mong đợi PARSED_FAILED"
+    ],
+    "kind": "expected_unparsed"
+  }
+]

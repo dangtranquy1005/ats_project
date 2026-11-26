@@ -44,7 +44,24 @@ class JobServiceImplTests {
                 () -> service.getJob(10L, 2L)).getStatusCode());
         assertEquals(HttpStatus.NOT_FOUND, assertThrows(ResponseStatusException.class,
                 () -> service.updateConfig(10L, new ScoringConfigRequest(), 2L)).getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, assertThrows(ResponseStatusException.class,
+                () -> service.deleteJob(10L, 2L)).getStatusCode());
         verifyNoInteractions(skills);
+    }
+
+    @Test
+    void deletingJobClosesItWithoutRemovingCvsOrScoresAndIsIdempotent() {
+        ATS.entities.CVs cv = new ATS.entities.CVs();
+        ATS.entities.MatchResult score = new ATS.entities.MatchResult();
+        score.setAlgorithmVersion("weighted-coverage-v1");
+        cv.setMatchResult(score); job.getCvs().add(cv);
+        service.deleteJob(10L, 1L);
+        service.deleteJob(10L, 1L);
+        assertEquals(ATS.enums.JobStatus.CLOSED, job.getStatus());
+        assertEquals(List.of(cv), job.getCvs());
+        assertSame(score, cv.getMatchResult());
+        assertEquals("weighted-coverage-v1", score.getAlgorithmVersion());
+        verify(jobs, never()).delete(any(Job.class));
     }
 
     @Test

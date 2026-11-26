@@ -5,8 +5,13 @@ import ATS.dto.AnalyzeResponse;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 public interface CvProcessingTx {
+    /** Worker dùng hàm này để claim và chụp request/token trong cùng transaction. */
+    Optional<AnalyzeRequest> claimRequest(Long cvId);
+    /** Worker chỉ nhận CV PENDING để các phần tử trùng trong hàng đợi không phân tích lại CV đã xong. */
+    Optional<AnalyzeRequest> claimPendingRequest(Long cvId);
     
     /**
      * Claim a CV for processing (lock mechanism)
@@ -32,9 +37,10 @@ public interface CvProcessingTx {
     /**
      * Mark CV as failed during processing
      * @param cvId CV ID
+     * @param processingToken Token nhận từ claimRequest, ngăn lỗi cũ tác động tác vụ mới
      * @param reason Failure reason
      */
-    void markFailed(Long cvId, String reason);
+    void markFailed(Long cvId, String processingToken, String reason);
     
     /**
      * Reset processing state for CVs that are stuck

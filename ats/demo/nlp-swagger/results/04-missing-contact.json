@@ -1,0 +1,171 @@
+{
+  "cvId": 4,
+  "language": "vi",
+  "person": {
+    "name": null,
+    "email": null,
+    "phone": null,
+    "links": []
+  },
+  "candidateName": null,
+  "email": null,
+  "phone": null,
+  "skills": [
+    {
+      "skillId": 1,
+      "key": null,
+      "raw": "Java",
+      "canonical": "Java",
+      "category": "Programming Languages",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 8,
+      "end": 12
+    },
+    {
+      "skillId": 20,
+      "key": null,
+      "raw": "SpringBoot",
+      "canonical": "Spring Boot",
+      "category": "Backend",
+      "matchMethod": "ALIAS",
+      "confidence": 1.0,
+      "start": 14,
+      "end": 24
+    },
+    {
+      "skillId": 36,
+      "key": null,
+      "raw": "Postgres",
+      "canonical": "PostgreSQL",
+      "category": "Database",
+      "matchMethod": "ALIAS",
+      "confidence": 1.0,
+      "start": 26,
+      "end": 34
+    },
+    {
+      "skillId": 33,
+      "key": null,
+      "raw": "REST API",
+      "canonical": "REST API",
+      "category": "Backend",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 106,
+      "end": 114
+    }
+  ],
+  "experiences": [
+    {
+      "companyName": null,
+      "jobTitle": "Backend Developer",
+      "startDate": "2020-01-01",
+      "endDate": "2024-12-01",
+      "startDatePrecision": "month",
+      "endDatePrecision": "month",
+      "isCurrent": false,
+      "description": "Phát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.",
+      "sourceText": "Backend Developer | 01/2020 - 12/2024\nPhát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý."
+    }
+  ],
+  "educations": [
+    {
+      "institution": "Đại học Demo",
+      "degree": "Engineer",
+      "field": "Công nghệ thông tin",
+      "graduationYear": 2019,
+      "sourceText": "Đại học Demo\nKỹ sư\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2019"
+    }
+  ],
+  "experienceText": "Backend Developer | 01/2020 - 12/2024\nPhát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.",
+  "rawTokens": [
+    "KỸ",
+    "NĂNG Java",
+    ",",
+    "SpringBoot",
+    ",",
+    "Postgres",
+    "KINH NGHIỆM",
+    "LÀM VIỆC",
+    "Backend Developer",
+    "| 01/2020",
+    "-",
+    "12/2024",
+    "Phát triển",
+    "REST API",
+    "và",
+    "xử lý",
+    "dữ liệu",
+    "bằng",
+    "Java",
+    ".",
+    "Có",
+    "kinh nghiệm",
+    "xây dựng",
+    "ứng dụng",
+    "quản lý",
+    ".",
+    "HỌC VẤN",
+    "Đại học",
+    "Demo",
+    "Kỹ sư",
+    "Chuyên ngành",
+    ":",
+    "Công nghệ thông tin",
+    "Tốt nghiệp",
+    ":",
+    "2019"
+  ],
+  "entities": [
+    {
+      "text": "KỸ NĂNG Java",
+      "label": "PER",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "SpringBoot",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Postgres KINH NGHIỆM LÀM VIỆC Backend Developer",
+      "label": "PER",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "REST API",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Java",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "HỌC VẤN",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Đại học Demo",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    }
+  ],
+  "unknownSkills": [],
+  "normalizedText": "KỸ NĂNG\nJava, SpringBoot, Postgres\n\nKINH NGHIỆM LÀM VIỆC\nBackend Developer | 01/2020 - 12/2024\nPhát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.\n\nHỌC VẤN\nĐại học Demo\nKỹ sư\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2019",
+  "warnings": [
+    "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+  ],
+  "modelVersion": "ats-nlp-1.0/full",
+  "rawNlpResult": "{\"cvId\":4,\"language\":\"vi\",\"person\":{\"name\":null,\"email\":null,\"phone\":null,\"links\":[]},\"candidateName\":null,\"email\":null,\"phone\":null,\"skills\":[{\"skillId\":1,\"key\":null,\"raw\":\"Java\",\"canonical\":\"Java\",\"category\":\"Programming Languages\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":8,\"end\":12},{\"skillId\":20,\"key\":null,\"raw\":\"SpringBoot\",\"canonical\":\"Spring Boot\",\"category\":\"Backend\",\"matchMethod\":\"ALIAS\",\"confidence\":1.0,\"start\":14,\"end\":24},{\"skillId\":36,\"key\":null,\"raw\":\"Postgres\",\"canonical\":\"PostgreSQL\",\"category\":\"Database\",\"matchMethod\":\"ALIAS\",\"confidence\":1.0,\"start\":26,\"end\":34},{\"skillId\":33,\"key\":null,\"raw\":\"REST API\",\"canonical\":\"REST API\",\"category\":\"Backend\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":106,\"end\":114}],\"experiences\":[{\"companyName\":null,\"jobTitle\":\"Backend Developer\",\"startDate\":\"2020-01-01\",\"endDate\":\"2024-12-01\",\"startDatePrecision\":\"month\",\"endDatePrecision\":\"month\",\"isCurrent\":false,\"description\":\"Phát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.\",\"sourceText\":\"Backend Developer | 01/2020 - 12/2024\\nPhát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.\"}],\"educations\":[{\"institution\":\"Đại học Demo\",\"degree\":\"Engineer\",\"field\":\"Công nghệ thông tin\",\"graduationYear\":2019,\"sourceText\":\"Đại học Demo\\nKỹ sư\\nChuyên ngành: Công nghệ thông tin\\nTốt nghiệp: 2019\"}],\"experienceText\":\"Backend Developer | 01/2020 - 12/2024\\nPhát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.\",\"rawTokens\":[\"KỸ\",\"NĂNG Java\",\",\",\"SpringBoot\",\",\",\"Postgres\",\"KINH NGHIỆM\",\"LÀM VIỆC\",\"Backend Developer\",\"| 01/2020\",\"-\",\"12/2024\",\"Phát triển\",\"REST API\",\"và\",\"xử lý\",\"dữ liệu\",\"bằng\",\"Java\",\".\",\"Có\",\"kinh nghiệm\",\"xây dựng\",\"ứng dụng\",\"quản lý\",\".\",\"HỌC VẤN\",\"Đại học\",\"Demo\",\"Kỹ sư\",\"Chuyên ngành\",\":\",\"Công nghệ thông tin\",\"Tốt nghiệp\",\":\",\"2019\"],\"entities\":[{\"text\":\"KỸ NĂNG Java\",\"label\":\"PER\",\"start\":null,\"end\":null},{\"text\":\"SpringBoot\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Postgres KINH NGHIỆM LÀM VIỆC Backend Developer\",\"label\":\"PER\",\"start\":null,\"end\":null},{\"text\":\"REST API\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Java\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"HỌC VẤN\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Đại học Demo\",\"label\":\"LOC\",\"start\":null,\"end\":null}],\"unknownSkills\":[],\"normalizedText\":\"KỸ NĂNG\\nJava, SpringBoot, Postgres\\n\\nKINH NGHIỆM LÀM VIỆC\\nBackend Developer | 01/2020 - 12/2024\\nPhát triển REST API và xử lý dữ liệu bằng Java. Có kinh nghiệm xây dựng ứng dụng quản lý.\\n\\nHỌC VẤN\\nĐại học Demo\\nKỹ sư\\nChuyên ngành: Công nghệ thông tin\\nTốt nghiệp: 2019\",\"warnings\":[\"Skill confidence is dictionary-match strength, not a calibrated probability or proficiency.\"],\"modelVersion\":\"ats-nlp-1.0/full\"}"
+}

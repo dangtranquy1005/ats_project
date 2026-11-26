@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface SkillRepository extends JpaRepository<Skills, Long> {
+    @Query("SELECT DISTINCT s FROM Skills s LEFT JOIN FETCH s.aliases LEFT JOIN FETCH s.category ORDER BY s.skillId")
+    List<Skills> findDictionaryWithAliases();
     Optional<Skills> findById(Long id);
 
 //    List<Skills> findAllById(List<Long> ids);

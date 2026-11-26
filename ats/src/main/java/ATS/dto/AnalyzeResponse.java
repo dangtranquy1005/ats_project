@@ -35,6 +35,8 @@ public class AnalyzeResponse {
     private String normalizedText;
     private List<String> warnings;
     private String modelVersion;
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private String processingToken;
 
     public record Person(String name, String email, String phone, List<String> links) {}
 

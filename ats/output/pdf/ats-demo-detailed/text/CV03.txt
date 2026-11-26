@@ -1,0 +1,28 @@
+Họ tên: Lê Hoàng Nam
+Email: candidate03@ats-demo.example.invalid
+Điện thoại: 0900 000 003
+Java Application Developer
+
+GIỚI THIỆU
+Phát triển ứng dụng xử lý dữ liệu và các dịch vụ chạy nền. Có kinh nghiệm vận hành tác vụ theo lịch và xử lý dữ liệu lớn theo lô.
+
+KỸ NĂNG
+Java, PostgreSQL, Docker, Redis, Git
+
+KINH NGHIỆM LÀM VIỆC
+Application Developer | Công ty Dữ liệu Bình Minh Demo | 01/2021 - 01/2026
+Viết chương trình Java đọc tệp giao dịch và đồng bộ dữ liệu vào PostgreSQL theo lô.
+Sử dụng Redis lưu trạng thái xử lý; chạy tác vụ bằng Docker để thống nhất môi trường.
+Thiết kế cơ chế ghi nhận lỗi từng bản ghi, chạy lại phần thất bại và đối soát kết quả cuối ngày.
+Quản lý phiên bản qua Git; bổ sung hướng dẫn khôi phục khi tác vụ bị ngắt giữa chừng.
+
+HỌC VẤN
+Đại học Kỹ thuật Đông Hà Demo
+Cử nhân
+Chuyên ngành: Khoa học máy tính
+Tốt nghiệp: 2020
+
+DỰ ÁN
+BatchLedger Demo: xử lý 120.000 dòng dữ liệu giả lập mỗi lượt, có kiểm tra trùng và báo cáo sai lệch.
+Job Monitor Demo: thống kê tác vụ thành công, thất bại và thời gian chạy theo từng ngày.
+

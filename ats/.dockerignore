@@ -1,0 +1,14 @@
+.git
+.idea
+.mvn
+target
+ats
+demo
+output
+tmp
+src/test
+.env*
+**/application*.yml
+**/application*.yaml
+**/application*.properties
+*.log

@@ -1,0 +1,5 @@
+{
+  "jaccardWeight": 0.6,
+  "cosineWeight": 0.3,
+  "educationWeight": 0.1
+}

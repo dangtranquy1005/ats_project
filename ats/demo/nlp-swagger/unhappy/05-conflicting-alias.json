@@ -1,0 +1,20 @@
+{
+  "cvId": 1,
+  "rawText": "Skills: JS",
+  "skillDictionary": [
+    {
+      "id": 1,
+      "canonical": "JavaScript",
+      "aliases": [
+        "JS"
+      ]
+    },
+    {
+      "id": 2,
+      "canonical": "Java",
+      "aliases": [
+        "js"
+      ]
+    }
+  ]
+}

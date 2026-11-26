@@ -1,0 +1,12 @@
+{
+  "implemented": ["dictionary CRUD", "category CRUD", "aliases with persisted IDs", "unknown skills from saved NLP snapshots", "admin write authorization", "locked account handling", "filtered ranking CSV", "frontend Docker and Nginx", "isolated full Docker stack"],
+  "backendTests": {"tests": 39, "failures": 0, "errors": 0},
+  "frontendTests": {"tests": 4, "failures": 0},
+  "frontendBuild": "passed",
+  "lint": "completed with warnings",
+  "docker": {"webPort": 8090, "apiPort": 8083, "database": "ats_demo", "nginxConfigTest": "passed", "existingBackendPort": 8082},
+  "realPipeline": "passed: PDF upload to PARSED, scoring, persisted review across rescore, review filter, CSV, original PDF, dictionary CRUD",
+  "fixtureCleanup": "passed",
+  "browserReview": "not performed: origin permission for http://127.0.0.1:8090 was declined; no alternate browser access attempted",
+  "manualDemo": "DEMO.md"
+}

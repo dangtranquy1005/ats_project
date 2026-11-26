@@ -1,0 +1,33 @@
+{
+  "title": "Java Backend Developer",
+  "description": "Phát triển REST API bằng Java và Spring Boot cho hệ thống quản lý đơn hàng. Thiết kế PostgreSQL, tối ưu truy vấn và giao dịch. Đóng gói ứng dụng bằng Docker và sử dụng Redis cho dữ liệu tra cứu. Viết kiểm thử, xử lý lỗi nghiệp vụ và phối hợp rà soát mã nguồn.",
+  "minExperienceYears": 2,
+  "educationRequirements": "",
+  "requiredSkills": [
+    {
+      "skillId": 1,
+      "mandatory": true,
+      "weight": 3
+    },
+    {
+      "skillId": 20,
+      "mandatory": true,
+      "weight": 3
+    },
+    {
+      "skillId": 36,
+      "mandatory": false,
+      "weight": 2
+    },
+    {
+      "skillId": 43,
+      "mandatory": false,
+      "weight": 1
+    },
+    {
+      "skillId": 41,
+      "mandatory": false,
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+Họ tên: Nguyễn Minh An
+Email: an.demo@example.com
+Điện thoại: 0901 234 567
+
+KỸ NĂNG
+JAVA, SpringBoot, Postgres, Docker, Git
+
+KINH NGHIỆM LÀM VIỆC
+Backend Developer | Công ty Demo ABC | 01/2020 - 12/2024
+Phát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.
+
+HỌC VẤN
+Đại học Xây dựng Hà Nội
+Kỹ sư
+Chuyên ngành: Công nghệ thông tin
+Tốt nghiệp: 2019

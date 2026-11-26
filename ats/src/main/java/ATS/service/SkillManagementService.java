@@ -56,6 +56,34 @@ public class SkillManagementService {
                 .map(c -> new CategoryResponse(c.getCategoryId(), c.getName(), c.getDescription())).toList();
     }
 
+    public CategoryResponse saveCategory(Long id, CategoryRequest request) {
+        lockDictionary();
+        String name = validName(request.categoryName());
+        if (request.description() != null && request.description().length() > 255) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mô tả nhóm tối đa 255 ký tự");
+        }
+        if (categories.findAll().stream().anyMatch(c -> !c.getCategoryId().equals(id)
+                && normalized(c.getName()).equals(normalized(name)))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Tên nhóm đã tồn tại");
+        }
+        SkillCategory category = id == null ? new SkillCategory() : categories.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy nhóm"));
+        category.setName(name); category.setDescription(request.description());
+        category = categories.saveAndFlush(category);
+        return new CategoryResponse(category.getCategoryId(), category.getName(), category.getDescription());
+    }
+
+    public void deleteCategory(Long id) {
+        lockDictionary();
+        SkillCategory category = categories.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy nhóm"));
+        // Không để cascade xóa kỹ năng hoặc nhóm con đang được sử dụng.
+        if (!category.getSkills().isEmpty() || !category.getChildren().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nhóm còn kỹ năng hoặc nhóm con. Hãy chuyển chúng trước khi xóa");
+        }
+        categories.delete(category);
+    }
+
     public SkillResponse create(SkillRequest request) {
         lockDictionary();
         Skills skill = new Skills();
@@ -122,6 +150,9 @@ public class SkillManagementService {
     public AliasResponse addAlias(Long id, String text) {
         lockDictionary();
         Skills skill = skill(id);
+        if (skill.getAliases().size() >= 64) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mỗi kỹ năng có tối đa 64 cách viết khác");
+        }
         String name = validName(text);
         ensureAvailable(name, null);
         if (aliases.findAllWithSkills().stream().anyMatch(a -> normalized(a.getAliasText()).equals(normalized(name)))) {
@@ -145,6 +176,8 @@ public class SkillManagementService {
         SkillCategory category = skill.getCategory();
         return SkillResponse.builder().skillId(skill.getSkillId()).canonicalName(skill.getCanonicalName())
                 .skillType(skill.getType()).categoryId(category == null ? null : category.getCategoryId())
-                .categoryName(category == null ? null : category.getName()).build();
+                .categoryName(category == null ? null : category.getName())
+                .aliases(skill.getAliases().stream().map(a -> new AliasResponse(a.getAliasId(), skill.getSkillId(), a.getAliasText())).toList())
+                .inUse(!skill.getJobRequiredSkills().isEmpty() || !skill.getCvSkills().isEmpty()).build();
     }
 }

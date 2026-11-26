@@ -1,0 +1,33 @@
+{
+  "title": "Python Data Engineer",
+  "description": "Xây dựng pipeline Python sử dụng pandas và NumPy để làm sạch dữ liệu giao dịch. Viết SQL đối soát và tổng hợp báo cáo bán hàng. Đóng gói pipeline bằng Docker, kiểm tra dữ liệu trùng và giá trị trống, bổ sung kiểm thử và nhật ký cho từng bước xử lý.",
+  "minExperienceYears": 1,
+  "educationRequirements": "Bachelor",
+  "requiredSkills": [
+    {
+      "skillId": 4,
+      "mandatory": true,
+      "weight": 3
+    },
+    {
+      "skillId": 60,
+      "mandatory": true,
+      "weight": 3
+    },
+    {
+      "skillId": 61,
+      "mandatory": false,
+      "weight": 2
+    },
+    {
+      "skillId": 35,
+      "mandatory": false,
+      "weight": 1
+    },
+    {
+      "skillId": 43,
+      "mandatory": false,
+      "weight": 1
+    }
+  ]
+}

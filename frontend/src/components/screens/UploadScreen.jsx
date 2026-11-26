@@ -1,375 +1,133 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
-
-const PAGE_SIZE = 4;
+import { cvAPI, apiError } from '../../services/api';
+import { CV_STATES, cvStage, isProcessing, validateFiles } from '../../services/cvPresentation';
+import { useCvQueue } from '../../hooks/useCvQueue';
+import CvExtractionModal from '../modals/CvExtractionModal';
+import ReviewBadge from '../ReviewBadge';
 
 export default function UploadScreen() {
-  const { uploadQueue, handleUploadFiles, switchTab, openModal, showToast, deleteCV, selectCandidateForReport } = useApp();
-  const [filterStatus, setFilterStatus] = useState('ALL');
-  const [page, setPage] = useState(1);
-  const fileInputRef = useRef(null);
+  const { activeJob, activeJobId, updateJobCvCount, openModal, showToast, switchTab, openScoreReport } = useApp();
+  const queue = useCvQueue(activeJobId, updateJobCvCount);
+  const fileInput = useRef(null);
+  const uploadingRef = useRef(false);
+  const operations = useRef(new Set());
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState('');
+  const [receipts, setReceipts] = useState([]);
+  const [uploadError, setUploadError] = useState('');
+  const [busyIds, setBusyIds] = useState([]);
+  const [detailId, setDetailId] = useState(null);
+  const canUpload = activeJob?.status === 'OPEN' && !uploading;
+  const counts = queue.statusCounts;
+  const total = Object.values(counts).reduce((n, count) => n + count, 0);
+  const completed = (counts.PARSED || 0) + (counts.SCORED || 0) + (counts.REVIEWED || 0);
+  const button = 'px-3 py-2 text-xs border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed';
 
-  const filteredQueue = uploadQueue.filter(item => {
-    if (filterStatus === 'ALL') return true;
-    if (filterStatus === 'REJECTED') return item.status === 'REJECTED' || item.status === 'FAILED';
-    return item.status === filterStatus;
-  });
-
-  const totalPages = Math.max(1, Math.ceil(filteredQueue.length / PAGE_SIZE));
-  const safePage = Math.min(page, totalPages);
-  const pageItems = filteredQueue.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
-
-  useEffect(() => {
-    setPage(1);
-  }, [filterStatus, uploadQueue.length]);
-
-  const onFileInputChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      handleUploadFiles(e.target.files);
-      e.target.value = '';
+  const upload = async files => {
+    if (uploadingRef.current || !activeJobId || activeJob?.status !== 'OPEN') return;
+    const checked = validateFiles(files);
+    if (!checked.length) return;
+    if (checked.length > 50) { setUploadError('Mỗi lượt chọn tối đa 50 file.'); return; }
+    const entries = checked.map(({file, error}, i) => ({key: i, filename: file.name, error, state: error ? 'rejected' : 'waiting'}));
+    setReceipts(entries); setUploadError(''); setUploading(true); uploadingRef.current = true;
+    let accepted = 0;
+    try {
+      // Một file/request: không vượt tổng multipart 30 MB, lỗi từng file không làm mất kết quả khác.
+      for (let i = 0; i < checked.length; i++) {
+        const {file, error} = checked[i];
+        if (error) continue;
+        if (!queue.mounted.current) break;
+        setReceipts(prev => prev.map(r => r.key === i ? {...r, state:'uploading'} : r));
+        setProgress(`Đang gửi ${i + 1}/${checked.length}: ${file.name}`);
+        try {
+          const results = await cvAPI.upload(activeJobId, [file], event => {
+            if (queue.mounted.current && event.total) setProgress(`Đang gửi ${i + 1}/${checked.length}: ${Math.round(event.loaded * 100 / event.total)}%`);
+          });
+          if (!queue.mounted.current) break;
+          const result = results?.[0];
+          if (!result || typeof result.success !== 'boolean') throw new Error('Phản hồi upload không hợp lệ.');
+          if (result.success) accepted++;
+          setReceipts(prev => prev.map(r => r.key === i ? {...r, state:result.success ? 'accepted' : 'rejected', cvId:result.cvId,
+            error:result.errorMessage || (!result.success ? 'Không thể tiếp nhận tệp này.' : '')} : r));
+          queue.refresh();
+        } catch (err) {
+          if (!queue.mounted.current) break;
+          const message = err.response ? apiError(err) : 'Chưa xác nhận được kết quả gửi. Hãy tải lại danh sách trước khi gửi lại để tránh trùng CV.';
+          setReceipts(prev => prev.map(r => r.key === i ? {...r, state:err.response ? 'rejected' : 'unknown', error:message} : r.state === 'waiting' ? {...r,state:'cancelled',error:'Chưa gửi.'} : r));
+          setUploadError(message);
+          // Không tự gửi lại POST khi timeout/mất kết nối: server có thể đã lưu CV.
+          break;
+        }
+      }
+      if (queue.mounted.current) {
+        queue.refresh();
+        if (accepted) showToast('Đã tiếp nhận CV', `${accepted} file đã được tiếp nhận. Bạn có thể theo dõi tiến độ ngay bên dưới.`, 'success');
+      }
+    } finally {
+      uploadingRef.current = false;
+      if (queue.mounted.current) { setUploading(false); setProgress(''); }
     }
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleUploadFiles(e.dataTransfer.files);
+  const operation = async (cv, type) => {
+    if (operations.current.has(cv.cvId)) return;
+    operations.current.add(cv.cvId); setBusyIds(prev => [...prev, cv.cvId]);
+    try {
+      if (type === 'retry') {
+        await cvAPI.retry(cv.cvId);
+        if (queue.mounted.current) { queue.refresh(); showToast('Đã yêu cầu thử lại', 'Hồ sơ đang được xử lý lại.', 'info'); }
+      } else if (type === 'delete') {
+        await cvAPI.delete(cv.cvId);
+        if (queue.mounted.current) { queue.refresh(); showToast('Đã xóa CV', 'Đã xóa hồ sơ ứng viên.', 'success'); }
+      } else {
+        const blob = await cvAPI.file(cv.cvId);
+        if (!queue.mounted.current) return;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a'); link.href = url; link.download = cv.filename; link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+      }
+    } catch (err) {
+      const message = apiError(err);
+      if (queue.mounted.current) { showToast('Thao tác thất bại', message, 'error'); queue.refresh(); }
+      if (type === 'delete') throw new Error(message);
+    } finally {
+      operations.current.delete(cv.cvId);
+      if (queue.mounted.current) setBusyIds(prev => prev.filter(id => id !== cv.cvId));
     }
   };
 
-  return (
-    <div id="screen-upload" className="h-full w-full flex flex-col gap-3.5">
-      {/* Top Row: Upload Dropzone & 4-Step Pipeline */}
-      <div className="grid grid-cols-12 gap-3.5 shrink-0">
-        {/* Dropzone Tải lên */}
-        <div
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          className="col-span-5 bg-white border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-5 flex items-center gap-4 transition cursor-pointer group shadow-xs"
-        >
-          <input
-            type="file"
-            ref={fileInputRef}
-            className="hidden"
-            multiple
-            accept=".pdf"
-            onChange={onFileInputChange}
-          />
-
-          <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0 border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition">
-            <i className="fa-solid fa-cloud-arrow-up"></i>
-          </div>
-          <div>
-            <h4 className="font-bold text-slate-900 text-sm group-hover:text-blue-600 transition">
-              Kéo thả danh sách tệp CV (.PDF) vào đây
-            </h4>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Hỗ trợ tải lên 20 - 50 file PDF cùng lúc • Dung lượng tối đa 10MB/file
-            </p>
-            <div className="mt-2 flex items-center gap-2">
-              <span className="px-3 py-1 bg-blue-600 text-white rounded-md text-xs font-semibold shadow-xs">
-                Chọn tệp từ máy tính
-              </span>
-              <span className="text-[11px] text-slate-400">Định dạng chuẩn PDF</span>
-            </div>
-          </div>
-        </div>
-
-        {/* 4-Step Pipeline Process Visualizer */}
-        <div className="col-span-7 bg-white rounded-xl border border-slate-200/90 p-5 flex items-center justify-between shadow-xs">
-          <div className="flex items-center gap-3">
-            <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold text-xs">
-              1
-            </span>
-            <div>
-              <p className="font-semibold text-slate-900 text-xs">Nhận file PDF</p>
-              <p className="text-[11px] text-slate-400">Kiểm tra định dạng</p>
-            </div>
-          </div>
-
-          <i className="fa-solid fa-chevron-right text-slate-300"></i>
-
-          <div className="flex items-center gap-3">
-            <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold text-xs">
-              2
-            </span>
-            <div>
-              <p className="font-semibold text-slate-900 text-xs">Đọc nội dung CV</p>
-              <p className="text-[11px] text-slate-400">Lấy thông tin từ PDF</p>
-            </div>
-          </div>
-
-          <i className="fa-solid fa-chevron-right text-slate-300"></i>
-
-          <div
-            onClick={() => switchTab('screen-skills')}
-            className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-lg transition"
-            title="Bấm để xem danh sách kỹ năng"
-          >
-            <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold text-xs">
-              3
-            </span>
-            <div>
-              <p className="font-semibold text-slate-900 text-xs">Tìm kỹ năng</p>
-              <p className="text-[11px] text-slate-400">Kỹ năng &amp; Kinh nghiệm →</p>
-            </div>
-          </div>
-
-          <i className="fa-solid fa-chevron-right text-slate-300"></i>
-
-          <div
-            onClick={() => switchTab('screen-ranking')}
-            className="flex items-center gap-3 cursor-pointer hover:bg-emerald-50/50 p-1.5 rounded-lg transition"
-            title="Bấm để xem Bảng xếp hạng ứng viên"
-          >
-            <span className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center font-bold text-xs">
-              4
-            </span>
-            <div>
-              <p className="font-semibold text-slate-900 text-xs">Lưu &amp; Xếp hạng</p>
-              <p className="text-[11px] text-slate-400">Chuyển sang bảng điểm →</p>
-            </div>
-          </div>
-        </div>
+  if (!activeJob) return <div className="bg-white border rounded-xl p-8 text-sm">Hãy chọn hoặc tạo JD trước khi tải CV. <button onClick={() => switchTab('screen-jd')} className="text-blue-600 underline">Quản lý JD</button></div>;
+  return <div id="screen-upload" className="h-full overflow-auto flex flex-col gap-4">
+    <div className="bg-white border rounded-xl p-5 space-y-3 shrink-0">
+      <div className="flex items-center justify-between gap-3"><div><h1 className="font-bold text-lg">Tải lên &amp; Xử lý CV</h1><p className="text-sm text-slate-500">{activeJob.title} · Tải hồ sơ và theo dõi quá trình đọc thông tin</p></div><button className={button} disabled={queue.loading} onClick={queue.refresh}>Tải lại danh sách</button></div>
+      {activeJob.status !== 'OPEN' && <p role="alert" className="bg-amber-50 text-amber-800 p-3 rounded-lg text-sm">JD đã đóng. Hãy mở JD để nhận thêm CV; vẫn có thể xem hoặc thử lại hồ sơ cũ.</p>}
+      <div onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); if (canUpload) upload(e.dataTransfer.files); }} className={`p-6 border-2 border-dashed rounded-xl text-center ${canUpload ? 'border-blue-300 bg-blue-50/40' : 'border-slate-200 bg-slate-50'}`}>
+        <input aria-label="Chọn tệp CV PDF" ref={fileInput} type="file" multiple accept=".pdf,application/pdf" disabled={!canUpload} className="hidden" onChange={e => { const files = Array.from(e.target.files || []); e.target.value=''; upload(files); }} />
+        <button disabled={!canUpload} onClick={() => fileInput.current?.click()} className="px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg disabled:opacity-50">{uploading ? 'Đang tải lên…' : 'Chọn tệp PDF'}</button>
+        <p className="text-xs text-slate-500 mt-3">Kéo thả hoặc chọn tối đa 50 file/lượt · 10 MB/file · gửi lần lượt từng file.</p>
+        {uploading && <p role="status" className="text-sm text-blue-700 mt-2">{progress} · Giữ màn hình này mở đến khi gửi xong.</p>}
       </div>
-
-      {/* Processing Queue Table */}
-      <div className="bg-white rounded-xl border border-slate-200/90 flex-1 flex flex-col overflow-hidden shadow-xs">
-        <div className="px-5 py-3 border-b border-slate-200/80 flex justify-between items-center bg-slate-50/60">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-            <span className="font-bold text-slate-800 text-xs">
-              Tiến trình xử lý hồ sơ
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
-              <i className="fa-solid fa-circle-check text-emerald-600"></i> Đã xử lý 45/48 hồ sơ • 1 đang xử lý • 1 chờ • 1 lỗi
-            </span>
-            <button
-              onClick={() => {
-                setFilterStatus('ALL');
-                setPage(1);
-                showToast('Làm mới hàng đợi', `Đang hiển thị ${uploadQueue.length} hồ sơ trong hàng đợi.`, 'info');
-              }}
-              className="text-xs text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1"
-            >
-              <i className="fa-solid fa-rotate-right"></i> Làm mới tiến trình
-            </button>
-          </div>
-        </div>
-
-        <div id="upload-queue-list" className="flex-1 overflow-y-auto divide-y divide-slate-100 text-xs">
-          {/* Filter Bar */}
-          <div className="sticky top-0 z-10 bg-white px-5 py-2 flex items-center justify-between gap-2 border-b border-slate-100">
-            <div className="flex items-center gap-1.5">
-              {[
-                { key: 'ALL', label: 'Tất cả' },
-                { key: 'PROCESSING', label: 'Đang xử lý' },
-                { key: 'PROCESSED', label: 'Hoàn thành' },
-                { key: 'REJECTED', label: 'Thất bại' }
-              ].map(st => (
-                <button
-                  key={st.key}
-                  type="button"
-                  onClick={() => setFilterStatus(st.key)}
-                  className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition ${
-                    filterStatus === st.key
-                      ? 'bg-blue-50 text-blue-700 border-blue-200 shadow-xs'
-                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  {st.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-2 text-[11px] text-slate-500">
-              <span className="hidden xl:inline">
-                Tự động cập nhật trạng thái xử lý
-              </span>
-              <button
-                type="button"
-                onClick={() => openModal('cvDetail')}
-                className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-blue-600 font-semibold hover:bg-slate-50 transition"
-              >
-                Chi tiết thông tin
-              </button>
-              <span>Trang {safePage}/{totalPages}</span>
-              <button
-                type="button"
-                disabled={safePage <= 1}
-                onClick={() => setPage(p => Math.max(1, p - 1))}
-                className="px-2 py-1 rounded border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Trang trước"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                disabled={safePage >= totalPages}
-                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                className="px-2 py-1 rounded border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Trang sau"
-              >
-                ›
-              </button>
-            </div>
-          </div>
-
-          {/* Queue Rows */}
-          {pageItems.length === 0 && (
-            <div className="px-5 py-10 text-center text-slate-500 text-xs">
-              Không có hồ sơ nào trong bộ lọc này.
-            </div>
-          )}
-
-          {pageItems.map((item, idx) => {
-            const isRejected = item.status === 'REJECTED' || item.status === 'FAILED';
-            const isProcessed = item.status === 'PROCESSED';
-            const isProcessing = item.status === 'PROCESSING';
-            const statusLabel = isRejected
-              ? 'Thất bại'
-              : isProcessed
-              ? 'Hoàn thành'
-              : isProcessing
-              ? 'Đang xử lý'
-              : 'Đang chờ';
-
-            const handleRowClick = () => {
-              if (item.candidateKey) {
-                selectCandidateForReport(item.candidateKey);
-              } else if (isRejected) {
-                showToast('Xử lý thất bại', item.note, 'warning');
-              } else if (isProcessing) {
-                showToast('Tiến trình xử lý', 'Hệ thống đang đọc và xử lý tệp này...', 'info');
-              } else {
-                switchTab('screen-ranking');
-              }
-            };
-
-            return (
-              <div
-                key={item.id || idx}
-                onClick={handleRowClick}
-                className={`px-5 py-3.5 flex items-center justify-between transition cursor-pointer ${
-                  isRejected ? 'bg-rose-50/40 hover:bg-rose-50/70' : 'hover:bg-slate-50'
-                }`}
-              >
-                <div className="flex items-center gap-3.5">
-                  <div
-                    className={`w-9 h-9 rounded-lg border flex items-center justify-center text-base shrink-0 ${
-                      isRejected
-                        ? 'bg-rose-50 text-rose-600 border-rose-200'
-                        : isProcessed
-                        ? 'bg-slate-100 text-slate-600 border-slate-200'
-                        : 'bg-blue-50 text-blue-600 border-blue-200'
-                    }`}
-                  >
-                    <i
-                      className={`fa-solid ${
-                        isRejected ? 'fa-file-circle-xmark' : 'fa-file-pdf'
-                      }`}
-                    ></i>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-bold text-slate-900 text-xs">{item.name}</p>
-                      <span className="text-slate-400 font-mono text-[11px]">
-                        ({item.size})
-                      </span>
-                    </div>
-                    <p
-                      className={`text-xs mt-0.5 ${
-                        isRejected
-                          ? 'text-rose-600'
-                          : isProcessed
-                          ? 'text-emerald-600'
-                          : 'text-blue-700'
-                      }`}
-                    >
-                      {isProcessing && <i className="fa-solid fa-spinner fa-spin mr-1"></i>}
-                      {isProcessed && <i className="fa-solid fa-circle-check mr-1"></i>}
-                      {item.note}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3" onClick={e => e.stopPropagation()}>
-                  {item.time && (
-                    <span className="text-slate-400 font-mono text-xs">{item.time}</span>
-                  )}
-                  <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
-                      isRejected
-                        ? 'bg-rose-50 text-rose-700 border-rose-200'
-                        : isProcessed
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : 'bg-amber-50 text-amber-700 border-amber-200'
-                    }`}
-                  >
-                    {statusLabel}
-                  </span>
-
-                  {isProcessed && (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => openModal('cvDetail', item)}
-                        className="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold rounded-md text-xs transition"
-                        title="Xem thông tin đã đọc từ CV"
-                      >
-                        <i className="fa-solid fa-file-lines text-slate-400 mr-1"></i> Chi tiết
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (item.candidateKey) selectCandidateForReport(item.candidateKey);
-                          else switchTab('screen-ranking');
-                        }}
-                        className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold rounded-md text-xs transition"
-                      >
-                        {item.candidateKey ? 'Xem kết quả →' : 'Xếp hạng →'}
-                      </button>
-                    </>
-                  )}
-
-                  {isRejected && (
-                    <button
-                      type="button"
-                      onClick={() => showToast('Chi tiết lỗi', item.note, 'warning')}
-                      className="px-2.5 py-1.5 bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 font-semibold rounded-md text-xs transition"
-                      title="Xem lý do thất bại"
-                    >
-                      Xem lỗi
-                    </button>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={() => openModal('confirm', {
-                      title: 'Xóa CV ứng viên?',
-                      body: `Hồ sơ "${item.name}" sẽ bị gỡ khỏi hàng đợi xử lý.`,
-                      okText: 'Xóa CV',
-                      onConfirm: () => deleteCV(item.id)
-                    })}
-                    className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-md text-xs font-semibold border border-rose-200 transition"
-                    title="Xóa CV khỏi hàng đợi"
-                  >
-                    <i className="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      {uploadError && <p role="alert" className="text-sm text-rose-700 bg-rose-50 p-3 rounded-lg">{uploadError}</p>}
+      {receipts.length > 0 && <div className="text-xs border rounded-lg max-h-40 overflow-auto divide-y">{receipts.map(r => <p key={r.key} className={`p-2 ${r.state === 'accepted' ? 'text-emerald-700' : r.error ? 'text-rose-700' : 'text-slate-600'}`}>{r.filename} · {r.state === 'accepted' ? `Đã tiếp nhận · CV #${r.cvId}` : r.state === 'uploading' ? 'Đang gửi' : r.state === 'waiting' ? 'Chờ gửi' : r.state === 'unknown' ? 'Chưa xác nhận' : r.state === 'cancelled' ? 'Chưa gửi' : 'Bị từ chối'}{r.error && ` · ${r.error}`}</p>)}</div>}
     </div>
-  );
+    <div className="bg-white border rounded-xl p-5 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="font-bold">Tiến trình xử lý hồ sơ</h2><button className={button} onClick={() => switchTab('screen-ranking')}>Chấm điểm &amp; Xếp hạng</button><p className="text-xs text-slate-500">{completed}/{total} đã phân tích · {counts.PENDING || 0} chờ · {counts.PARSING || 0} đang xử lý · {counts.PARSED_FAILED || 0} lỗi</p></div>
+      <div className="flex flex-wrap justify-between gap-3"><label className="text-sm">Trạng thái <select aria-label="Lọc trạng thái CV" value={queue.status} onChange={e => queue.filter(e.target.value)} className="border rounded-lg px-3 py-2"><option value="">Tất cả</option>{Object.entries(CV_STATES).map(([key,label]) => <option key={key} value={key}>{label}</option>)}</select></label><p className="text-xs text-slate-500 self-center">Tự cập nhật mỗi 3 giây khi còn hồ sơ chờ hoặc đang xử lý.</p></div>
+      {queue.error && <p role="alert" className="text-sm text-rose-700 bg-rose-50 p-3 rounded-lg">{queue.error} Dữ liệu đang hiển thị có thể chưa mới nhất. <button className="underline" onClick={queue.refresh}>Thử lại</button></p>}
+      {queue.loading && <p role="status" className="text-sm text-slate-500">Đang tải danh sách CV…</p>}
+      {!queue.loading && !queue.error && !queue.items.length && <p className="p-8 text-center text-sm text-slate-500">Chưa có CV phù hợp với bộ lọc.</p>}
+      <div className="divide-y">{queue.items.map(cv => <article key={cv.cvId} className="py-4 space-y-3">
+        <div className="flex flex-wrap items-start justify-between gap-3"><div><h3 className="font-semibold text-sm break-all">{cv.filename} <span className="text-slate-400 font-normal">#{cv.cvId}</span></h3><p className="text-xs text-slate-500 mt-1">{cv.candidateName || 'Chưa xác định ứng viên'} · {cv.uploadedAt?.replace('T',' ').slice(0,19)}</p></div><span className={`text-xs px-2 py-1 border rounded-full ${cv.status === 'PARSED_FAILED' ? 'text-rose-700 bg-rose-50 border-rose-200' : isProcessing(cv.status) ? 'text-blue-700 bg-blue-50 border-blue-200' : 'text-emerald-700 bg-emerald-50 border-emerald-200'}`}>{CV_STATES[cv.status] || cv.status}</span></div>
+        <ReviewBadge status={cv.reviewStatus}/>
+        <p className={`text-sm select-text ${cv.status === 'PARSED_FAILED' ? 'text-rose-700' : 'text-slate-500'}`}>{cvStage(cv)}</p>
+        <div className="flex gap-2 flex-wrap"><button className={button} disabled={busyIds.includes(cv.cvId)} onClick={() => openScoreReport(cv.cvId,'screen-upload')}>Xem &amp; đánh giá</button><button className={button} onClick={() => setDetailId(cv.cvId)}>Thông tin CV</button><button className={button} disabled={busyIds.includes(cv.cvId)} onClick={() => operation(cv,'download')}>Tải PDF gốc</button>
+          {cv.status === 'PARSED_FAILED' && <button className={button} disabled={busyIds.includes(cv.cvId)} onClick={() => operation(cv,'retry')}>Thử lại</button>}
+          <button className={`${button} text-rose-600`} disabled={busyIds.includes(cv.cvId) || cv.status === 'PARSING'} title={cv.status === 'PARSING' ? 'Chờ CV xử lý xong trước khi xóa' : 'Xóa hồ sơ và PDF gốc'} onClick={() => openModal('confirm', { title:'Xóa CV?', body:`Bạn có muốn xóa hồ sơ "${cv.filename}" không?`, okText:'Xóa CV', onConfirm:() => operation(cv,'delete') })}>Xóa CV</button>
+        </div>
+      </article>)}</div>
+      <div className="flex items-center justify-end gap-3 text-xs border-t pt-3"><span>{queue.totalElements} hồ sơ · Trang {queue.page + 1}/{Math.max(1,queue.totalPages)}</span><button className={button} disabled={queue.page === 0 || queue.loading} onClick={() => queue.setPage(p => p - 1)}>Trang trước</button><button className={button} disabled={queue.page + 1 >= queue.totalPages || queue.loading} onClick={() => queue.setPage(p => p + 1)}>Trang sau</button></div>
+    </div>
+    {detailId && <CvExtractionModal id={detailId} onClose={() => setDetailId(null)} />}
+  </div>;
 }

@@ -1,0 +1,243 @@
+{
+  "cvId": 2,
+  "language": "en",
+  "person": {
+    "name": "Jane Demo",
+    "email": "jane.demo@example.com",
+    "phone": "+84902345678",
+    "links": []
+  },
+  "candidateName": "Jane Demo",
+  "email": "jane.demo@example.com",
+  "phone": "+84902345678",
+  "skills": [
+    {
+      "skillId": 12,
+      "key": null,
+      "raw": "React.js",
+      "canonical": "React",
+      "category": "Frontend",
+      "matchMethod": "ALIAS",
+      "confidence": 1.0,
+      "start": 76,
+      "end": 84
+    },
+    {
+      "skillId": 3,
+      "key": null,
+      "raw": "TypeScript",
+      "canonical": "TypeScript",
+      "category": "Programming Languages",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 86,
+      "end": 96
+    },
+    {
+      "skillId": 17,
+      "key": null,
+      "raw": "NextJS",
+      "canonical": "Next.js",
+      "category": "Frontend",
+      "matchMethod": "ALIAS",
+      "confidence": 1.0,
+      "start": 98,
+      "end": 104
+    },
+    {
+      "skillId": 43,
+      "key": null,
+      "raw": "Docker",
+      "canonical": "Docker",
+      "category": "DevOps",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 106,
+      "end": 112
+    },
+    {
+      "skillId": 42,
+      "key": null,
+      "raw": "Git",
+      "canonical": "Git",
+      "category": "DevOps",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 114,
+      "end": 117
+    },
+    {
+      "skillId": 2,
+      "key": null,
+      "raw": "JavaScript",
+      "canonical": "JavaScript",
+      "category": "Programming Languages",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 119,
+      "end": 129
+    }
+  ],
+  "experiences": [
+    {
+      "companyName": "Example Studio",
+      "jobTitle": "Frontend Developer",
+      "startDate": "2021-01-01",
+      "endDate": "2024-12-01",
+      "startDatePrecision": "month",
+      "endDatePrecision": "month",
+      "isCurrent": false,
+      "description": "Built accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.",
+      "sourceText": "Frontend Developer | Example Studio | 01/2021 - 12/2024\nBuilt accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker."
+    }
+  ],
+  "educations": [
+    {
+      "institution": "Example University",
+      "degree": "Bachelor",
+      "field": "Computer Science",
+      "graduationYear": 2020,
+      "sourceText": "Example University\nBachelor of Computer Science\nGraduated: 2020"
+    }
+  ],
+  "experienceText": "Frontend Developer | Example Studio | 01/2021 - 12/2024\nBuilt accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.",
+  "rawTokens": [
+    "Name",
+    ":",
+    "Jane",
+    "Demo",
+    "Email",
+    ":",
+    "jane.demo@example.com",
+    "Phone",
+    ":",
+    "+84",
+    "902",
+    "345",
+    "678",
+    "SKILLS",
+    "React.js",
+    ",",
+    "TypeScript",
+    ",",
+    "NextJS",
+    ",",
+    "Docker",
+    ",",
+    "Git",
+    ",",
+    "JavaScript",
+    "WORK",
+    "EXPERIENCE",
+    "Frontend",
+    "Developer",
+    "|",
+    "Example",
+    "Studio",
+    "|",
+    "01/2021",
+    "-",
+    "12/2024",
+    "Built",
+    "accessible",
+    "interfaces",
+    "with",
+    "React.js",
+    "and",
+    "TypeScript",
+    ".",
+    "Delivered",
+    "web",
+    "applications",
+    "with",
+    "NextJS",
+    "and",
+    "Docker",
+    ".",
+    "EDUCATION",
+    "Example",
+    "University",
+    "Bachelor",
+    "of",
+    "Computer",
+    "Science",
+    "Graduated",
+    ":",
+    "2020"
+  ],
+  "entities": [
+    {
+      "text": "Jane Demo",
+      "label": "PERSON",
+      "start": 6,
+      "end": 15
+    },
+    {
+      "text": "902 345",
+      "label": "CARDINAL",
+      "start": 56,
+      "end": 63
+    },
+    {
+      "text": "TypeScript",
+      "label": "ORG",
+      "start": 86,
+      "end": 96
+    },
+    {
+      "text": "Docker",
+      "label": "PERSON",
+      "start": 106,
+      "end": 112
+    },
+    {
+      "text": "Git",
+      "label": "PERSON",
+      "start": 114,
+      "end": 117
+    },
+    {
+      "text": "JavaScript",
+      "label": "ORG",
+      "start": 119,
+      "end": 129
+    },
+    {
+      "text": "Example Studio",
+      "label": "PERSON",
+      "start": 168,
+      "end": 182
+    },
+    {
+      "text": "TypeScript",
+      "label": "ORG",
+      "start": 249,
+      "end": 259
+    },
+    {
+      "text": "Docker",
+      "label": "PERSON",
+      "start": 304,
+      "end": 310
+    },
+    {
+      "text": "Example University\nBachelor of Computer Science\nGraduated",
+      "label": "ORG",
+      "start": 323,
+      "end": 380
+    },
+    {
+      "text": "2020",
+      "label": "CARDINAL",
+      "start": 382,
+      "end": 386
+    }
+  ],
+  "unknownSkills": [],
+  "normalizedText": "Name: Jane Demo\nEmail: jane.demo@example.com\nPhone: +84 902 345 678\n\nSKILLS\nReact.js, TypeScript, NextJS, Docker, Git, JavaScript\n\nWORK EXPERIENCE\nFrontend Developer | Example Studio | 01/2021 - 12/2024\nBuilt accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.\n\nEDUCATION\nExample University\nBachelor of Computer Science\nGraduated: 2020",
+  "warnings": [
+    "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+  ],
+  "modelVersion": "ats-nlp-1.0/full",
+  "rawNlpResult": "{\"cvId\":2,\"language\":\"en\",\"person\":{\"name\":\"Jane Demo\",\"email\":\"jane.demo@example.com\",\"phone\":\"+84902345678\",\"links\":[]},\"candidateName\":\"Jane Demo\",\"email\":\"jane.demo@example.com\",\"phone\":\"+84902345678\",\"skills\":[{\"skillId\":12,\"key\":null,\"raw\":\"React.js\",\"canonical\":\"React\",\"category\":\"Frontend\",\"matchMethod\":\"ALIAS\",\"confidence\":1.0,\"start\":76,\"end\":84},{\"skillId\":3,\"key\":null,\"raw\":\"TypeScript\",\"canonical\":\"TypeScript\",\"category\":\"Programming Languages\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":86,\"end\":96},{\"skillId\":17,\"key\":null,\"raw\":\"NextJS\",\"canonical\":\"Next.js\",\"category\":\"Frontend\",\"matchMethod\":\"ALIAS\",\"confidence\":1.0,\"start\":98,\"end\":104},{\"skillId\":43,\"key\":null,\"raw\":\"Docker\",\"canonical\":\"Docker\",\"category\":\"DevOps\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":106,\"end\":112},{\"skillId\":42,\"key\":null,\"raw\":\"Git\",\"canonical\":\"Git\",\"category\":\"DevOps\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":114,\"end\":117},{\"skillId\":2,\"key\":null,\"raw\":\"JavaScript\",\"canonical\":\"JavaScript\",\"category\":\"Programming Languages\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":119,\"end\":129}],\"experiences\":[{\"companyName\":\"Example Studio\",\"jobTitle\":\"Frontend Developer\",\"startDate\":\"2021-01-01\",\"endDate\":\"2024-12-01\",\"startDatePrecision\":\"month\",\"endDatePrecision\":\"month\",\"isCurrent\":false,\"description\":\"Built accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.\",\"sourceText\":\"Frontend Developer | Example Studio | 01/2021 - 12/2024\\nBuilt accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.\"}],\"educations\":[{\"institution\":\"Example University\",\"degree\":\"Bachelor\",\"field\":\"Computer Science\",\"graduationYear\":2020,\"sourceText\":\"Example University\\nBachelor of Computer Science\\nGraduated: 2020\"}],\"experienceText\":\"Frontend Developer | Example Studio | 01/2021 - 12/2024\\nBuilt accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.\",\"rawTokens\":[\"Name\",\":\",\"Jane\",\"Demo\",\"Email\",\":\",\"jane.demo@example.com\",\"Phone\",\":\",\"+84\",\"902\",\"345\",\"678\",\"SKILLS\",\"React.js\",\",\",\"TypeScript\",\",\",\"NextJS\",\",\",\"Docker\",\",\",\"Git\",\",\",\"JavaScript\",\"WORK\",\"EXPERIENCE\",\"Frontend\",\"Developer\",\"|\",\"Example\",\"Studio\",\"|\",\"01/2021\",\"-\",\"12/2024\",\"Built\",\"accessible\",\"interfaces\",\"with\",\"React.js\",\"and\",\"TypeScript\",\".\",\"Delivered\",\"web\",\"applications\",\"with\",\"NextJS\",\"and\",\"Docker\",\".\",\"EDUCATION\",\"Example\",\"University\",\"Bachelor\",\"of\",\"Computer\",\"Science\",\"Graduated\",\":\",\"2020\"],\"entities\":[{\"text\":\"Jane Demo\",\"label\":\"PERSON\",\"start\":6,\"end\":15},{\"text\":\"902 345\",\"label\":\"CARDINAL\",\"start\":56,\"end\":63},{\"text\":\"TypeScript\",\"label\":\"ORG\",\"start\":86,\"end\":96},{\"text\":\"Docker\",\"label\":\"PERSON\",\"start\":106,\"end\":112},{\"text\":\"Git\",\"label\":\"PERSON\",\"start\":114,\"end\":117},{\"text\":\"JavaScript\",\"label\":\"ORG\",\"start\":119,\"end\":129},{\"text\":\"Example Studio\",\"label\":\"PERSON\",\"start\":168,\"end\":182},{\"text\":\"TypeScript\",\"label\":\"ORG\",\"start\":249,\"end\":259},{\"text\":\"Docker\",\"label\":\"PERSON\",\"start\":304,\"end\":310},{\"text\":\"Example University\\nBachelor of Computer Science\\nGraduated\",\"label\":\"ORG\",\"start\":323,\"end\":380},{\"text\":\"2020\",\"label\":\"CARDINAL\",\"start\":382,\"end\":386}],\"unknownSkills\":[],\"normalizedText\":\"Name: Jane Demo\\nEmail: jane.demo@example.com\\nPhone: +84 902 345 678\\n\\nSKILLS\\nReact.js, TypeScript, NextJS, Docker, Git, JavaScript\\n\\nWORK EXPERIENCE\\nFrontend Developer | Example Studio | 01/2021 - 12/2024\\nBuilt accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.\\n\\nEDUCATION\\nExample University\\nBachelor of Computer Science\\nGraduated: 2020\",\"warnings\":[\"Skill confidence is dictionary-match strength, not a calibrated probability or proficiency.\"],\"modelVersion\":\"ats-nlp-1.0/full\"}"
+}

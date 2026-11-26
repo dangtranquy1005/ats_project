@@ -1,0 +1,60 @@
+[
+  {
+    "cv": "01-backend-strong",
+    "name": "Nguyễn Minh An",
+    "email": "an.demo@example.com",
+    "skills": [
+      "Java",
+      "Docker",
+      "Git",
+      "REST API",
+      "Spring Boot",
+      "PostgreSQL"
+    ],
+    "unknown": [],
+    "experiences": 1
+  },
+  {
+    "cv": "02-frontend-english",
+    "name": "Jane Demo",
+    "email": "jane.demo@example.com",
+    "skills": [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Docker",
+      "Git",
+      "JavaScript"
+    ],
+    "unknown": [],
+    "experiences": 1
+  },
+  {
+    "cv": "03-junior-typos",
+    "name": "Trần Gia Bình",
+    "email": "binh.demo@example.com",
+    "skills": [
+      "Java",
+      "Docker"
+    ],
+    "unknown": [
+      "SpringBott",
+      "PostgreSQlX",
+      "lam viec nhom"
+    ],
+    "experiences": 1
+  },
+  {
+    "cv": "04-missing-contact",
+    "name": null,
+    "email": null,
+    "skills": [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "REST API"
+    ],
+    "unknown": [],
+    "experiences": 1
+  }
+]

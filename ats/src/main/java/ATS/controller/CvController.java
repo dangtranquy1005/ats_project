@@ -2,12 +2,22 @@ package ATS.controller;
 
 import ATS.dto.CvUploadResult;
 import ATS.dto.CvStatusResponse;
+import ATS.dto.CvQueueResponse;
+import ATS.dto.CvExtractionDetail;
+import ATS.enums.CVStatus;
+import ATS.service.CvQueryService;
+import ATS.service.FileStorageService;
+import ATS.service.UploadCleanupWorker;
+import ATS.service.CvReviewService;
+import ATS.dto.CvReviewRequest;
+import ATS.dto.CvReviewResponse;
 import ATS.entities.User;
 import ATS.service.CvUploadService;
 import ATS.service.PdfTextExtractor;
 import ATS.service.UserService;
 import ATS.service.CvUploadTransactions;
 import ATS.service.CvPdfWorker;
+import ATS.service.CvNlpWorker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +51,11 @@ public class CvController {
     private final UserService userService;
     private final CvUploadTransactions transactions;
     private final CvPdfWorker pdfWorker;
+    private final CvNlpWorker nlpWorker;
+    private final CvQueryService queries;
+    private final FileStorageService storage;
+    private final UploadCleanupWorker cleanup;
+    private final CvReviewService reviews;
 
     private Long currentUserId(Authentication authentication) {
         if (authentication == null) {
@@ -71,10 +86,60 @@ public class CvController {
         return transactions.getStatus(id, currentUserId(authentication));
     }
 
+    @GetMapping
+    public CvQueueResponse list(@RequestParam Long jobId, @RequestParam(required = false) CVStatus status,
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "10") int size, Authentication auth) {
+        return queries.list(jobId, currentUserId(auth), status, page, size);
+    }
+
+    @GetMapping("/{id}")
+    public CvExtractionDetail detail(@PathVariable Long id, Authentication auth) {
+        return queries.detail(id, currentUserId(auth));
+    }
+
+    @GetMapping("/{id}/review")
+    public CvReviewResponse review(@PathVariable Long id, Authentication auth) {
+        return reviews.get(id, currentUserId(auth));
+    }
+
+    @PutMapping("/{id}/review")
+    public CvReviewResponse review(@PathVariable Long id, @RequestBody CvReviewRequest request, Authentication auth) {
+        return reviews.save(id, currentUserId(auth), request);
+    }
+
+    @GetMapping(value = "/{id}/file", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody> file(
+            @PathVariable Long id, Authentication auth) {
+        var file = queries.file(id, currentUserId(auth));
+        java.io.InputStream input;
+        try {
+            input = storage.getFile(file.path());
+        } catch (FileStorageService.FileStorageException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Không tải được PDF gốc, hãy thử lại", e);
+        }
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CACHE_CONTROL, "no-store")
+                .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
+                        .filename(file.filename().replaceAll("[\\r\\n]", "_"), StandardCharsets.UTF_8).build().toString())
+                .body(output -> { try (input) { input.transferTo(output); } });
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id, Authentication auth) {
+        String path = transactions.deleteCv(id, currentUserId(auth));
+        cleanup.delete(path, true);
+    }
+
     @PostMapping("/{id}/retry")
     public ResponseEntity<CvStatusResponse> retry(@PathVariable Long id, Authentication authentication) {
         CvStatusResponse status = transactions.retry(id, currentUserId(authentication));
-        pdfWorker.submit(id);
+        if (Boolean.TRUE.equals(status.getTextExtracted())) {
+            nlpWorker.submit(id);
+        } else {
+            pdfWorker.submit(id);
+        }
         return ResponseEntity.accepted().body(status);
     }
 

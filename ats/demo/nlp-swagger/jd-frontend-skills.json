@@ -1,0 +1,22 @@
+[
+  {
+    "skillId": 12,
+    "mandatory": true,
+    "weight": 3
+  },
+  {
+    "skillId": 3,
+    "mandatory": true,
+    "weight": 3
+  },
+  {
+    "skillId": 17,
+    "mandatory": false,
+    "weight": 2
+  },
+  {
+    "skillId": 43,
+    "mandatory": false,
+    "weight": 2
+  }
+]

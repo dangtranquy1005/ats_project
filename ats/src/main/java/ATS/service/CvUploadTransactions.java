@@ -40,6 +40,9 @@ public class CvUploadTransactions {
             throw new IllegalStateException("Phiên upload đã hết hạn, vui lòng thử lại");
         }
         Job job = jobs.findOwnedForUpdate(jobId, userId).orElseThrow(this::notFound);
+        if (job.getStatus() != ATS.enums.JobStatus.OPEN) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "JD đã đóng, không thể nhận thêm CV");
+        }
         CVs cv = new CVs();
         cv.setJob(job);
         cv.setFilePath(path);
@@ -113,11 +116,16 @@ public class CvUploadTransactions {
         if (cv.getJob().getUser().getId() != userId.longValue()) {
             throw notFound();
         }
-        if (cv.getStatus() != CVStatus.PARSED_FAILED || hasText(cv)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Chỉ chạy lại bước PDF đã thất bại");
+        if (cv.getStatus() != CVStatus.PARSED_FAILED) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Chỉ chạy lại hồ sơ đã phân tích thất bại");
         }
         cv.setStatus(CVStatus.PENDING);
         cv.setErrorMessage(null);
+        cv.setNlpProcessingToken(null);
+        cv.setNlpProcessingStartedAt(null);
+        if (cv.getMatchResult() != null) {
+            cv.getMatchResult().setAlgorithmVersion(null);
+        }
         finishTask(cv);
         return status(cv);
     }
@@ -125,6 +133,24 @@ public class CvUploadTransactions {
     @Transactional(readOnly = true)
     public CvStatusResponse getStatus(Long id, Long userId) {
         return status(cvs.findOwned(id, userId).orElseThrow(this::notFound));
+    }
+
+    /** Khóa theo cùng thứ tự JD -> CV như chấm điểm; ticket và xóa DB commit cùng nhau. */
+    public String deleteCv(Long id, Long userId) {
+        Long jobId = cvs.findOwnedJobId(id, userId).orElseThrow(this::notFound);
+        jobs.findOwnedForUpdate(jobId, userId).orElseThrow(this::notFound);
+        CVs cv = cvs.findLocked(id).orElseThrow(this::notFound);
+        if (cv.getStatus() == CVStatus.PARSING) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CV đang xử lý, hãy chờ hoàn tất trước khi xóa");
+        }
+        String path = cv.getFilePath();
+        PendingUploadCleanup ticket = new PendingUploadCleanup();
+        ticket.setFilePath(path);
+        ticket.setEligibleAt(LocalDateTime.now());
+        pending.save(ticket);
+        cvs.delete(cv);
+        cvs.flush();
+        return path;
     }
 
     private CvStatusResponse status(CVs cv) {

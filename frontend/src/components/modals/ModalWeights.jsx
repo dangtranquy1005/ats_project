@@ -1,216 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 
+const criteria = [
+  { key: 'w1', label: 'Kỹ năng phù hợp', description: 'Những kỹ năng cần cho vị trí tuyển dụng.', color: 'bg-blue-500' },
+  { key: 'w2', label: 'Kinh nghiệm liên quan', description: 'Công việc từng làm có liên quan đến vị trí này.', color: 'bg-violet-500' },
+  { key: 'w3', label: 'Học vấn', description: 'Bằng cấp và chuyên ngành đáp ứng yêu cầu.', color: 'bg-teal-500' },
+];
 export default function ModalWeights() {
-  const { modals, closeModal, weights, saveWeights } = useApp();
-  const [w1, setW1] = useState(weights.w1);
-  const [w2, setW2] = useState(weights.w2);
-  const [w3, setW3] = useState(weights.w3);
-
+  const { modals, closeModal, weights, saveWeights, activeJob } = useApp();
+  const [values, setValues] = useState({ w1: 50, w2: 30, w3: 20 });
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
   useEffect(() => {
     if (modals.weights) {
-      setW1(weights.w1);
-      setW2(weights.w2);
-      setW3(weights.w3);
+      setValues(Object.fromEntries(Object.entries(weights).map(([key,value]) => [key, Number((value * 100).toFixed(8))])));
+      setError(''); setBusy(false);
     }
   }, [modals.weights, weights]);
-
-  if (!modals.weights) return null;
-
-  const sum = parseFloat((w1 + w2 + w3).toFixed(2));
-  const isBalanced = Math.abs(sum - 1.0) < 0.01;
-
-  const applyPreset = (presetW1, presetW2, presetW3) => {
-    setW1(presetW1);
-    setW2(presetW2);
-    setW3(presetW3);
+  if (!modals.weights || !activeJob) return null;
+  const validInputs = Object.values(values).every(value => value !== '' && Number.isFinite(Number(value)) && Number(value) >= 0 && Number(value) <= 100);
+  const sum = Object.values(values).reduce((total,value) => total + Number(value || 0), 0);
+  const valid = validInputs && Math.abs(sum - 100) <= 0.0001;
+  const difference = Number(Math.abs(100 - sum).toFixed(4));
+  const save = async () => {
+    if (!valid || busy) return;
+    setBusy(true); setError('');
+    try { await saveWeights(Number(values.w1)/100, Number(values.w2)/100, Number(values.w3)/100); }
+    catch (err) { setError(err.message); } finally { setBusy(false); }
   };
-
-  const autoBalance = () => {
-    const total = w1 + w2 + w3;
-    if (total > 0) {
-      let nw1 = Math.round((w1 / total) * 20) / 20;
-      let nw2 = Math.round((w2 / total) * 20) / 20;
-      let nw3 = parseFloat((1.0 - nw1 - nw2).toFixed(2));
-      if (nw3 < 0.05) {
-        nw3 = 0.05;
-        nw2 = parseFloat((1.0 - nw1 - nw3).toFixed(2));
-      }
-      setW1(nw1);
-      setW2(nw2);
-      setW3(nw3);
-    }
-  };
-
-  const handleSave = () => {
-    let finalW1 = w1;
-    let finalW2 = w2;
-    let finalW3 = w3;
-    if (!isBalanced) {
-      const total = w1 + w2 + w3;
-      if (total > 0) {
-        finalW1 = Math.round((w1 / total) * 20) / 20;
-        finalW2 = Math.round((w2 / total) * 20) / 20;
-        finalW3 = parseFloat((1.0 - finalW1 - finalW2).toFixed(2));
-        if (finalW3 < 0.05) {
-          finalW3 = 0.05;
-          finalW2 = parseFloat((1.0 - finalW1 - finalW3).toFixed(2));
-        }
-      }
-    }
-    saveWeights(finalW1, finalW2, finalW3);
-  };
-
-  return (
-    <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50 animate-tabFadeIn">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-elevation border border-slate-200">
-        <div className="flex justify-between items-center border-b border-slate-100 pb-3">
-          <div>
-            <h3 className="font-bold text-sm text-slate-900">
-              Cấu hình trọng số chấm điểm (w1, w2, w3)
-            </h3>
-            <p className="text-xs text-slate-500">
-              Score = w1×Skill + w2×Experience + w3×Education
-            </p>
-          </div>
-          <button
-            onClick={() => closeModal('weights')}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
-          >
-            <i className="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <div className="space-y-3.5 text-xs">
-          <div className="bg-slate-50 p-4 rounded-xl space-y-3.5 border border-slate-200">
-            <div>
-              <div className="flex justify-between font-semibold text-slate-800 mb-1">
-                <span>w1 (Kỹ năng - Skill Match):</span>
-                <span className="text-blue-600 font-mono font-bold">
-                  {w1.toFixed(2)} ({Math.round(w1 * 100)}%)
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0.1"
-                max="0.8"
-                step="0.05"
-                value={w1}
-                onChange={e => setW1(parseFloat(e.target.value))}
-                className="w-full accent-blue-600 cursor-pointer"
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between font-semibold text-slate-800 mb-1">
-                <span>w2 (Kinh nghiệm - Experience Match):</span>
-                <span className="text-blue-600 font-mono font-bold">
-                  {w2.toFixed(2)} ({Math.round(w2 * 100)}%)
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0.1"
-                max="0.8"
-                step="0.05"
-                value={w2}
-                onChange={e => setW2(parseFloat(e.target.value))}
-                className="w-full accent-blue-600 cursor-pointer"
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between font-semibold text-slate-800 mb-1">
-                <span>w3 (Bằng cấp & Học vấn):</span>
-                <span className="text-blue-600 font-mono font-bold">
-                  {w3.toFixed(2)} ({Math.round(w3 * 100)}%)
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0.05"
-                max="0.5"
-                step="0.05"
-                value={w3}
-                onChange={e => setW3(parseFloat(e.target.value))}
-                className="w-full accent-blue-600 cursor-pointer"
-              />
-            </div>
-          </div>
-
-          {/* Presets Buttons */}
-          <div className="flex items-center justify-between text-[11px] pt-1">
-            <span className="text-slate-500 font-semibold">Mẫu thiết lập:</span>
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <button
-                type="button"
-                onClick={() => applyPreset(0.5, 0.3, 0.2)}
-                className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 font-medium text-slate-700 transition"
-              >
-                Mặc định
-              </button>
-              <button
-                type="button"
-                onClick={() => applyPreset(0.6, 0.25, 0.15)}
-                className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 font-medium text-slate-700 transition"
-              >
-                Ưu tiên Skill
-              </button>
-              <button
-                type="button"
-                onClick={() => applyPreset(0.35, 0.45, 0.2)}
-                className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 font-medium text-slate-700 transition"
-              >
-                Ưu tiên KN
-              </button>
-              <button
-                type="button"
-                onClick={autoBalance}
-                className="px-2 py-1 rounded bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-semibold transition"
-                title="Tự động chuẩn hóa tổng 3 trọng số về đúng 100%"
-              >
-                ⚡ Cân bằng 100%
-              </button>
-            </div>
-          </div>
-
-          {isBalanced ? (
-            <p className="text-[11px] text-emerald-600 font-bold italic text-center">
-              • Tổng ba trọng số w1 + w2 + w3 = 1.0 (100% Cân đối)
-            </p>
-          ) : (
-            <div className="text-center space-y-1">
-              <p className="text-[11px] text-amber-600 font-bold italic">
-                Tổng hiện tại = {sum.toFixed(2)} (chưa tròn 1.00)
-              </p>
-              <button
-                type="button"
-                onClick={autoBalance}
-                className="text-[11px] font-semibold text-blue-600 hover:underline"
-              >
-                Bấm vào đây để tự động cân bằng về 100%
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="flex justify-end gap-2.5 pt-3 border-t border-slate-100">
-          <button
-            type="button"
-            onClick={() => closeModal('weights')}
-            className="px-4 py-2 border rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-700 transition"
-          >
-            Đóng
-          </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-xs transition active:scale-98"
-          >
-            {isBalanced ? 'Lưu & Tính lại điểm' : 'Cân bằng & Lưu điểm'}
-          </button>
-        </div>
-      </div>
+  return <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50"><div role="dialog" aria-modal="true" aria-labelledby="priority-title" className="bg-white rounded-2xl w-full max-w-xl p-5 space-y-4 max-h-[90vh] overflow-auto shadow-xl">
+    <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-semibold text-blue-600 mb-1">{activeJob.title}</p><h2 id="priority-title" className="font-bold text-xl text-slate-900">Bạn muốn ưu tiên điều gì?</h2></div><button aria-label="Đóng thiết lập ưu tiên" disabled={busy} onClick={() => closeModal('weights')} className="text-slate-400 hover:text-slate-700 p-1">✕</button></div>
+    <p className="text-sm text-slate-500 leading-relaxed">Chia 100% cho ba tiêu chí. Tỷ lệ càng cao, tiêu chí đó càng ảnh hưởng đến điểm của ứng viên.</p>
+    <div className="space-y-3">{criteria.map(({key,label,description,color}) => <div key={key} className="border border-slate-200 rounded-xl p-3 flex gap-3 items-start"><span className={`w-2 h-2 rounded-full mt-2 shrink-0 ${color}`}></span><div className="flex-1 min-w-0"><label htmlFor={`priority-${key}`} className="font-semibold text-sm text-slate-800">{label}</label><p className="text-xs leading-relaxed text-slate-500 mt-1">{description}</p></div><div className="flex items-center gap-1 shrink-0"><input id={`priority-${key}`} aria-label={`Mức ưu tiên ${label}`} type="number" min="0" max="100" step="any" value={values[key]} disabled={busy} onChange={e => setValues(prev => ({...prev, [key]: e.target.value}))} className="w-20 border border-slate-300 rounded-lg px-2 py-2 text-right font-semibold text-sm focus:outline-blue-500"/><span className="text-sm text-slate-500">%</span></div></div>)}</div>
+    <div className="space-y-2"><div className="flex justify-between text-sm font-semibold"><span>Tổng mức ưu tiên</span><span className={valid?'text-emerald-700':'text-amber-700'}>{Number(sum.toFixed(4))}% / 100%</span></div><div className="h-2 rounded-full bg-slate-100 overflow-hidden flex" aria-hidden="true">{criteria.map(({key,color}) => <span key={key} className={color} style={{width: `${Math.max(0,Math.min(100,Number(values[key])||0)) / Math.max(100,sum) * 100}%`}}/>)}</div>
+      {!valid && <p role="status" className="text-xs text-amber-700">{!validInputs?'Mỗi tỷ lệ cần nằm trong khoảng 0% đến 100%.':sum<100?`Bạn còn ${difference}% chưa phân bổ.`:`Tổng đang vượt ${difference}%. Hãy giảm một hoặc nhiều tiêu chí.`}</p>}
     </div>
-  );
+    <div className="bg-blue-50 rounded-xl p-3 text-xs text-blue-900 leading-relaxed">Ví dụ: Kỹ năng 50% nghĩa là phần kỹ năng đóng góp tối đa 50/100 điểm.</div>
+    {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
+    <div className="flex justify-between items-center gap-3 border-t pt-4 flex-wrap"><button disabled={busy} onClick={() => setValues({w1:50,w2:30,w3:20})} className="text-xs text-blue-600 underline">Dùng gợi ý 50% · 30% · 20%</button><div className="flex gap-3"><button disabled={busy} onClick={() => closeModal('weights')} className="px-4 py-2 border rounded-lg text-sm">Hủy</button><button onClick={save} disabled={!valid || busy} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold disabled:opacity-50">{busy?'Đang lưu…':'Lưu mức ưu tiên'}</button></div></div>
+  </div></div>;
 }

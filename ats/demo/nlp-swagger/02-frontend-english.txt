@@ -1,0 +1,15 @@
+Name: Jane Demo
+Email: jane.demo@example.com
+Phone: +84 902 345 678
+
+SKILLS
+React.js, TypeScript, NextJS, Docker, Git, JavaScript
+
+WORK EXPERIENCE
+Frontend Developer | Example Studio | 01/2021 - 12/2024
+Built accessible interfaces with React.js and TypeScript. Delivered web applications with NextJS and Docker.
+
+EDUCATION
+Example University
+Bachelor of Computer Science
+Graduated: 2020

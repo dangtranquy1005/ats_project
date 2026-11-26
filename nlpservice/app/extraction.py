@@ -133,9 +133,9 @@ def extract_experiences(section: str, entities: list[Entity]) -> list[Experience
 
 
 DEGREES = [
-    (r"\b(?:ph\.?d\.?|doctorate|tiến sĩ)\b", "Doctorate"),
-    (r"\b(?:master(?:'s)?|m\.?sc\.?|thạc sĩ)\b", "Master"),
-    (r"\b(?:bachelor(?:'s)?|b\.?sc\.?|cử nhân)\b", "Bachelor"),
+    (r"\b(?:ph\.?\s*d\.?|doctorate|doctoral|doctor of philosophy|tiến sĩ)\b", "Doctorate"),
+    (r"\b(?:master(?:'s)?|m\.?\s*sc\.?|mba|m\.?\s*eng\.?|thạc sĩ)\b", "Master"),
+    (r"\b(?:bachelor(?:'s)?|b\.?\s*sc\.?|b\.?\s*eng\.?|b\.?\s*a\.?|cử nhân)\b", "Bachelor"),
     (r"\b(?:kỹ sư|ky su)\b", "Engineer"),
     (r"\b(?:associate(?:'s)?|cao đẳng)\b", "Associate"),
 ]
@@ -150,7 +150,8 @@ def extract_educations(section: str) -> list[Education]:
         lines = block.splitlines()
         institution = next((line.strip(" |-") for line in lines if re.search(
             r"university|college|institute|đại học|cao đẳng|học viện|dai hoc", line, re.I)), None)
-        degree = next((canonical for pattern, canonical in DEGREES if re.search(pattern, block, re.I)), None)
+        # Bỏ dấu cho quy tắc bằng cấp; không suy ra Bachelor chỉ từ tên trường University/Đại học.
+        degree = next((canonical for pattern, canonical in DEGREES if re.search(fold(pattern), fold(block), re.I)), None)
         field = None
         labeled = re.search(r"(?:major|field|chuyên ngành|chuyen nganh)\s*:\s*([^\n|]+)", block, re.I)
         if labeled:

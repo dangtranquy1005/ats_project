@@ -1,0 +1,42 @@
+[
+  {
+    "jd": "jd-java",
+    "cv": "01-backend-strong",
+    "expectedSkillScore": 1.0
+  },
+  {
+    "jd": "jd-java",
+    "cv": "02-frontend-english",
+    "expectedSkillScore": 0.2
+  },
+  {
+    "jd": "jd-java",
+    "cv": "03-junior-typos",
+    "expectedSkillScore": 0.5
+  },
+  {
+    "jd": "jd-java",
+    "cv": "04-missing-contact",
+    "expectedSkillScore": 0.8
+  },
+  {
+    "jd": "jd-frontend",
+    "cv": "01-backend-strong",
+    "expectedSkillScore": 0.2
+  },
+  {
+    "jd": "jd-frontend",
+    "cv": "02-frontend-english",
+    "expectedSkillScore": 1.0
+  },
+  {
+    "jd": "jd-frontend",
+    "cv": "03-junior-typos",
+    "expectedSkillScore": 0.2
+  },
+  {
+    "jd": "jd-frontend",
+    "cv": "04-missing-contact",
+    "expectedSkillScore": 0.0
+  }
+]

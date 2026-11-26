@@ -28,6 +28,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilterAsyncDispatch() {
+        // Streaming PDF được redispatch ASYNC; khôi phục JWT cho lượt kiểm tra quyền này.
+        return false;
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
@@ -46,6 +52,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             String username = tokenProvider.getUsernameFromJWT(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (!userDetails.isEnabled() || !userDetails.isAccountNonLocked()
+                    || !userDetails.isAccountNonExpired() || !userDetails.isCredentialsNonExpired()) return;
             var authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

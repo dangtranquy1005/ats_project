@@ -1,0 +1,514 @@
+{
+  "cvId": 1,
+  "languageHint": "vi",
+  "rawText": "Họ tên: Nguyễn Minh An\nEmail: an.demo@example.com\nĐiện thoại: 0901 234 567\n\nKỸ NĂNG\nJAVA, SpringBoot, Postgres, Docker, Git\n\nKINH NGHIỆM LÀM VIỆC\nBackend Developer | Công ty Demo ABC | 01/2020 - 12/2024\nPhát triển REST API bằng Java, Spring Boot và PostgreSQL. Đóng gói ứng dụng bằng Docker.\n\nHỌC VẤN\nĐại học Xây dựng Hà Nội\nKỹ sư\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2019",
+  "skillDictionary": [
+    {
+      "id": 1,
+      "canonical": "Java",
+      "aliases": [],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 2,
+      "canonical": "JavaScript",
+      "aliases": [
+        "JS"
+      ],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 3,
+      "canonical": "TypeScript",
+      "aliases": [
+        "TS"
+      ],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 4,
+      "canonical": "Python",
+      "aliases": [],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 5,
+      "canonical": "C#",
+      "aliases": [
+        "C Sharp"
+      ],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 6,
+      "canonical": "C++",
+      "aliases": [
+        "C Plus Plus"
+      ],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 7,
+      "canonical": "Go",
+      "aliases": [
+        "Golang"
+      ],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 8,
+      "canonical": "PHP",
+      "aliases": [],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 9,
+      "canonical": "Kotlin",
+      "aliases": [],
+      "category": "Programming Languages"
+    },
+    {
+      "id": 10,
+      "canonical": "HTML",
+      "aliases": [
+        "HTML5"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 11,
+      "canonical": "CSS",
+      "aliases": [
+        "CSS3"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 12,
+      "canonical": "React",
+      "aliases": [
+        "ReactJS",
+        "React.js"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 13,
+      "canonical": "React Native",
+      "aliases": [
+        "ReactNative"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 14,
+      "canonical": "Angular",
+      "aliases": [
+        "Angular 2+"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 15,
+      "canonical": "AngularJS",
+      "aliases": [
+        "Angular.js"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 16,
+      "canonical": "Vue.js",
+      "aliases": [
+        "VueJS"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 17,
+      "canonical": "Next.js",
+      "aliases": [
+        "NextJS"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 18,
+      "canonical": "Tailwind CSS",
+      "aliases": [
+        "TailwindCSS"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": 19,
+      "canonical": "Bootstrap",
+      "aliases": [],
+      "category": "Frontend"
+    },
+    {
+      "id": 20,
+      "canonical": "Spring Boot",
+      "aliases": [
+        "SpringBoot"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 21,
+      "canonical": "Spring Framework",
+      "aliases": [],
+      "category": "Backend"
+    },
+    {
+      "id": 22,
+      "canonical": "Spring Security",
+      "aliases": [
+        "SpringSecurity"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 23,
+      "canonical": "Spring Data JPA",
+      "aliases": [
+        "SpringDataJPA"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 24,
+      "canonical": "Hibernate",
+      "aliases": [
+        "Hibernate ORM"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 25,
+      "canonical": "Jakarta Persistence",
+      "aliases": [
+        "JPA",
+        "Java Persistence API"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 26,
+      "canonical": "Node.js",
+      "aliases": [
+        "NodeJS"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 27,
+      "canonical": "Express.js",
+      "aliases": [
+        "ExpressJS"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 28,
+      "canonical": "NestJS",
+      "aliases": [
+        "Nest.js"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 29,
+      "canonical": "FastAPI",
+      "aliases": [],
+      "category": "Backend"
+    },
+    {
+      "id": 30,
+      "canonical": "Django",
+      "aliases": [],
+      "category": "Backend"
+    },
+    {
+      "id": 31,
+      "canonical": "Flask",
+      "aliases": [],
+      "category": "Backend"
+    },
+    {
+      "id": 32,
+      "canonical": "ASP.NET Core",
+      "aliases": [
+        "ASP.NETCore"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 33,
+      "canonical": "REST API",
+      "aliases": [
+        "RESTful API",
+        "REST APIs"
+      ],
+      "category": "Backend"
+    },
+    {
+      "id": 34,
+      "canonical": "GraphQL",
+      "aliases": [],
+      "category": "Backend"
+    },
+    {
+      "id": 35,
+      "canonical": "SQL",
+      "aliases": [],
+      "category": "Database"
+    },
+    {
+      "id": 36,
+      "canonical": "PostgreSQL",
+      "aliases": [
+        "Postgres"
+      ],
+      "category": "Database"
+    },
+    {
+      "id": 37,
+      "canonical": "MySQL",
+      "aliases": [],
+      "category": "Database"
+    },
+    {
+      "id": 38,
+      "canonical": "Microsoft SQL Server",
+      "aliases": [
+        "MS SQL Server",
+        "MSSQL"
+      ],
+      "category": "Database"
+    },
+    {
+      "id": 39,
+      "canonical": "SQLite",
+      "aliases": [],
+      "category": "Database"
+    },
+    {
+      "id": 40,
+      "canonical": "MongoDB",
+      "aliases": [],
+      "category": "Database"
+    },
+    {
+      "id": 41,
+      "canonical": "Redis",
+      "aliases": [],
+      "category": "Database"
+    },
+    {
+      "id": 42,
+      "canonical": "Git",
+      "aliases": [],
+      "category": "DevOps"
+    },
+    {
+      "id": 43,
+      "canonical": "Docker",
+      "aliases": [],
+      "category": "DevOps"
+    },
+    {
+      "id": 44,
+      "canonical": "Docker Compose",
+      "aliases": [
+        "docker-compose"
+      ],
+      "category": "DevOps"
+    },
+    {
+      "id": 45,
+      "canonical": "Kubernetes",
+      "aliases": [
+        "K8s"
+      ],
+      "category": "DevOps"
+    },
+    {
+      "id": 46,
+      "canonical": "Jenkins",
+      "aliases": [],
+      "category": "DevOps"
+    },
+    {
+      "id": 47,
+      "canonical": "GitHub Actions",
+      "aliases": [],
+      "category": "DevOps"
+    },
+    {
+      "id": 48,
+      "canonical": "Linux",
+      "aliases": [],
+      "category": "DevOps"
+    },
+    {
+      "id": 49,
+      "canonical": "NGINX",
+      "aliases": [],
+      "category": "DevOps"
+    },
+    {
+      "id": 50,
+      "canonical": "CI/CD",
+      "aliases": [
+        "CI CD"
+      ],
+      "category": "DevOps"
+    },
+    {
+      "id": 51,
+      "canonical": "Amazon Web Services",
+      "aliases": [
+        "AWS"
+      ],
+      "category": "Cloud"
+    },
+    {
+      "id": 52,
+      "canonical": "Microsoft Azure",
+      "aliases": [
+        "Azure"
+      ],
+      "category": "Cloud"
+    },
+    {
+      "id": 53,
+      "canonical": "Google Cloud Platform",
+      "aliases": [
+        "GCP"
+      ],
+      "category": "Cloud"
+    },
+    {
+      "id": 54,
+      "canonical": "JUnit",
+      "aliases": [],
+      "category": "Testing"
+    },
+    {
+      "id": 55,
+      "canonical": "Mockito",
+      "aliases": [],
+      "category": "Testing"
+    },
+    {
+      "id": 56,
+      "canonical": "pytest",
+      "aliases": [],
+      "category": "Testing"
+    },
+    {
+      "id": 57,
+      "canonical": "Selenium",
+      "aliases": [
+        "Selenium WebDriver"
+      ],
+      "category": "Testing"
+    },
+    {
+      "id": 58,
+      "canonical": "Playwright",
+      "aliases": [],
+      "category": "Testing"
+    },
+    {
+      "id": 59,
+      "canonical": "Postman",
+      "aliases": [],
+      "category": "Testing"
+    },
+    {
+      "id": 60,
+      "canonical": "pandas",
+      "aliases": [],
+      "category": "Data and NLP"
+    },
+    {
+      "id": 61,
+      "canonical": "NumPy",
+      "aliases": [],
+      "category": "Data and NLP"
+    },
+    {
+      "id": 62,
+      "canonical": "scikit-learn",
+      "aliases": [
+        "sklearn"
+      ],
+      "category": "Data and NLP"
+    },
+    {
+      "id": 63,
+      "canonical": "spaCy",
+      "aliases": [],
+      "category": "Data and NLP"
+    },
+    {
+      "id": 64,
+      "canonical": "underthesea",
+      "aliases": [],
+      "category": "Data and NLP"
+    },
+    {
+      "id": 65,
+      "canonical": "Natural Language Processing",
+      "aliases": [
+        "NLP",
+        "Xử lý ngôn ngữ tự nhiên"
+      ],
+      "category": "Data and NLP"
+    },
+    {
+      "id": 66,
+      "canonical": "Machine Learning",
+      "aliases": [
+        "Học máy"
+      ],
+      "category": "Data and NLP"
+    },
+    {
+      "id": 67,
+      "canonical": "Teamwork",
+      "aliases": [
+        "Làm việc nhóm",
+        "Kỹ năng làm việc nhóm"
+      ],
+      "category": "Soft Skills"
+    },
+    {
+      "id": 68,
+      "canonical": "Communication Skills",
+      "aliases": [
+        "Kỹ năng giao tiếp"
+      ],
+      "category": "Soft Skills"
+    },
+    {
+      "id": 69,
+      "canonical": "Problem Solving",
+      "aliases": [
+        "Problem-Solving",
+        "Giải quyết vấn đề"
+      ],
+      "category": "Soft Skills"
+    },
+    {
+      "id": 70,
+      "canonical": "Time Management",
+      "aliases": [
+        "Quản lý thời gian"
+      ],
+      "category": "Soft Skills"
+    }
+  ]
+}

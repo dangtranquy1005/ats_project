@@ -17,4 +17,6 @@ public class SkillResponse {
     private SkillType skillType;
     private Long categoryId;
     private String categoryName;
+    private java.util.List<AliasResponse> aliases;
+    private boolean inUse;
 }

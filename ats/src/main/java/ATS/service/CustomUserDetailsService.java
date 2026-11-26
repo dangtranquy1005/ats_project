@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(user.getPasswordHash())
                 .authorities(role.name())
                 .accountExpired(false)
-                .accountLocked(false)
+                .accountLocked(user.getUserStatus() == ATS.enums.UserStatus.LOCKED)
                 .credentialsExpired(false)
                 .disabled(false)
                 .build();

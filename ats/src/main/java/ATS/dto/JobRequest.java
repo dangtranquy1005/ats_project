@@ -19,6 +19,8 @@ public class JobRequest {
     private String description;
     private String requirements;
     private List<Long> requiredSkillIds;
+    // Lưu cùng JD trong một transaction. requiredSkillIds vẫn hỗ trợ client cũ.
+    private List<JobSkillRequest> requiredSkills;
     private String location;
     private Double salary;
 }

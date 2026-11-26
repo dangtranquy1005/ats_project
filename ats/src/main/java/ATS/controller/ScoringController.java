@@ -44,6 +44,20 @@ public class ScoringController {
         return scoring.getRanking(id, userId(auth), filter, pageable);
     }
 
+    @GetMapping("/jobs/{id}/scoring-status")
+    public ScoringStatusResponse status(@PathVariable Long id, Authentication auth) {
+        return scoring.getScoringStatus(id, userId(auth));
+    }
+
+    @GetMapping(value = "/jobs/{id}/ranking/export", produces = "text/csv;charset=UTF-8")
+    public org.springframework.http.ResponseEntity<String> export(@PathVariable Long id,
+            @ModelAttribute RankingFilter filter, Authentication auth) {
+        var result = scoring.getRanking(id, userId(auth), filter, Pageable.unpaged());
+        return org.springframework.http.ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=ranking-" + id + ".csv")
+                .body(ATS.service.RankingCsv.write(result.getContent()));
+    }
+
     @GetMapping("/cvs/{id}/match")
     // Đọc bản chụp điểm đã lưu, kèm kỹ năng đạt/thiếu và lý do không qua lọc cứng.
     public MatchDetailResponse detail(@PathVariable Long id, Authentication auth) {

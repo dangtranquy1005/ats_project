@@ -1,0 +1,27 @@
+Họ tên: Vũ Khánh Linh
+Email: candidate04@ats-demo.example.invalid
+Điện thoại: 0900 000 004
+Junior Backend Developer
+
+GIỚI THIỆU
+Ứng viên mới tốt nghiệp, đã thực tập và hoàn thành đồ án dịch vụ đặt lịch. Có thể trình bày luồng xử lý, dữ liệu và các trường hợp lỗi của dự án cá nhân.
+
+KỸ NĂNG
+Java, Spring Boot, PostgreSQL, Docker, Redis, Git
+
+KINH NGHIỆM LÀM VIỆC
+Backend Intern | Công ty Ứng dụng Thanh Sơn Demo | 06/2025 - 12/2025
+Thực hiện chức năng đặt lịch bằng Java và Spring Boot dưới sự hướng dẫn của thành viên chính thức.
+Lưu dữ liệu PostgreSQL, dùng Redis cho mã xác nhận và Docker cho môi trường phát triển.
+Sửa lỗi kiểm tra thời gian đặt lịch, viết tài liệu API và cập nhật mã nguồn qua Git.
+
+HỌC VẤN
+Đại học Công nghệ Minh Hòa Demo
+Cử nhân
+Chuyên ngành: Công nghệ thông tin
+Tốt nghiệp: 2025
+
+DỰ ÁN
+BookingLab Demo: đồ án nhóm 3 người, có đặt lịch, hủy lịch, thống kê và kiểm tra lịch bị trùng.
+Đã tự thực hiện bộ dữ liệu thử gồm lịch hợp lệ, lịch quá hạn và hai yêu cầu đặt cùng thời điểm.
+

@@ -30,8 +30,11 @@ public class CvUploadService {
     private DataSize maxFileSize = DataSize.ofMegabytes(10);
 
     public List<CvUploadResult> uploadCvs(Long jobId, List<MultipartFile> files, Long userId) {
-        jobs.findByJobIdAndUserId(jobId, userId).orElseThrow(() ->
+        var job = jobs.findByJobIdAndUserId(jobId, userId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy công việc"));
+        if (job.getStatus() != ATS.enums.JobStatus.OPEN) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "JD đã đóng, không thể nhận thêm CV");
+        }
         if (files == null || files.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cần chọn ít nhất một file PDF");
         }

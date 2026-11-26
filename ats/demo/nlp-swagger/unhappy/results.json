@@ -1,0 +1,335 @@
+[
+  {
+    "file": "01-empty-text.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "value_error",
+          "loc": [
+            "body",
+            "rawText"
+          ],
+          "msg": "Value error, CV text cannot be blank",
+          "input": "   ",
+          "ctx": {
+            "error": {}
+          }
+        }
+      ]
+    }
+  },
+  {
+    "file": "02-invalid-language.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "literal_error",
+          "loc": [
+            "body",
+            "languageHint"
+          ],
+          "msg": "Input should be 'auto', 'vi' or 'en'",
+          "input": "vi-VN",
+          "ctx": {
+            "expected": "'auto', 'vi' or 'en'"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "file": "03-null-text.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "string_type",
+          "loc": [
+            "body",
+            "rawText"
+          ],
+          "msg": "Input should be a valid string",
+          "input": null
+        }
+      ]
+    }
+  },
+  {
+    "file": "04-skill-without-id.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "value_error",
+          "loc": [
+            "body",
+            "skillDictionary",
+            0
+          ],
+          "msg": "Value error, Each skill needs a database id or a stable key",
+          "input": {
+            "canonical": "Java",
+            "aliases": []
+          },
+          "ctx": {
+            "error": {}
+          }
+        }
+      ]
+    }
+  },
+  {
+    "file": "05-conflicting-alias.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "value_error",
+          "loc": [
+            "body"
+          ],
+          "msg": "Value error, Ambiguous skill name or alias: js",
+          "input": {
+            "cvId": 1,
+            "rawText": "Skills: JS",
+            "skillDictionary": [
+              {
+                "id": 1,
+                "canonical": "JavaScript",
+                "aliases": [
+                  "JS"
+                ]
+              },
+              {
+                "id": 2,
+                "canonical": "Java",
+                "aliases": [
+                  "js"
+                ]
+              }
+            ]
+          },
+          "ctx": {
+            "error": {}
+          }
+        }
+      ]
+    }
+  },
+  {
+    "file": "06-duplicate-id.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "value_error",
+          "loc": [
+            "body"
+          ],
+          "msg": "Value error, Duplicate skill id/key",
+          "input": {
+            "cvId": 1,
+            "rawText": "Skills: Java",
+            "skillDictionary": [
+              {
+                "id": 1,
+                "canonical": "Java"
+              },
+              {
+                "id": 1,
+                "canonical": "Python"
+              }
+            ]
+          },
+          "ctx": {
+            "error": {}
+          }
+        }
+      ]
+    }
+  },
+  {
+    "file": "07-explicit-empty-dictionary.json",
+    "expected": 200,
+    "actual": 200,
+    "passed": true,
+    "response": {
+      "cvId": 1,
+      "language": "en",
+      "person": {
+        "name": "Jane Demo",
+        "email": null,
+        "phone": null,
+        "links": []
+      },
+      "candidateName": "Jane Demo",
+      "email": null,
+      "phone": null,
+      "skills": [],
+      "experiences": [],
+      "educations": [],
+      "experienceText": "",
+      "rawTokens": [
+        "Name",
+        ":",
+        "Jane",
+        "Demo",
+        "Skills",
+        ":",
+        "Java",
+        ",",
+        "React"
+      ],
+      "entities": [
+        {
+          "text": "Jane Demo",
+          "label": "PERSON",
+          "start": 6,
+          "end": 15
+        },
+        {
+          "text": "Java",
+          "label": "PERSON",
+          "start": 24,
+          "end": 28
+        },
+        {
+          "text": "React",
+          "label": "GPE",
+          "start": 30,
+          "end": 35
+        }
+      ],
+      "unknownSkills": [
+        {
+          "raw": "Java",
+          "suggestions": []
+        },
+        {
+          "raw": "React",
+          "suggestions": []
+        }
+      ],
+      "normalizedText": "Name: Jane Demo\nSkills: Java, React",
+      "warnings": [
+        "Experience section not recognized; experienceText is empty.",
+        "Education section not recognized.",
+        "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+      ],
+      "modelVersion": "ats-nlp-1.0/full",
+      "rawNlpResult": "{\"cvId\":1,\"language\":\"en\",\"person\":{\"name\":\"Jane Demo\",\"email\":null,\"phone\":null,\"links\":[]},\"candidateName\":\"Jane Demo\",\"email\":null,\"phone\":null,\"skills\":[],\"experiences\":[],\"educations\":[],\"experienceText\":\"\",\"rawTokens\":[\"Name\",\":\",\"Jane\",\"Demo\",\"Skills\",\":\",\"Java\",\",\",\"React\"],\"entities\":[{\"text\":\"Jane Demo\",\"label\":\"PERSON\",\"start\":6,\"end\":15},{\"text\":\"Java\",\"label\":\"PERSON\",\"start\":24,\"end\":28},{\"text\":\"React\",\"label\":\"GPE\",\"start\":30,\"end\":35}],\"unknownSkills\":[{\"raw\":\"Java\",\"suggestions\":[]},{\"raw\":\"React\",\"suggestions\":[]}],\"normalizedText\":\"Name: Jane Demo\\nSkills: Java, React\",\"warnings\":[\"Experience section not recognized; experienceText is empty.\",\"Education section not recognized.\",\"Skill confidence is dictionary-match strength, not a calibrated probability or proficiency.\"],\"modelVersion\":\"ats-nlp-1.0/full\"}"
+    }
+  },
+  {
+    "file": "08-no-recognized-skills.json",
+    "expected": 200,
+    "actual": 200,
+    "passed": true,
+    "response": {
+      "cvId": 1,
+      "language": "en",
+      "person": {
+        "name": "Jane Demo",
+        "email": null,
+        "phone": null,
+        "links": []
+      },
+      "candidateName": "Jane Demo",
+      "email": null,
+      "phone": null,
+      "skills": [],
+      "experiences": [],
+      "educations": [],
+      "experienceText": "",
+      "rawTokens": [
+        "Name",
+        ":",
+        "Jane",
+        "Demo",
+        "Skills",
+        ":",
+        "MadeUpTechnology"
+      ],
+      "entities": [
+        {
+          "text": "Jane Demo",
+          "label": "PERSON",
+          "start": 6,
+          "end": 15
+        }
+      ],
+      "unknownSkills": [
+        {
+          "raw": "MadeUpTechnology",
+          "suggestions": []
+        }
+      ],
+      "normalizedText": "Name: Jane Demo\nSkills: MadeUpTechnology",
+      "warnings": [
+        "Experience section not recognized; experienceText is empty.",
+        "Education section not recognized.",
+        "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+      ],
+      "modelVersion": "ats-nlp-1.0/full",
+      "rawNlpResult": "{\"cvId\":1,\"language\":\"en\",\"person\":{\"name\":\"Jane Demo\",\"email\":null,\"phone\":null,\"links\":[]},\"candidateName\":\"Jane Demo\",\"email\":null,\"phone\":null,\"skills\":[],\"experiences\":[],\"educations\":[],\"experienceText\":\"\",\"rawTokens\":[\"Name\",\":\",\"Jane\",\"Demo\",\"Skills\",\":\",\"MadeUpTechnology\"],\"entities\":[{\"text\":\"Jane Demo\",\"label\":\"PERSON\",\"start\":6,\"end\":15}],\"unknownSkills\":[{\"raw\":\"MadeUpTechnology\",\"suggestions\":[]}],\"normalizedText\":\"Name: Jane Demo\\nSkills: MadeUpTechnology\",\"warnings\":[\"Experience section not recognized; experienceText is empty.\",\"Education section not recognized.\",\"Skill confidence is dictionary-match strength, not a calibrated probability or proficiency.\"],\"modelVersion\":\"ats-nlp-1.0/full\"}"
+    }
+  },
+  {
+    "file": "09-invalid-language-value.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "literal_error",
+          "loc": [
+            "body",
+            "languageHint"
+          ],
+          "msg": "Input should be 'auto', 'vi' or 'en'",
+          "input": "vietnamese",
+          "ctx": {
+            "expected": "'auto', 'vi' or 'en'"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "file": "10-missing-text.json",
+    "expected": 422,
+    "actual": 422,
+    "passed": true,
+    "response": {
+      "detail": [
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "text"
+          ],
+          "msg": "Field required",
+          "input": {
+            "cvId": 1,
+            "languageHint": "vi"
+          }
+        }
+      ]
+    }
+  }
+]

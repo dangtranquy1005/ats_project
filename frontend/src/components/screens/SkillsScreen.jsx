@@ -1,308 +1,53 @@
-import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import React,{useEffect,useRef,useState} from 'react';
+import {useApp} from '../../context/AppContext';
+import {skillAPI,apiError} from '../../services/api';
 
-export default function SkillsScreen() {
-  const {
-    standardSkills,
-    unknownSkills,
-    categories,
-    deleteSkillAlias,
-    openModal,
-    deleteStandardSkill,
-    acceptUnknownSkill
-  } = useApp();
-
-  const [activeTab, setActiveTab] = useState(1); // 1: std, 2: unk, 3: tree
-  const [search, setSearch] = useState('');
-  const [selectedCat, setSelectedCat] = useState('ALL');
-
-  const filteredStandardSkills = standardSkills.filter(s => {
-    const matchSearch =
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.aliases.some(a => a.toLowerCase().includes(search.toLowerCase()));
-
-    const matchCat = selectedCat === 'ALL' || s.category === selectedCat;
-    return matchSearch && matchCat;
-  });
-
-  const handleDeleteSkill = (skill) => {
-    const isInUse = skill.name === 'Spring Boot' || skill.name === 'PostgreSQL' || skill.name === 'Docker';
-    openModal('confirm', {
-      title: isInUse ? `Không thể xóa "${skill.name}"` : `Xóa kỹ năng "${skill.name}"?`,
-      body: isInUse
-        ? 'Kỹ năng đang được tin tuyển dụng và CV sử dụng. Hãy gỡ khỏi các tin trước, hoặc ẩn kỹ năng để giữ lịch sử của CV cũ.'
-        : 'Kỹ năng và các biến thể sẽ bị xóa khỏi từ điển.',
-      okText: isInUse ? 'Ẩn kỹ năng' : 'Xóa kỹ năng',
-      onConfirm: () => deleteStandardSkill(skill.id, isInUse)
-    });
+const button='px-3 py-2 rounded-lg border text-sm hover:bg-slate-50 disabled:opacity-50';
+const typeLabels={TECHNICAL:'Chuyên môn',SOFT:'Kỹ năng mềm',LANGUAGE:'Ngôn ngữ',CERTIFICATE:'Chứng chỉ'};
+const input='w-full border border-slate-300 rounded-lg px-3 py-2 text-sm';
+export default function SkillsScreen(){
+  const {user,standardSkills,categories,skillsError,refreshSkills,openModal,showToast}=useApp();
+  const admin=user.role==='ADMIN';
+  const [tab,setTab]=useState('skills'),[search,setSearch]=useState(''),[category,setCategory]=useState('');
+  const [form,setForm]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+  const [unknown,setUnknown]=useState(null),[unknownError,setUnknownError]=useState(''),[page,setPage]=useState(0),[attempt,setAttempt]=useState(0);
+  const mounted=useRef(false),pending=useRef(false);
+  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;};},[]);
+  useEffect(()=>{
+    if(tab!=='unknown'||!admin)return;
+    const controller=new AbortController();setUnknown(null);setUnknownError('');
+    const timer=setTimeout(()=>skillAPI.unknown(page,search,controller.signal).then(data=>{if(!controller.signal.aborted){if(page>0&&page>=data.totalPages)setPage(Math.max(0,data.totalPages-1));else setUnknown(data);}}).catch(err=>{if(!controller.signal.aborted)setUnknownError(apiError(err));}),250);
+    return()=>{clearTimeout(timer);controller.abort();};
+  },[tab,admin,page,search,attempt,standardSkills]);
+  const mutate=async action=>{
+    if(pending.current)return;pending.current=true;setBusy(true);setError('');
+    try{await action();if(!mounted.current)return;setForm(null);showToast('Đã lưu thay đổi','Từ điển sẽ được dùng ở lần phân tích CV tiếp theo.','success');await refreshSkills();setAttempt(n=>n+1);}
+    catch(err){if(mounted.current)setError(apiError(err));throw err;}
+    finally{pending.current=false;if(mounted.current)setBusy(false);}
   };
-
-  return (
-    <div id="screen-skills" className="h-full w-full flex flex-col gap-3">
-      {/* Top Header */}
-      <div className="bg-white px-5 py-3 rounded-xl border border-slate-200/90 flex justify-between items-center shrink-0 shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center">
-            <i className="fa-solid fa-book-open"></i>
-          </div>
-          <div>
-            <h2 className="font-bold text-sm text-slate-900">Quản trị từ điển kỹ năng</h2>
-            <p className="text-xs text-slate-500">
-              Tên chuẩn và biến thể dùng để nhận diện kỹ năng trong CV
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2.5">
-          <div className="relative">
-            <i className="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400"></i>
-            <input
-              type="text"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Tìm kỹ năng..."
-              className="pl-9 pr-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none w-56 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
-            />
-          </div>
-
-          <select
-            value={selectedCat}
-            onChange={e => setSelectedCat(e.target.value)}
-            className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg font-semibold text-slate-700 outline-none text-xs cursor-pointer"
-          >
-            <option value="ALL">Nhóm: Tất cả</option>
-            <option value="Backend">Backend</option>
-            <option value="Frontend">Frontend</option>
-            <option value="Database">Cơ sở dữ liệu</option>
-            <option value="DevOps">DevOps</option>
-            <option value="Kỹ năng mềm">Kỹ năng mềm</option>
-          </select>
-
-          <button
-            onClick={() => openModal('skillForm', { mode: 'add', skill: null })}
-            className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs shadow-xs transition active:scale-98 flex items-center gap-1.5"
-          >
-            <i className="fa-solid fa-plus text-xs"></i> Thêm kỹ năng
-          </button>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex items-center gap-2 shrink-0 text-xs">
-        <button
-          onClick={() => setActiveTab(1)}
-          className={`px-3.5 py-1.5 rounded-lg font-semibold transition ${
-            activeTab === 1
-              ? 'bg-blue-50 text-blue-700 border border-blue-200'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-          }`}
-        >
-          Kỹ năng chuẩn ({standardSkills.length})
-        </button>
-        <button
-          onClick={() => setActiveTab(2)}
-          className={`px-3.5 py-1.5 rounded-lg font-semibold transition ${
-            activeTab === 2
-              ? 'bg-blue-50 text-blue-700 border border-blue-200'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-          }`}
-        >
-          Kỹ năng lạ chờ bổ sung ({unknownSkills.length})
-        </button>
-        <button
-          onClick={() => setActiveTab(3)}
-          className={`px-3.5 py-1.5 rounded-lg font-semibold transition ${
-            activeTab === 3
-              ? 'bg-blue-50 text-blue-700 border border-blue-200'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-          }`}
-        >
-          Cây nhóm kỹ năng
-        </button>
-      </div>
-
-      {/* Tab 1: Kỹ năng chuẩn */}
-      {activeTab === 1 && (
-        <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs flex-1 overflow-hidden flex flex-col">
-          <div className="overflow-auto flex-1">
-            <table className="w-full text-xs">
-              <thead className="bg-slate-50 text-[11px] font-semibold text-slate-500 border-b border-slate-200 sticky top-0">
-                <tr>
-                  <th className="px-5 py-3 text-left">Tên chuẩn</th>
-                  <th className="px-5 py-3 text-left">Nhóm</th>
-                  <th className="px-5 py-3 text-left">Loại</th>
-                  <th className="px-5 py-3 text-left">Biến thể (alias)</th>
-                  <th className="px-5 py-3 text-left">Đang dùng</th>
-                  <th className="px-5 py-3 text-right">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredStandardSkills.map(skill => (
-                  <tr
-                    key={skill.id}
-                    className="border-b border-slate-100 hover:bg-slate-50 transition"
-                  >
-                    <td className="px-5 py-3 font-bold text-slate-900">
-                      <div className="flex items-center gap-2">
-                        <span>{skill.name}</span>
-                        {skill.hidden && (
-                          <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-100 text-slate-500 border border-slate-200 font-normal">
-                            Đã ẩn
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-5 py-3 text-slate-600">{skill.category}</td>
-                    <td className="px-5 py-3 text-slate-600">
-                      {skill.type === 'TECHNICAL' ? 'Công nghệ' : 'Kỹ năng mềm'}
-                    </td>
-                    <td className="px-5 py-3">
-                      <div className="flex flex-wrap gap-1.5 items-center">
-                        {skill.aliases.map((al, alIdx) => (
-                          <span
-                            key={alIdx}
-                            className="px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md text-[11px] font-semibold border border-slate-200 flex items-center gap-1"
-                          >
-                            {al}
-                            <i
-                              onClick={() => deleteSkillAlias(skill.id, al)}
-                              title="Xóa biến thể"
-                              className="fa-solid fa-xmark text-[9px] text-slate-400 cursor-pointer hover:text-rose-600"
-                            ></i>
-                          </span>
-                        ))}
-                        <button
-                          onClick={() => openModal('alias', skill)}
-                          className="text-[11px] font-semibold text-blue-600 hover:underline"
-                        >
-                          + Thêm
-                        </button>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3 font-mono text-slate-600">
-                      {skill.name === 'Spring Boot'
-                        ? '8 tin • 31 CV'
-                        : skill.name === 'PostgreSQL'
-                        ? '6 tin • 27 CV'
-                        : skill.name === 'Docker'
-                        ? '5 tin • 20 CV'
-                        : '2 tin • 8 CV'}
-                    </td>
-                    <td className="px-5 py-3 text-right whitespace-nowrap space-x-1.5">
-                      <button
-                        onClick={() => openModal('skillForm', { mode: 'edit', skill })}
-                        className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg font-semibold text-xs transition"
-                      >
-                        Sửa
-                      </button>
-                      <button
-                        onClick={() => handleDeleteSkill(skill)}
-                        className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg font-semibold text-xs transition"
-                      >
-                        Xóa
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="px-5 py-2.5 border-t border-slate-100 bg-slate-50 text-[11px] text-slate-500">
-            <i className="fa-solid fa-circle-info mr-1"></i> Sau khi sửa từ điển, CV đã xử lý trước đó không tự chạy lại. Hãy dùng "Xử lý lại" ở bước Tiếp nhận CV.
-          </div>
-        </div>
-      )}
-
-      {/* Tab 2: Kỹ năng lạ chờ bổ sung */}
-      {activeTab === 2 && (
-        <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs flex-1 overflow-hidden flex flex-col">
-          <div className="overflow-auto flex-1">
-            <table className="w-full text-xs">
-              <thead className="bg-slate-50 text-[11px] font-semibold text-slate-500 border-b border-slate-200">
-                <tr>
-                  <th className="px-5 py-3 text-left">Cụm từ trong CV</th>
-                  <th className="px-5 py-3 text-left">Số lần xuất hiện</th>
-                  <th className="px-5 py-3 text-left">Gợi ý gần nhất</th>
-                  <th className="px-5 py-3 text-right">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                {unknownSkills.map(u => (
-                  <tr
-                    key={u.id}
-                    className="border-b border-slate-100 hover:bg-slate-50 transition"
-                  >
-                    <td className="px-5 py-3 font-bold text-slate-900">{u.name}</td>
-                    <td className="px-5 py-3 font-mono text-slate-600">{u.count} CV</td>
-                    <td className="px-5 py-3 text-slate-600">
-                      {u.name === 'Kafka Streams'
-                        ? 'Apache Kafka (độ khớp 74%)'
-                        : u.name === 'Quarkus'
-                        ? 'Java Microservices (độ khớp 60%)'
-                        : 'Không có gợi ý'}
-                    </td>
-                    <td className="px-5 py-3 text-right whitespace-nowrap space-x-1.5">
-                      <button
-                        type="button"
-                        onClick={() => acceptUnknownSkill(u)}
-                        className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg font-semibold text-xs transition"
-                      >
-                        Thêm làm biến thể
-                      </button>
-                      <button
-                        onClick={() =>
-                          openModal('skillForm', {
-                            mode: 'add',
-                            skill: { name: u.name, category: 'Backend', type: 'TECHNICAL' }
-                          })
-                        }
-                        className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs shadow-xs transition"
-                      >
-                        Tạo kỹ năng mới
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* Tab 3: Cây nhóm kỹ năng */}
-      {activeTab === 3 && (
-        <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs flex-1 overflow-auto p-5 text-xs">
-          <p className="text-[11px] text-slate-500 mb-3">
-            <i className="fa-solid fa-circle-info mr-1"></i> Cây nhóm kỹ năng cha–con dùng để phân loại khi chọn yêu cầu cho vị trí.
-          </p>
-          <ul className="space-y-4 text-slate-800 font-semibold">
-            {categories.map((cat, idx) => (
-              <li key={idx} className="border-b border-slate-100 pb-3">
-                <div className="flex items-center gap-2 text-blue-700 text-sm mb-1.5">
-                  <i className="fa-solid fa-folder-open"></i>
-                  <span>{cat.name}</span>
-                </div>
-                <ul className="ml-5 mt-1 flex flex-wrap gap-1.5 font-normal">
-                  {cat.skills.map((s, sIdx) => (
-                    <li
-                      key={sIdx}
-                      onClick={() => {
-                        setSelectedCat('ALL');
-                        setSearch(s);
-                        setActiveTab(1);
-                      }}
-                      className="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 border border-slate-200 text-xs text-slate-700 font-medium cursor-pointer transition shadow-xs"
-                      title={`Bấm để xem và chỉnh sửa kỹ năng "${s}"`}
-                    >
-                      {s} →
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+  const open=data=>{setError('');setForm(data);};
+  const remove=(title,action)=>openModal('confirm',{title,body:'Bạn có muốn xóa mục này không?',okText:'Xóa',onConfirm:()=>mutate(action)});
+  const submit=async e=>{
+    e.preventDefault();
+    const data={canonicalName:form.name.trim(),skillType:form.type,categoryId:form.categoryId?Number(form.categoryId):null};
+    try{await mutate(()=>form.kind==='category'?(form.id?skillAPI.updateCategory(form.id,{categoryName:form.name.trim(),description:form.description}):skillAPI.createCategory({categoryName:form.name.trim(),description:form.description})):form.kind==='alias'?skillAPI.addAlias(Number(form.skillId),form.name.trim()):form.id?skillAPI.update(form.id,data):skillAPI.create(data));}catch{}
+  };
+  const filtered=standardSkills.filter(s=>(!category||String(s.categoryId)===category)&&[s.name,...s.aliases].some(name=>name.toLocaleLowerCase('vi').includes(search.toLocaleLowerCase('vi'))));
+  const field=(key,value)=>setForm(prev=>({...prev,[key]:value}));
+  return <div id="screen-skills" className="h-full overflow-auto space-y-4 select-text">
+    <div className="bg-white border rounded-xl p-5 space-y-4"><div className="flex justify-between flex-wrap gap-3"><div><h1 className="font-bold text-lg">Từ điển kỹ năng</h1><p className="text-sm text-slate-500 mt-1">Quản lý tên kỹ năng và những cách viết thường gặp trong CV.</p></div><button className={button} disabled={busy} onClick={refreshSkills}>Tải lại từ điển</button></div>
+      {!admin&&<p className="text-sm text-slate-500">Bạn có thể tra cứu từ điển. Quản trị viên phụ trách thêm và chỉnh sửa.</p>}
+      <div className="flex gap-2 flex-wrap">{[['skills','Kỹ năng'],['groups','Nhóm kỹ năng'],...(admin?[['unknown','Cần bổ sung']]:[])].map(([id,title])=><button key={id} onClick={()=>{setTab(id);setSearch('');setPage(0);setError('');}} className={`${button} ${tab===id?'bg-blue-50 border-blue-300 text-blue-700':''}`}>{title}</button>)}</div>
+      <div className="flex flex-wrap gap-3"><input aria-label="Tìm trong từ điển" placeholder="Tìm tên hoặc cách viết khác…" value={search} onChange={e=>{setSearch(e.target.value);setPage(0);}} className={`${input} sm:!w-72`}/>{tab==='skills'&&<select aria-label="Nhóm kỹ năng" value={category} onChange={e=>setCategory(e.target.value)} className={`${input} sm:!w-56`}><option value="">Tất cả nhóm</option>{categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select>}{admin&&tab!=='unknown'&&<button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm" disabled={busy} onClick={()=>open({kind:tab==='groups'?'category':'skill',name:'',type:'TECHNICAL',categoryId:'',description:''})}>{tab==='groups'?'Thêm nhóm':'Thêm kỹ năng'}</button>}</div>
     </div>
-  );
+    {(skillsError||error)&&<p role="alert" className="bg-rose-50 text-rose-700 rounded-lg p-4 text-sm">{skillsError||error}</p>}
+    {tab==='skills'&&<section className="bg-white border rounded-xl p-4 divide-y">{filtered.map(skill=><article key={skill.id} className="py-4 space-y-3"><div className="flex justify-between gap-3 flex-wrap"><div><h2 className="font-bold">{skill.name}</h2><p className="text-xs text-slate-500">{skill.category||'Chưa phân nhóm'} · {typeLabels[skill.type]||'Chuyên môn'}{skill.inUse?' · Đang được sử dụng':''}</p></div>{admin&&<div className="flex gap-2"><button className={button} disabled={busy} onClick={()=>open({kind:'skill',...skill,categoryId:skill.categoryId||''})}>Sửa kỹ năng</button><button className={`${button} text-rose-600`} disabled={busy} aria-label={`Xóa kỹ năng ${skill.name}`} onClick={()=>remove('Xóa kỹ năng?',()=>skillAPI.delete(skill.id))}>Xóa</button></div>}</div><div className="flex flex-wrap gap-2">{skill.aliasRecords.map(alias=><span key={alias.aliasId} className="text-sm px-2 py-1 bg-slate-100 rounded-lg">{alias.aliasText}{admin&&<button disabled={busy} aria-label={`Xóa cách viết ${alias.aliasText}`} className="ml-2 text-slate-500" onClick={()=>remove('Xóa cách viết khác?',()=>skillAPI.deleteAlias(skill.id,alias.aliasId))}>×</button>}</span>)}{admin&&<button className="text-blue-700 text-sm underline" disabled={busy} onClick={()=>open({kind:'alias',name:'',skillId:skill.id})}>Thêm cách viết khác</button>}</div></article>)}{!filtered.length&&!skillsError&&<p className="p-8 text-center text-sm text-slate-500">Không có kỹ năng phù hợp.</p>}</section>}
+    {tab==='groups'&&<section className="grid sm:grid-cols-2 gap-3">{categories.filter(c=>c.name.toLowerCase().includes(search.toLowerCase())).map(c=><article key={c.id} className="bg-white border rounded-xl p-5 space-y-3"><h2 className="font-bold">{c.name}</h2><p className="text-sm text-slate-500">{standardSkills.filter(s=>s.categoryId===c.id).length} kỹ năng</p>{admin&&<div className="flex gap-2"><button className={button} disabled={busy} onClick={()=>open({kind:'category',id:c.id,name:c.name,description:c.description||''})}>Sửa nhóm</button><button className={`${button} text-rose-600`} disabled={busy} onClick={()=>remove('Xóa nhóm kỹ năng?',()=>skillAPI.deleteCategory(c.id))}>Xóa nhóm</button></div>}</article>)}</section>}
+    {tab==='unknown'&&admin&&<section className="bg-white border rounded-xl p-5 space-y-4"><h2 className="font-bold">Các cách viết chưa nhận diện</h2><p className="text-sm text-slate-500">Các mục này lấy từ CV đã phân tích. Bạn có thể thêm kỹ năng mới hoặc chọn đúng kỹ năng để bổ sung cách viết. Hồ sơ cũ giữ kết quả đã có.</p>{unknownError?<p role="alert" className="text-rose-700">{unknownError} <button onClick={()=>setAttempt(n=>n+1)} className="underline">Thử lại</button></p>:!unknown?<p role="status">Đang tải…</p>:<><div className="divide-y">{unknown.content.map(item=><article key={item.name} className="py-4 flex justify-between gap-3 flex-wrap"><div><h3 className="font-semibold">{item.name}</h3><p className="text-sm text-slate-500">Xuất hiện trong {item.cvCount} CV</p></div><div className="flex gap-2"><button className={button} disabled={busy} onClick={()=>open({kind:'skill',name:item.name,type:'TECHNICAL',categoryId:''})}>Tạo kỹ năng</button><button className={button} disabled={busy} onClick={()=>open({kind:'alias',name:item.name,skillId:''})}>Gắn vào kỹ năng</button></div></article>)}</div>{!unknown.content.length&&<p className="p-5 text-slate-500 text-sm">Chưa có mục cần bổ sung.</p>}<div className="flex gap-3 justify-end items-center text-sm"><span>{unknown.totalElements} mục · Trang {page+1}/{Math.max(1,unknown.totalPages)}</span><button className={button} disabled={page===0} onClick={()=>setPage(n=>n-1)}>Trang trước</button><button className={button} disabled={page+1>=unknown.totalPages} onClick={()=>setPage(n=>n+1)}>Trang sau</button></div></>}</section>}
+    {form&&<div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-40"><form onSubmit={submit} role="dialog" aria-modal="true" aria-label={form.kind==='category'?'Nhóm kỹ năng':form.kind==='alias'?'Cách viết khác':'Kỹ năng'} className="bg-white rounded-2xl p-6 max-w-md w-full space-y-4"><h2 className="font-bold text-lg">{form.kind==='category'?'Thông tin nhóm':form.kind==='alias'?'Bổ sung cách viết khác':'Thông tin kỹ năng'}</h2><label className="block text-sm">{form.kind==='alias'?'Cách viết':'Tên'}<input required maxLength={255} className={input} value={form.name} onChange={e=>field('name',e.target.value)}/></label>
+      {form.kind==='skill'&&<><label className="block text-sm">Nhóm<select className={input} value={form.categoryId} onChange={e=>field('categoryId',e.target.value)}><option value="">Chưa phân nhóm</option>{categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label><label className="block text-sm">Loại<select className={input} value={form.type} onChange={e=>field('type',e.target.value)}>{Object.entries(typeLabels).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label></>}
+      {form.kind==='category'&&<label className="block text-sm">Mô tả<input maxLength={255} className={input} value={form.description} onChange={e=>field('description',e.target.value)}/></label>}
+      {form.kind==='alias'&&<label className="block text-sm">Kỹ năng tương ứng<select required className={input} value={form.skillId} onChange={e=>field('skillId',e.target.value)}><option value="">Chọn kỹ năng</option>{standardSkills.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label>}
+      {error&&<p role="alert" className="text-sm text-rose-700">{error}</p>}<div className="flex justify-end gap-2"><button type="button" disabled={busy} className={button} onClick={()=>setForm(null)}>Hủy</button><button disabled={busy} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm disabled:opacity-50">{busy?'Đang lưu…':'Lưu'}</button></div></form></div>}
+  </div>;
 }

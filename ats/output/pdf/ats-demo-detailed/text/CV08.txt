@@ -1,0 +1,28 @@
+Họ tên: Bùi Đức Phúc
+Email: candidate08@ats-demo.example.invalid
+Điện thoại: 0900 000 008
+Python Data Engineer
+
+GIỚI THIỆU
+Kỹ sư dữ liệu tập trung làm sạch, kiểm tra và tổng hợp dữ liệu giao dịch. Quan tâm tính tái lập của pipeline và khả năng giải thích chất lượng đầu vào.
+
+KỸ NĂNG
+Python, pandas, NumPy, SQL, Docker, Git, pytest
+
+KINH NGHIỆM LÀM VIỆC
+Data Engineer | Công ty Phân tích Ánh Dương Demo | 01/2022 - 01/2026
+Xây dựng pipeline Python sử dụng pandas và NumPy để chuẩn hóa dữ liệu bán hàng theo ngày.
+Viết SQL đối soát số liệu, kiểm tra dữ liệu trùng và tổng hợp chỉ số theo cửa hàng.
+Đóng gói pipeline bằng Docker; bổ sung pytest cho quy tắc làm sạch và phép tính tổng hợp.
+Kết quả giả lập: phát hiện 1.800 bản ghi trùng trong tập 500.000 bản ghi trước khi tạo báo cáo.
+
+HỌC VẤN
+Đại học Khoa học Dữ liệu Nam Việt Demo
+Cử nhân
+Chuyên ngành: Computer Science
+Tốt nghiệp: 2021
+
+DỰ ÁN
+DailySales Demo: pipeline theo lịch, kiểm tra chất lượng, tổng hợp báo cáo và ghi nhận lỗi từng bước.
+QualityCheck Demo: bộ quy tắc phát hiện giá trị trống, mã cửa hàng sai và giao dịch ngoài khoảng ngày.
+

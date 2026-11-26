@@ -1,0 +1,28 @@
+Họ tên: Trần Thu Hà
+Email: candidate02@ats-demo.example.invalid
+Điện thoại: 0900 000 002
+Java Backend Developer
+
+GIỚI THIỆU
+Có kinh nghiệm xây dựng hệ thống quản lý nội bộ, chú trọng tính đúng của dữ liệu và giao tiếp với nhóm kiểm thử. Muốn phát triển sâu về backend nghiệp vụ.
+
+KỸ NĂNG
+Java, Spring Boot, PostgreSQL, Git, REST API
+
+KINH NGHIỆM LÀM VIỆC
+Backend Developer | Công ty Quản trị An Lạc Demo | 01/2023 - 01/2026
+Xây dựng REST API bằng Java và Spring Boot cho nhân sự, chấm công và phê duyệt nghỉ phép.
+Thiết kế lược đồ PostgreSQL, kiểm soát giao dịch khi nhiều người cùng cập nhật đơn phê duyệt.
+Chuẩn hóa thông báo lỗi, kiểm tra quyền người dùng và bổ sung nhật ký thay đổi hồ sơ.
+Phối hợp rà soát qua Git; xử lý 24 lỗi nghiệp vụ trong đợt nghiệm thu giả lập.
+
+HỌC VẤN
+Đại học Kinh tế Kỹ thuật Hướng Dương Demo
+Cử nhân
+Chuyên ngành: Công nghệ thông tin
+Tốt nghiệp: 2022
+
+DỰ ÁN
+HR Portal Demo: phụ trách luồng xin nghỉ, phê duyệt nhiều cấp và thống kê ngày phép.
+Customer Desk Demo: xây dựng tìm kiếm khách hàng, phân trang và kiểm tra dữ liệu trùng.
+

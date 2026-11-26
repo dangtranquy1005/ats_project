@@ -6,7 +6,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "tbl_cv_skills")
+@Table(name = "tbl_cv_skills", uniqueConstraints =
+        @UniqueConstraint(name = "uk_cv_skill", columnNames = {"cv_id", "skill_id"}))
 public class CVSkills {
     
     @Id

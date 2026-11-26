@@ -1,0 +1,31 @@
+Họ tên: Nguyễn Minh An
+Email: candidate01@ats-demo.example.invalid
+Điện thoại: 0900 000 001
+Java Backend Developer
+
+GIỚI THIỆU
+Lập trình viên backend tập trung vào hệ thống quản lý đơn hàng và tích hợp dịch vụ. Mong muốn xây dựng sản phẩm ổn định, có kiểm thử và tài liệu bàn giao rõ ràng.
+
+KỸ NĂNG
+Java, Spring Boot, PostgreSQL, Docker, Redis, Git, JUnit, REST API
+
+KINH NGHIỆM LÀM VIỆC
+Backend Developer | Công ty Giải pháp Sao Mai Demo | 01/2022 - 01/2026
+Phát triển REST API bằng Java và Spring Boot cho nghiệp vụ đặt hàng, thanh toán và quản lý kho.
+Thiết kế bảng PostgreSQL, tối ưu truy vấn phân trang và bổ sung Redis cho dữ liệu tra cứu thường xuyên.
+Đóng gói ứng dụng bằng Docker; viết kiểm thử JUnit cho luồng tạo đơn, hủy đơn và hoàn tiền.
+Kết quả dự án giả lập: giảm thời gian phản hồi truy vấn danh sách từ 850 ms xuống 310 ms.
+Java Developer | Công ty Phần mềm Mộc Việt Demo | 01/2020 - 01/2022
+Xây dựng cổng quản lý khách hàng bằng Java; thực hiện kiểm tra dữ liệu đầu vào và ghi nhật ký lỗi.
+Tham gia rà soát mã nguồn qua Git, xử lý lỗi được phát hiện trong kiểm thử nghiệm thu.
+
+HỌC VẤN
+Đại học Công nghệ Minh Hòa Demo
+Kỹ sư
+Chuyên ngành: Công nghệ thông tin
+Tốt nghiệp: 2019
+
+DỰ ÁN
+OrderHub Demo: phụ trách API đơn hàng, truy vấn báo cáo và bộ kiểm thử; nhóm 5 người, bàn giao theo từng đợt hai tuần.
+CacheLab Demo: xây dựng cơ chế lưu đệm Redis, theo dõi dữ liệu hết hạn và xử lý khi bộ nhớ đệm tạm ngừng.
+

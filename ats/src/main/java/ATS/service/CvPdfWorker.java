@@ -19,14 +19,16 @@ public class CvPdfWorker {
     private final FileStorageService storage;
     private final PdfTextExtractor extractor;
     private final CVRepository cvs;
+    private final CvNlpWorker nlp;
 
     public CvPdfWorker(@Qualifier("cvPdfExecutor") TaskExecutor executor, CvUploadTransactions transactions,
-                       FileStorageService storage, PdfTextExtractor extractor, CVRepository cvs) {
+                       FileStorageService storage, PdfTextExtractor extractor, CVRepository cvs, CvNlpWorker nlp) {
         this.executor = executor;
         this.transactions = transactions;
         this.storage = storage;
         this.extractor = extractor;
         this.cvs = cvs;
+        this.nlp = nlp;
     }
 
     public void submit(Long cvId) {
@@ -47,6 +49,7 @@ public class CvPdfWorker {
                         throw new PdfTextExtractor.PdfExtractionException("PDF không có đủ văn bản đọc được hoặc là ảnh scan");
                     }
                     transactions.finishPdf(task, text);
+                    nlp.submit(cvId);
                 } catch (Exception error) {
                     log.warn("PDF processing failed for cvId={}", cvId, error);
                     transactions.failPdf(task, error instanceof PdfTextExtractor.PdfExtractionException

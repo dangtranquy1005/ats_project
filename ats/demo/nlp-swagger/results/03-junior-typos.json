@@ -1,0 +1,222 @@
+{
+  "cvId": 3,
+  "language": "vi",
+  "person": {
+    "name": "Trần Gia Bình",
+    "email": "binh.demo@example.com",
+    "phone": "0903456789",
+    "links": []
+  },
+  "candidateName": "Trần Gia Bình",
+  "email": "binh.demo@example.com",
+  "phone": "0903456789",
+  "skills": [
+    {
+      "skillId": 1,
+      "key": null,
+      "raw": "Java",
+      "canonical": "Java",
+      "category": "Programming Languages",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 85,
+      "end": 89
+    },
+    {
+      "skillId": 43,
+      "key": null,
+      "raw": "Docker",
+      "canonical": "Docker",
+      "category": "DevOps",
+      "matchMethod": "EXACT",
+      "confidence": 1.0,
+      "start": 91,
+      "end": 97
+    }
+  ],
+  "experiences": [
+    {
+      "companyName": "Công ty Demo XYZ",
+      "jobTitle": "Backend Intern",
+      "startDate": "2025-06-01",
+      "endDate": "2025-11-01",
+      "startDatePrecision": "month",
+      "endDatePrecision": "month",
+      "isCurrent": false,
+      "description": "Xây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.",
+      "sourceText": "Backend Intern | Công ty Demo XYZ | 06/2025 - 11/2025\nXây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập."
+    }
+  ],
+  "educations": [
+    {
+      "institution": "Đại học Demo",
+      "degree": "Bachelor",
+      "field": "Công nghệ thông tin",
+      "graduationYear": 2025,
+      "sourceText": "Đại học Demo\nCử nhân\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2025"
+    }
+  ],
+  "experienceText": "Backend Intern | Công ty Demo XYZ | 06/2025 - 11/2025\nXây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.",
+  "rawTokens": [
+    "Họ",
+    "tên",
+    ":",
+    "Trần Gia Bình Email",
+    ":",
+    "binh.demo@example.com",
+    "Điện thoại",
+    ":",
+    "0903",
+    "456",
+    "789",
+    "KY NANG",
+    "Java",
+    ",",
+    "Docker",
+    ",",
+    "SpringBott",
+    ",",
+    "PostgreSQlX",
+    ",",
+    "lam viec",
+    "nhom",
+    "KINH NGHIEM",
+    "LAM VIEC",
+    "Backend",
+    "Intern |",
+    "Công ty",
+    "Demo XYZ",
+    "| 06/2025",
+    "-",
+    "11/2025",
+    "Xây dựng",
+    "chức năng",
+    "quản lý",
+    "bằng",
+    "Java",
+    "và",
+    "Docker",
+    "trong",
+    "thời gian",
+    "thực tập",
+    ".",
+    "HOC VAN",
+    "Đại học",
+    "Demo",
+    "Cử nhân",
+    "Chuyên ngành",
+    ":",
+    "Công nghệ thông tin",
+    "Tốt nghiệp",
+    ":",
+    "2025"
+  ],
+  "entities": [
+    {
+      "text": "Trần Gia Bình Email",
+      "label": "PER",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "789 KY NANG Java",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Docker",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": ", SpringBott",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": ", PostgreSQlX",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "nhom KINH NGHIEM",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "LAM VIEC Backend",
+      "label": "PER",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Công ty Demo XYZ",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Java",
+      "label": "PER",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Docker",
+      "label": "ORG",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "HOC VAN",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    },
+    {
+      "text": "Đại học Demo",
+      "label": "LOC",
+      "start": null,
+      "end": null
+    }
+  ],
+  "unknownSkills": [
+    {
+      "raw": "SpringBott",
+      "suggestions": [
+        {
+          "canonical": "Spring Boot",
+          "skillId": 20,
+          "key": null,
+          "similarity": 0.9
+        }
+      ]
+    },
+    {
+      "raw": "PostgreSQlX",
+      "suggestions": [
+        {
+          "canonical": "PostgreSQL",
+          "skillId": 36,
+          "key": null,
+          "similarity": 0.952
+        }
+      ]
+    },
+    {
+      "raw": "lam viec nhom",
+      "suggestions": []
+    }
+  ],
+  "normalizedText": "Họ tên: Trần Gia Bình\nEmail: binh.demo@example.com\nĐiện thoại: 0903 456 789\n\nKY NANG\nJava, Docker, SpringBott, PostgreSQlX, lam viec nhom\n\nKINH NGHIEM LAM VIEC\nBackend Intern | Công ty Demo XYZ | 06/2025 - 11/2025\nXây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.\n\nHOC VAN\nĐại học Demo\nCử nhân\nChuyên ngành: Công nghệ thông tin\nTốt nghiệp: 2025",
+  "warnings": [
+    "Skill confidence is dictionary-match strength, not a calibrated probability or proficiency."
+  ],
+  "modelVersion": "ats-nlp-1.0/full",
+  "rawNlpResult": "{\"cvId\":3,\"language\":\"vi\",\"person\":{\"name\":\"Trần Gia Bình\",\"email\":\"binh.demo@example.com\",\"phone\":\"0903456789\",\"links\":[]},\"candidateName\":\"Trần Gia Bình\",\"email\":\"binh.demo@example.com\",\"phone\":\"0903456789\",\"skills\":[{\"skillId\":1,\"key\":null,\"raw\":\"Java\",\"canonical\":\"Java\",\"category\":\"Programming Languages\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":85,\"end\":89},{\"skillId\":43,\"key\":null,\"raw\":\"Docker\",\"canonical\":\"Docker\",\"category\":\"DevOps\",\"matchMethod\":\"EXACT\",\"confidence\":1.0,\"start\":91,\"end\":97}],\"experiences\":[{\"companyName\":\"Công ty Demo XYZ\",\"jobTitle\":\"Backend Intern\",\"startDate\":\"2025-06-01\",\"endDate\":\"2025-11-01\",\"startDatePrecision\":\"month\",\"endDatePrecision\":\"month\",\"isCurrent\":false,\"description\":\"Xây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.\",\"sourceText\":\"Backend Intern | Công ty Demo XYZ | 06/2025 - 11/2025\\nXây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.\"}],\"educations\":[{\"institution\":\"Đại học Demo\",\"degree\":\"Bachelor\",\"field\":\"Công nghệ thông tin\",\"graduationYear\":2025,\"sourceText\":\"Đại học Demo\\nCử nhân\\nChuyên ngành: Công nghệ thông tin\\nTốt nghiệp: 2025\"}],\"experienceText\":\"Backend Intern | Công ty Demo XYZ | 06/2025 - 11/2025\\nXây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.\",\"rawTokens\":[\"Họ\",\"tên\",\":\",\"Trần Gia Bình Email\",\":\",\"binh.demo@example.com\",\"Điện thoại\",\":\",\"0903\",\"456\",\"789\",\"KY NANG\",\"Java\",\",\",\"Docker\",\",\",\"SpringBott\",\",\",\"PostgreSQlX\",\",\",\"lam viec\",\"nhom\",\"KINH NGHIEM\",\"LAM VIEC\",\"Backend\",\"Intern |\",\"Công ty\",\"Demo XYZ\",\"| 06/2025\",\"-\",\"11/2025\",\"Xây dựng\",\"chức năng\",\"quản lý\",\"bằng\",\"Java\",\"và\",\"Docker\",\"trong\",\"thời gian\",\"thực tập\",\".\",\"HOC VAN\",\"Đại học\",\"Demo\",\"Cử nhân\",\"Chuyên ngành\",\":\",\"Công nghệ thông tin\",\"Tốt nghiệp\",\":\",\"2025\"],\"entities\":[{\"text\":\"Trần Gia Bình Email\",\"label\":\"PER\",\"start\":null,\"end\":null},{\"text\":\"789 KY NANG Java\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Docker\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\", SpringBott\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\", PostgreSQlX\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"nhom KINH NGHIEM\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"LAM VIEC Backend\",\"label\":\"PER\",\"start\":null,\"end\":null},{\"text\":\"Công ty Demo XYZ\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Java\",\"label\":\"PER\",\"start\":null,\"end\":null},{\"text\":\"Docker\",\"label\":\"ORG\",\"start\":null,\"end\":null},{\"text\":\"HOC VAN\",\"label\":\"LOC\",\"start\":null,\"end\":null},{\"text\":\"Đại học Demo\",\"label\":\"LOC\",\"start\":null,\"end\":null}],\"unknownSkills\":[{\"raw\":\"SpringBott\",\"suggestions\":[{\"canonical\":\"Spring Boot\",\"skillId\":20,\"key\":null,\"similarity\":0.9}]},{\"raw\":\"PostgreSQlX\",\"suggestions\":[{\"canonical\":\"PostgreSQL\",\"skillId\":36,\"key\":null,\"similarity\":0.952}]},{\"raw\":\"lam viec nhom\",\"suggestions\":[]}],\"normalizedText\":\"Họ tên: Trần Gia Bình\\nEmail: binh.demo@example.com\\nĐiện thoại: 0903 456 789\\n\\nKY NANG\\nJava, Docker, SpringBott, PostgreSQlX, lam viec nhom\\n\\nKINH NGHIEM LAM VIEC\\nBackend Intern | Công ty Demo XYZ | 06/2025 - 11/2025\\nXây dựng chức năng quản lý bằng Java và Docker trong thời gian thực tập.\\n\\nHOC VAN\\nĐại học Demo\\nCử nhân\\nChuyên ngành: Công nghệ thông tin\\nTốt nghiệp: 2025\",\"warnings\":[\"Skill confidence is dictionary-match strength, not a calibrated probability or proficiency.\"],\"modelVersion\":\"ats-nlp-1.0/full\"}"
+}

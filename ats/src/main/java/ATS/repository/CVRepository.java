@@ -17,6 +17,32 @@ import java.util.Optional;
 
 @Repository
 public interface CVRepository extends JpaRepository<CVs, Long> {
+    @Query("SELECT c.rawNlpResult FROM CVs c WHERE c.rawNlpResult IS NOT NULL AND c.status IN "
+            + "(ATS.enums.CVStatus.PARSED, ATS.enums.CVStatus.SCORED, ATS.enums.CVStatus.REVIEWED)")
+    List<String> findCompletedNlpSnapshots();
+    @Query("SELECT c.job.jobId FROM CVs c WHERE c.cvId = :id AND c.job.user.id = :userId")
+    Optional<Long> findOwnedJobId(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("SELECT c FROM CVs c WHERE c.job.jobId = :jobId AND c.job.user.id = :userId "
+            + "AND (:status IS NULL OR c.status = :status) ORDER BY c.cvId DESC")
+    Page<CVs> findQueue(@Param("jobId") Long jobId, @Param("userId") Long userId,
+                       @Param("status") CVStatus status, Pageable pageable);
+
+    interface StatusCount {
+        CVStatus getStatus();
+        Long getTotal();
+    }
+
+    @Query("SELECT c.status AS status, COUNT(c) AS total FROM CVs c "
+            + "WHERE c.job.jobId = :jobId AND c.job.user.id = :userId GROUP BY c.status")
+    List<StatusCount> countQueue(@Param("jobId") Long jobId, @Param("userId") Long userId);
+
+    @Query("SELECT c.cvId FROM CVs c WHERE c.status = ATS.enums.CVStatus.PENDING "
+            + "AND c.rawText IS NOT NULL AND TRIM(c.rawText) <> '' AND c.updatedAt < :before ORDER BY c.cvId")
+    List<Long> findPendingNlpIds(@Param("before") java.time.LocalDateTime before);
+
+    @Query("SELECT c.cvId FROM CVs c WHERE c.status = ATS.enums.CVStatus.PARSING "
+            + "AND c.nlpProcessingToken IS NOT NULL AND c.nlpProcessingStartedAt < :before ORDER BY c.cvId")
+    List<Long> findStaleNlpIds(@Param("before") java.time.LocalDateTime before);
     @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT c FROM CVs c WHERE c.cvId = :id")
     Optional<CVs> findLocked(@Param("id") Long id);

@@ -1,0 +1,72 @@
+[
+  {
+    "code": "CV01",
+    "name": "Nguyễn Minh An",
+    "file": "cv/CV01.pdf",
+    "purpose": "Java đầy đủ yêu cầu",
+    "pages": 1
+  },
+  {
+    "code": "CV02",
+    "name": "Trần Thu Hà",
+    "file": "cv/CV02.pdf",
+    "purpose": "Java thiếu hai kỹ năng ưu tiên",
+    "pages": 1
+  },
+  {
+    "code": "CV03",
+    "name": "Lê Hoàng Nam",
+    "file": "cv/CV03.pdf",
+    "purpose": "Điểm kỹ năng khá nhưng thiếu Spring Boot bắt buộc",
+    "pages": 1
+  },
+  {
+    "code": "CV04",
+    "name": "Vũ Khánh Linh",
+    "file": "cv/CV04.pdf",
+    "purpose": "Đủ kỹ năng nhưng thiếu số năm kinh nghiệm",
+    "pages": 1
+  },
+  {
+    "code": "CV05",
+    "name": "Pham Gia Huy",
+    "file": "cv/CV05.pdf",
+    "purpose": "Không dấu và tên kỹ năng biến thể",
+    "pages": 1
+  },
+  {
+    "code": "CV06",
+    "name": "Emily Carter",
+    "file": "cv/CV06.pdf",
+    "purpose": "Frontend mạnh bằng tiếng Anh",
+    "pages": 1
+  },
+  {
+    "code": "CV07",
+    "name": "Đỗ Ngọc Mai",
+    "file": "cv/CV07.pdf",
+    "purpose": "Frontend thiếu TypeScript bắt buộc",
+    "pages": 1
+  },
+  {
+    "code": "CV08",
+    "name": "Bùi Đức Phúc",
+    "file": "cv/CV08.pdf",
+    "purpose": "Python dữ liệu đầy đủ và có bằng cử nhân",
+    "pages": 1
+  },
+  {
+    "code": "CV09",
+    "name": "Hồ sơ đã ẩn thông tin liên hệ",
+    "file": "cv/CV09.pdf",
+    "purpose": "Thiếu liên hệ, kinh nghiệm trùng thời gian và kỹ năng lạ",
+    "pages": 1
+  },
+  {
+    "code": "CV10",
+    "name": "Bản scan của CV01",
+    "file": "cv/CV10.pdf",
+    "purpose": "PDF ảnh không có OCR, mong đợi phân tích thất bại",
+    "pages": 1
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "Demo Java Backend",
+  "description": "Phát triển REST API bằng Java và Spring Boot, lưu trữ PostgreSQL, triển khai Docker.",
+  "minExperienceYears": 2,
+  "educationRequirements": "",
+  "requiredSkillIds": [
+    1,
+    20,
+    36,
+    43
+  ]
+}

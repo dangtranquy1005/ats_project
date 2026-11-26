@@ -1,0 +1,31 @@
+﻿JD,CV,Điểm kỹ năng /100,Năm kinh nghiệm,Qua yêu cầu bắt buộc,Lý do
+JD01,CV01,100.0,6.0,Đạt,
+JD01,CV02,80.0,3.0,Đạt,
+JD01,CV03,70.0,5.0,Chưa đạt,Thiếu bắt buộc: Spring Boot
+JD01,CV04,100.0,0.5,Chưa đạt,Chưa đủ số năm kinh nghiệm
+JD01,CV05,100.0,5.0,Đạt,
+JD01,CV06,0.0,5.0,Chưa đạt,"Thiếu bắt buộc: Java, Spring Boot"
+JD01,CV07,0.0,2.0,Chưa đạt,"Thiếu bắt buộc: Java, Spring Boot"
+JD01,CV08,10.0,4.0,Chưa đạt,"Thiếu bắt buộc: Java, Spring Boot"
+JD01,CV09,80.0,3.0,Đạt,
+JD02,CV01,10.0,6.0,Chưa đạt,"Thiếu bắt buộc: React, TypeScript"
+JD02,CV02,10.0,3.0,Chưa đạt,"Thiếu bắt buộc: React, TypeScript"
+JD02,CV03,10.0,5.0,Chưa đạt,"Thiếu bắt buộc: React, TypeScript"
+JD02,CV04,10.0,0.5,Chưa đạt,"Thiếu bắt buộc: React, TypeScript; Chưa đủ số năm kinh nghiệm"
+JD02,CV05,10.0,5.0,Chưa đạt,"Thiếu bắt buộc: React, TypeScript"
+JD02,CV06,100.0,5.0,Đạt,
+JD02,CV07,40.0,2.0,Chưa đạt,Thiếu bắt buộc: TypeScript
+JD02,CV08,10.0,4.0,Chưa đạt,"Thiếu bắt buộc: React, TypeScript"
+JD02,CV09,10.0,3.0,Chưa đạt,"Thiếu bắt buộc: React, TypeScript"
+JD03,CV01,10.0,6.0,Chưa đạt,"Thiếu bắt buộc: Python, pandas"
+JD03,CV02,0.0,3.0,Chưa đạt,"Thiếu bắt buộc: Python, pandas"
+JD03,CV03,10.0,5.0,Chưa đạt,"Thiếu bắt buộc: Python, pandas"
+JD03,CV04,10.0,0.5,Chưa đạt,"Thiếu bắt buộc: Python, pandas; Chưa đủ số năm kinh nghiệm"
+JD03,CV05,10.0,5.0,Chưa đạt,"Thiếu bắt buộc: Python, pandas"
+JD03,CV06,0.0,5.0,Chưa đạt,"Thiếu bắt buộc: Python, pandas"
+JD03,CV07,0.0,2.0,Chưa đạt,"Thiếu bắt buộc: Python, pandas; Chưa xác nhận đúng yêu cầu bằng cấp"
+JD03,CV08,100.0,4.0,Đạt,
+JD03,CV09,0.0,3.0,Chưa đạt,"Thiếu bắt buộc: Python, pandas; Chưa xác nhận đúng yêu cầu bằng cấp"
+JD01,CV10,,,Chưa phân tích,PDF ảnh không có văn bản; mong đợi PARSED_FAILED
+JD02,CV10,,,Chưa phân tích,PDF ảnh không có văn bản; mong đợi PARSED_FAILED
+JD03,CV10,,,Chưa phân tích,PDF ảnh không có văn bản; mong đợi PARSED_FAILED

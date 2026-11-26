@@ -2,33 +2,33 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 
 export default function Sidebar() {
-  const { activeScreen, switchTab, user, logout } = useApp();
+  const { activeScreen, switchTab, user, logout, jobs } = useApp();
 
   const workflowItems = [
     {
       id: 'screen-jd',
       title: '1. Tiêu chí tuyển dụng (JD)',
-      badge: '3 Vị trí',
+      badge: `${jobs.length} Vị trí`,
       badgeClass: 'bg-slate-100 text-slate-600 border-slate-200',
       icon: 'fa-briefcase'
     },
     {
       id: 'screen-upload',
       title: '2. Tải lên & Xử lý CV',
-      badge: '48 CVs',
+      badge: `${jobs.reduce((n, j) => n + j.totalCv, 0)} CV`,
       badgeClass: 'bg-blue-50 text-blue-700 border-blue-200',
       icon: 'fa-cloud-arrow-up'
     },
     {
       id: 'screen-ranking',
       title: '3. Bảng xếp hạng ứng viên',
-      badge: 'Top 48',
+      badge: 'Điểm thật',
       badgeClass: 'bg-slate-100 text-slate-600 border-slate-200',
       icon: 'fa-ranking-star'
     },
     {
       id: 'screen-report',
-      title: '4. Chi tiết & Duyệt CV',
+      title: '4. Xem & đánh giá hồ sơ',
       badge: 'Chi tiết',
       badgeClass: 'bg-blue-100 text-blue-700 border-blue-200',
       icon: 'fa-file-lines'
@@ -38,7 +38,7 @@ export default function Sidebar() {
   return (
     <aside
       id="app-sidebar"
-      className="w-68 bg-white text-slate-700 flex flex-col justify-between shrink-0 z-30 border-r border-slate-200/90 shadow-xs relative"
+      className="w-68 bg-white text-slate-700 hidden lg:flex flex-col justify-between shrink-0 z-30 border-r border-slate-200/90 shadow-xs relative"
     >
       <div>
         {/* Brand Header */}
@@ -165,52 +165,15 @@ export default function Sidebar() {
               <span className="text-left">Từ điển kỹ năng</span>
             </span>
             <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
-              Admin
+              {user.role === 'ADMIN' ? 'Quản trị' : 'Tra cứu'}
             </span>
           </button>
         </div>
 
-        {/* Recruiter Workspace Summary Card */}
-        <div className="px-4 py-3.5 mx-3 mt-4 rounded-xl bg-slate-50 border border-slate-200/90 space-y-2.5">
-          <div className="flex items-center justify-between text-[11px] font-bold text-slate-800">
-            <span className="flex items-center gap-1.5 text-blue-700">
-              <i className="fa-solid fa-chart-pie text-[10px]"></i> Tiến độ chiến dịch
-            </span>
-            <span className="text-slate-500 font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-slate-200 font-medium">
-              Q4/2026
-            </span>
-          </div>
-          <div className="space-y-1.5 text-[11px]">
-            <div
-              onClick={() => switchTab('screen-upload')}
-              className="flex justify-between items-center text-slate-600 hover:text-blue-600 cursor-pointer transition"
-              title="Xem danh sách hồ sơ đã tải lên"
-            >
-              <span>Hồ sơ đã tiếp nhận:</span>
-              <span className="font-mono text-slate-900 font-semibold hover:underline">48 hồ sơ →</span>
-            </div>
-            <div
-              onClick={() => switchTab('screen-ranking')}
-              className="flex justify-between items-center text-slate-600 hover:text-emerald-700 cursor-pointer transition"
-              title="Xem ứng viên đạt lọc cứng"
-            >
-              <span>Đạt vòng lọc cứng:</span>
-              <span className="font-mono text-emerald-700 font-semibold hover:underline">38 hồ sơ (79%) →</span>
-            </div>
-            <div
-              onClick={() => switchTab('screen-report')}
-              className="flex justify-between items-center text-slate-600 hover:text-blue-700 cursor-pointer transition"
-              title="Xem báo cáo đối soát ứng viên"
-            >
-              <span>Đã lên lịch phỏng vấn:</span>
-              <span className="font-mono text-blue-700 font-semibold hover:underline">12 ứng viên →</span>
-            </div>
-          </div>
-          <div className="pt-0.5">
-            <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-              <div className="bg-blue-600 h-full rounded-full" style={{ width: '79%' }}></div>
-            </div>
-          </div>
+        <div className="px-4 py-3.5 mx-3 mt-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+          <p className="font-bold text-slate-800">Tổng quan tuyển dụng</p>
+          <p>Vị trí đang tuyển: <b>{jobs.filter(j => j.status === 'OPEN').length}</b></p>
+          <p>Hồ sơ đã tiếp nhận: <b>{jobs.reduce((total, j) => total + j.totalCv, 0)}</b></p>
         </div>
       </div>
 
@@ -229,10 +192,10 @@ export default function Sidebar() {
           </div>
           <div className="leading-tight">
             <p className="font-semibold text-slate-900 text-xs group-hover:text-blue-600 transition">
-              {user?.fullName || 'Phạm Minh Đức'}
+              {user?.fullName || user?.email}
             </p>
             <p className="text-[10px] text-slate-500">
-              {user?.role === 'ADMIN' ? 'Quản trị viên' : 'Trưởng ban Tuyển dụng'}
+              {user?.role === 'ADMIN' ? 'Quản trị viên' : 'Nhà tuyển dụng'}
             </p>
           </div>
         </div>

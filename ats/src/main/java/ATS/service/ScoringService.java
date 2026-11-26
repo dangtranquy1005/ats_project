@@ -4,6 +4,7 @@ import ATS.dto.*;
 import org.springframework.data.domain.Pageable;
 
 public interface ScoringService {
+    ScoringStatusResponse getScoringStatus(Long jobId, Long userId);
     
     /**
      * Get ranked CVs for a job with optional filtering

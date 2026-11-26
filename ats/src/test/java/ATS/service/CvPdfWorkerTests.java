@@ -16,7 +16,7 @@ class CvPdfWorkerTests {
         var tx = mock(CvUploadTransactions.class);
         var storage = mock(FileStorageService.class);
         var extractor = mock(PdfTextExtractor.class);
-        var worker = new CvPdfWorker(Runnable::run, tx, storage, extractor, mock(CVRepository.class));
+        var worker = new CvPdfWorker(Runnable::run, tx, storage, extractor, mock(CVRepository.class), mock(CvNlpWorker.class));
         var task = new CvUploadTransactions.PdfTask(1L, "cv.pdf", "token");
         when(tx.claim(1L)).thenReturn(Optional.of(task));
         when(storage.getFile("cv.pdf")).thenReturn(new ByteArrayInputStream(new byte[]{1}));
@@ -34,7 +34,7 @@ class CvPdfWorkerTests {
         doThrow(new TaskRejectedException("full")).when(executor).execute(any());
         var tx = mock(CvUploadTransactions.class);
         var worker = new CvPdfWorker(executor, tx, mock(FileStorageService.class),
-                mock(PdfTextExtractor.class), mock(CVRepository.class));
+                mock(PdfTextExtractor.class), mock(CVRepository.class), mock(CvNlpWorker.class));
         assertDoesNotThrow(() -> worker.submit(1L));
         verifyNoInteractions(tx);
     }

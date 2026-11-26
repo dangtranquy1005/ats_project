@@ -1,0 +1,274 @@
+{
+  "candidates": [
+    {
+      "code": "CV01",
+      "name": "Nguyễn Minh An",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Git",
+        "JUnit",
+        "REST API"
+      ],
+      "years": 6.0,
+      "case": "Java đầy đủ yêu cầu"
+    },
+    {
+      "code": "CV02",
+      "name": "Trần Thu Hà",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "PostgreSQL",
+        "Git",
+        "REST API"
+      ],
+      "years": 3.0,
+      "case": "Java thiếu hai kỹ năng ưu tiên"
+    },
+    {
+      "code": "CV03",
+      "name": "Lê Hoàng Nam",
+      "skills": [
+        "Java",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Git"
+      ],
+      "years": 5.0,
+      "case": "Điểm kỹ năng khá nhưng thiếu Spring Boot bắt buộc"
+    },
+    {
+      "code": "CV04",
+      "name": "Vũ Khánh Linh",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Git"
+      ],
+      "years": 0.5,
+      "case": "Đủ kỹ năng nhưng thiếu số năm kinh nghiệm"
+    },
+    {
+      "code": "CV05",
+      "name": "Pham Gia Huy",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Git"
+      ],
+      "years": 5.0,
+      "case": "Không dấu và tên kỹ năng biến thể"
+    },
+    {
+      "code": "CV06",
+      "name": "Emily Carter",
+      "skills": [
+        "React",
+        "TypeScript",
+        "Next.js",
+        "Tailwind CSS",
+        "Git",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Playwright"
+      ],
+      "years": 5.0,
+      "case": "Frontend mạnh bằng tiếng Anh"
+    },
+    {
+      "code": "CV07",
+      "name": "Đỗ Ngọc Mai",
+      "skills": [
+        "React",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Git"
+      ],
+      "years": 2.0,
+      "case": "Frontend thiếu TypeScript bắt buộc"
+    },
+    {
+      "code": "CV08",
+      "name": "Bùi Đức Phúc",
+      "skills": [
+        "Python",
+        "pandas",
+        "NumPy",
+        "SQL",
+        "Docker",
+        "Git",
+        "pytest"
+      ],
+      "years": 4.0,
+      "case": "Python dữ liệu đầy đủ và có bằng cử nhân"
+    },
+    {
+      "code": "CV09",
+      "name": "Hồ sơ đã ẩn thông tin liên hệ",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "PostgreSQL",
+        "Git"
+      ],
+      "years": 3.0,
+      "case": "Thiếu liên hệ, kinh nghiệm trùng thời gian và kỹ năng lạ"
+    }
+  ],
+  "jobs": [
+    {
+      "code": "JD01",
+      "title": "Java Backend Developer",
+      "minExperienceYears": 2,
+      "educationRequirements": "",
+      "humanEducation": "Ưu tiên ngành công nghệ thông tin; chấp nhận năng lực tương đương qua dự án",
+      "location": "Hà Nội - hybrid 3 ngày tại văn phòng",
+      "salary": "25-35 triệu đồng/tháng, mức giả lập",
+      "skills": [
+        [
+          "Java",
+          3,
+          true
+        ],
+        [
+          "Spring Boot",
+          3,
+          true
+        ],
+        [
+          "PostgreSQL",
+          2,
+          false
+        ],
+        [
+          "Docker",
+          1,
+          false
+        ],
+        [
+          "Redis",
+          1,
+          false
+        ]
+      ],
+      "description": "Phát triển REST API bằng Java và Spring Boot cho hệ thống quản lý đơn hàng. Thiết kế PostgreSQL, tối ưu truy vấn và giao dịch. Đóng gói ứng dụng bằng Docker và sử dụng Redis cho dữ liệu tra cứu. Viết kiểm thử, xử lý lỗi nghiệp vụ và phối hợp rà soát mã nguồn.",
+      "duties": [
+        "Thiết kế API tạo đơn, cập nhật trạng thái, tra cứu và đối soát dữ liệu.",
+        "Kiểm tra quyền truy cập, kiểm soát giao dịch và xử lý yêu cầu được gửi lặp.",
+        "Viết kiểm thử cho luồng chính và luồng lỗi; bàn giao tài liệu chạy thử."
+      ],
+      "outcomes": [
+        "Trong 30 ngày: hiểu mô hình dữ liệu và sửa một nhóm lỗi có kiểm thử.",
+        "Trong 60 ngày: bàn giao một luồng nghiệp vụ có tài liệu API.",
+        "Trong 90 ngày: tham gia tối ưu một truy vấn và theo dõi chất lượng vận hành."
+      ]
+    },
+    {
+      "code": "JD02",
+      "title": "Frontend Engineer React TypeScript",
+      "minExperienceYears": 1,
+      "educationRequirements": "",
+      "humanEducation": "Không bắt buộc bằng cấp nếu chứng minh được kinh nghiệm",
+      "location": "Đà Nẵng - hybrid",
+      "salary": "20-30 triệu đồng/tháng, mức giả lập",
+      "skills": [
+        [
+          "React",
+          3,
+          true
+        ],
+        [
+          "TypeScript",
+          3,
+          true
+        ],
+        [
+          "Next.js",
+          2,
+          false
+        ],
+        [
+          "Tailwind CSS",
+          1,
+          false
+        ],
+        [
+          "Git",
+          1,
+          false
+        ]
+      ],
+      "description": "Build responsive dashboards with React and TypeScript. Develop pages using Next.js and Tailwind CSS. Collaborate through Git, implement accessible components, form validation, loading states and clear error feedback. Work with designers and backend developers to deliver tested customer interfaces.",
+      "duties": [
+        "Phát triển giao diện từ thiết kế, tối ưu bố cục điện thoại và điều hướng bàn phím.",
+        "Tích hợp API, quản lý dữ liệu biểu mẫu và các trạng thái tải/lỗi/rỗng.",
+        "Rà soát mã nguồn, kiểm tra luồng đăng nhập và lọc danh sách trước bàn giao."
+      ],
+      "outcomes": [
+        "Trong 30 ngày: nắm thư viện giao diện và hoàn thiện một biểu mẫu.",
+        "Trong 60 ngày: bàn giao một màn danh sách có lọc và phân trang.",
+        "Trong 90 ngày: cải thiện một chỉ số tải trang hoặc khả năng truy cập."
+      ]
+    },
+    {
+      "code": "JD03",
+      "title": "Python Data Engineer",
+      "minExperienceYears": 1,
+      "educationRequirements": "Bachelor",
+      "humanEducation": "Có bằng cử nhân; ưu tiên ngành khoa học máy tính hoặc công nghệ thông tin",
+      "location": "TP Hồ Chí Minh - làm việc tại văn phòng",
+      "salary": "22-32 triệu đồng/tháng, mức giả lập",
+      "skills": [
+        [
+          "Python",
+          3,
+          true
+        ],
+        [
+          "pandas",
+          3,
+          true
+        ],
+        [
+          "NumPy",
+          2,
+          false
+        ],
+        [
+          "SQL",
+          1,
+          false
+        ],
+        [
+          "Docker",
+          1,
+          false
+        ]
+      ],
+      "description": "Xây dựng pipeline Python sử dụng pandas và NumPy để làm sạch dữ liệu giao dịch. Viết SQL đối soát và tổng hợp báo cáo bán hàng. Đóng gói pipeline bằng Docker, kiểm tra dữ liệu trùng và giá trị trống, bổ sung kiểm thử và nhật ký cho từng bước xử lý.",
+      "duties": [
+        "Chuẩn hóa định dạng, phát hiện dữ liệu trùng, thiếu và giá trị ngoài khoảng.",
+        "Đối soát tổng số bản ghi và chỉ số tổng hợp giữa đầu vào và đầu ra.",
+        "Bổ sung kiểm thử và tài liệu để pipeline chạy lại được sau lỗi."
+      ],
+      "outcomes": [
+        "Trong 30 ngày: hiểu nguồn dữ liệu và mô tả các quy tắc kiểm tra.",
+        "Trong 60 ngày: hoàn thiện một pipeline có báo cáo chất lượng.",
+        "Trong 90 ngày: tự vận hành, đối soát và xử lý một tình huống chạy lại."
+      ]
+    }
+  ]
+}

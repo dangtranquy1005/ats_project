@@ -1,0 +1,107 @@
+KỊCH BẢN DEMO SWAGGER ATS VÀ NLP
+
+Bộ dữ liệu là hồ sơ giả lập để kiểm thử. ID kỹ năng được đọc từ database atsproject khi tạo bộ demo.
+Các PDF đã được render kiểm tra và có font tiếng Việt. Bản số 05 chỉ chứa ảnh để thử lỗi scan.
+
+A. KIỂM TRA NLP TRỰC TIẾP
+1. Mở http://127.0.0.1:8000/docs.
+2. Gọi GET /health. Kỳ vọng status=ok, mode=full, có hai model spaCy và underthesea.
+3. Mở POST /nlp/extract, nhấn Try it out.
+4. Dán nội dung file 01-backend-strong-extract.json và Execute.
+5. Lặp lại với các file 02, 03, 04. Đây là body JSON chứa text. File PDF dùng cho Swagger Spring Boot ở phần B.
+6. Đối chiếu person, skills, experiences, educations và unknownSkills với các file results đi kèm.
+
+Kỳ vọng NLP
+01 nhận Nguyễn Minh An, an.demo@example.com và Java, Spring Boot, PostgreSQL, Docker.
+   Các skill khác như Git và REST API cũng có thể được nhận diện, không ảnh hưởng điểm bao phủ JD Java.
+   SpringBoot và Postgres được quy về tên chuẩn. Kinh nghiệm 01/2020 tới 12/2024.
+02 nhận Jane Demo và React, TypeScript, Next.js, Docker, Git, JavaScript.
+   JavaScript phải giữ riêng với Java. CV này không có Java.
+03 chỉ xác nhận Java và Docker trong danh sách kỹ năng.
+   SpringBott, PostgreSQlX, lam viec nhom xuất hiện ở unknownSkills.
+   Gợi ý fuzzy không được tự cộng thành kỹ năng đã xác nhận.
+   Tiêu đề KY NANG và KINH NGHIEM LAM VIEC không dấu vẫn được nhận diện.
+04 person.name, person.email và person.phone bằng null.
+   Công ty có thể null. Kỹ năng Java, Spring Boot, PostgreSQL vẫn được nhận diện.
+   Dữ liệu thiếu được giữ để đối chiếu, không cần điền thông tin giả.
+
+Kết quả results được lấy thực tế từ container NLP chế độ full.
+Bản scan 05 dùng ở luồng upload PDF, vì endpoint NLP nhận text.
+
+B. KIỂM TRA TOÀN LUỒNG QUA SPRING BOOT
+Điều kiện
+- PostgreSQL và MinIO đang hoạt động.
+- Container NLP đang chạy tại cổng 8000.
+- Spring Boot đã khởi động với mã nguồn mới tại cổng 8081.
+- Các script schema trong src/main/resources/db/manual đã được áp dụng theo các bước phát triển.
+
+1. Mở http://127.0.0.1:8081/swagger-ui/index.html.
+2. Đăng nhập bằng POST /api/v1/user/login với email/password của tài khoản hiện có.
+   Nếu chưa có tài khoản, tạo qua POST /api/v1/user/create với fullname, email và password.
+3. Sao chép JWT từ phản hồi login. Nhấn Authorize và nhập token vào ô Bearer JWT.
+4. POST /api/v1/jobs với nội dung jd-java-create.json. Ghi lại jobId trả về.
+5. PUT /api/v1/jobs/{jobId}/skills với nội dung jd-java-skills.json.
+   Bước này đặt Java và Spring Boot bắt buộc, PostgreSQL và Docker ưu tiên.
+   Trọng số lần lượt 3, 3, 2, 2.
+6. PUT /api/v1/jobs/{jobId}/scoring-config với nội dung scoring-skill-only.json.
+   Điểm kỹ năng có trọng số 1, các nhóm kinh nghiệm và học vấn có trọng số 0.
+   Điều kiện số năm kinh nghiệm vẫn được kiểm tra ở lọc cứng.
+   Yêu cầu học vấn để trống nhằm tập trung kiểm tra trích xuất kỹ năng và độ bao phủ.
+7. POST /api/v1/cvs/upload.
+   Nhập jobId của JD Java và chọn cả 5 PDF.
+   Phản hồi HTTP 202 có kết quả từng file. success=true ở đây nghĩa là file và bản ghi đã được tiếp nhận.
+   Ghi lại cvId của từng file, dùng trường filename để nhận diện.
+8. GET /api/v1/cvs/{cvId}/status cho từng file, thử lại sau vài giây.
+   Các file 01 đến 04 phải về PARSED.
+   File 05 phải về PARSED_FAILED, errorMessage liên quan việc không đọc được text/scan.
+   PENDING hoặc PARSING chỉ là trạng thái đang chờ/đang xử lý. Không chấm điểm khi còn chờ.
+9. POST /api/v1/jobs/{jobId}/rescore.
+10. GET /api/v1/jobs/{jobId}/ranking và GET /api/v1/cvs/{cvId}/match để đối chiếu điểm/lý do.
+
+Kỳ vọng với JD Java
+01 backend phù hợp       skillScore=1.00, passedHardFilter=true.
+04 thiếu liên hệ         skillScore=0.80, passedHardFilter=true.
+03 junior có typo        skillScore=0.50, passedHardFilter=false do thiếu Spring Boot và chưa đủ 2 năm.
+02 frontend              skillScore=0.20, passedHardFilter=false do thiếu Java và Spring Boot.
+05 scan                  PARSED_FAILED, bỏ qua khi chấm, không có MatchResult mới.
+
+Do cấu hình điểm kỹ năng bằng 1, overallScore bằng skillScore.
+Thang API là 0..1. Giá trị 0.80 tương ứng 80%.
+jaccardScore là tên trường tương thích cũ, có cùng giá trị skillScore.
+Ứng viên không qua lọc cứng vẫn có điểm và căn cứ, được xếp sau nhóm đạt.
+Các thông tin liên hệ thiếu không phải điều kiện lọc cứng của bộ JD demo.
+
+C. ĐỐI CHIẾU JD FRONTEND
+1. Tạo JD bằng jd-frontend-create.json, ghi lại jobId mới.
+2. PUT skills bằng jd-frontend-skills.json.
+3. PUT scoring-config bằng scoring-skill-only.json.
+4. Upload lại các PDF vào JD mới. Mỗi lượt upload tạo các cvId riêng cho JD đó.
+5. Chờ PARSED, gọi rescore rồi ranking.
+Kỳ vọng điểm kỹ năng của 01, 02, 03, 04 lần lượt 0.20, 1.00, 0.20, 0.00.
+Chỉ CV02 đạt các kỹ năng bắt buộc React và TypeScript.
+CV05 vẫn lỗi scan.
+
+D. THỬ RETRY VÀ LỖI KẾT NỐI
+- Gọi POST /api/v1/cvs/{cvId-cua-file-05}/retry. File scan chưa có OCR sẽ tiếp tục lỗi có lý do.
+- Để thử lỗi NLP, dừng container bằng docker compose stop trong folder nlpservice.
+  Upload một CV text mới. Chờ hết tối đa ba lần gọi NLP, CV sẽ về PARSED_FAILED.
+  Khởi động lại bằng docker compose up -d, rồi gọi retry cho cvId đó.
+  CV đã có rawText sẽ gọi lại NLP và có thể về PARSED mà không đọc lại PDF.
+- Sau khi phân tích lại, gọi rescore để tạo điểm mới.
+- Thử POST upload với jobId của HR khác phải bị từ chối.
+- PDF scan chỉ có thể phân tích được khi bổ sung OCR hoặc thay bằng bản có text.
+
+E. NẾU KẾT QUẢ KHÁC KỲ VỌNG
+- HTTP 401 ở Spring Boot, kiểm tra Authorize/token.
+- HTTP 422 ở FastAPI, kiểm tra JSON và languageHint.
+- Skill ID không tồn tại, gọi GET /api/v1/skills để đối chiếu skill-ids.json.
+- Chưa thể dán trực tiếp PDF vào rawText. Dùng file *-extract.json ở Swagger NLP hoặc upload PDF qua Spring Boot.
+- Muốn kiểm tra text mà PDFBox đọc, dùng POST /api/v1/cvs/extract-test.
+- Nếu thay đổi từ điển hoặc thuật toán, điểm kỳ vọng có thể thay đổi. Giữ bộ demo nguyên trạng để so sánh.
+- Bản test hiện mới được xác nhận JSON text qua container NLP.
+  Các kết quả upload PDF và chấm điểm ở phần B/C là kết quả kỳ vọng để bạn tự kiểm tra trên Swagger.
+
+VỊ TRÍ FILE
+- Trong workspace, PDF nằm ở output/pdf/demo-cv-*.pdf.
+- JSON, text và kết quả nằm ở demo/nlp-swagger.
+- Trong ZIP, PDF nằm ở pdf/, JSON và hướng dẫn ở thư mục gốc.

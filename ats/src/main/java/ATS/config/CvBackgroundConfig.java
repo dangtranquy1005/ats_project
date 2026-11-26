@@ -9,6 +9,17 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @Configuration
 @EnableScheduling
 public class CvBackgroundConfig {
+    @Bean("cvNlpExecutor")
+    public ThreadPoolTaskExecutor cvNlpExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(2);
+        executor.setQueueCapacity(30);
+        executor.setThreadNamePrefix("cv-nlp-");
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setAwaitTerminationSeconds(30);
+        return executor;
+    }
     @Bean("cvPdfExecutor")
     public ThreadPoolTaskExecutor cvPdfExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

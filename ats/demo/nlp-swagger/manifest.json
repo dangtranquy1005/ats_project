@@ -1,0 +1,22 @@
+[
+  {
+    "name": "01-backend-strong",
+    "pdf": "output\\pdf\\demo-cv-01-backend-strong.pdf",
+    "request": "demo\\nlp-swagger\\01-backend-strong-extract.json"
+  },
+  {
+    "name": "02-frontend-english",
+    "pdf": "output\\pdf\\demo-cv-02-frontend-english.pdf",
+    "request": "demo\\nlp-swagger\\02-frontend-english-extract.json"
+  },
+  {
+    "name": "03-junior-typos",
+    "pdf": "output\\pdf\\demo-cv-03-junior-typos.pdf",
+    "request": "demo\\nlp-swagger\\03-junior-typos-extract.json"
+  },
+  {
+    "name": "04-missing-contact",
+    "pdf": "output\\pdf\\demo-cv-04-missing-contact.pdf",
+    "request": "demo\\nlp-swagger\\04-missing-contact-extract.json"
+  }
+]

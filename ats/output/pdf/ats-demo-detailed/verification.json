@@ -1,0 +1,8 @@
+{
+  "pdfLayout": "rendered for local visual review",
+  "cvTextCount": 9,
+  "imageOnlyCv": "CV10",
+  "liveNlpTest": "not run: network execution permission declined",
+  "scoreExpectations": "authored ground truth; not observed runtime output",
+  "jobJsonIds": "read-only snapshots of backend 8082 and Docker demo 8083 dictionaries"
+}
